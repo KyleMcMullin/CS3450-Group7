@@ -1,7 +1,6 @@
 # CS3450-Group7
 Group 7's CS3450 project repository
-
-Dan’s Frappes and Raps
+<H1>Dan’s Frappes and Raps</H1>
 
 This app creates a place for customers to buy frappe’s and the owner to keep track of inventory/orders and pay employees.
 
