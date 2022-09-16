@@ -11,6 +11,7 @@
 
 	*Figure 1. Customer uses app to buy a Frappuccino*
 ![Figure 1 image](/use-case-images/image1.png)
+	
 	Participating actors: Customer, Cashier, Barista
 	Entry conditions:
 		Customer enters app and looks at menu
@@ -31,6 +32,7 @@
 
 	*Figure 2. Inventory for store*
 ![Figure 2 image](/use-case-images/image2.jpg)
+	
 	Participating actors: Customer, Manager
 	Entry conditions:
 		Customer buys Frappuccino which removes items from inventory
@@ -49,6 +51,7 @@
 
 	*Figure 3. Employee getting paid*
 ![Figure 3 image](/use-case-images/image3.png)
+	
 	Participating actors: Employee
 	Entry conditions:
 		Employee logs in and enters hours worked
@@ -62,6 +65,7 @@
 
 	*Figure 4. Manager doing payroll*
 ![Figure 4 image](/use-case-images/image4.jpg)
+	
 	Participating actors: Manager
 	Entry conditions:
 		Manager logs on app
@@ -76,6 +80,7 @@
 
 	*Figure 5. Barista use case*
 ![Figure 5 image](/use-case-images/image5.jpg)
+	
 	Participating Actors: Barista
 	Entry conditions:
 		Barista looks for orders from customers
@@ -92,6 +97,7 @@
 
 	*Figure 6. Walk-in Order*
 ![Figure 6 image](/use-case-images/image6.jpg)
+	
 	Participating Actors: Barista, Cashier, Customer
 	Entry conditions:
 		Customer orders a drink
@@ -120,6 +126,7 @@
 
 	*Figure 7. Employee Profiles*
 ![Figure 7 image](/use-case-images/image7.png)
+	
 	Participating Actors: Employee
 	Entry conditions:
 		Employee logs into app
@@ -137,6 +144,7 @@
 
 	*Figure 8. Customer Profile*
 ![Figure 8 image](/use-case-images/image8.jpg)
+	
 	Participating Actors: Customer
 	Entry conditions:
 		New customer wishes to create account
