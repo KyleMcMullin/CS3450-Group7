@@ -1,8 +1,8 @@
-i# Dan’s Frappes and Raps
+# Dan’s Frappes and Raps
 
 ## Introduction and Context
 
-	With the growing popularity of Frappuccinos, lines grow long, low customer service, and employees get overwhelmed. To help customers and employees with their coffee experience, this project aims to build an app which allows users to effectively run Dan’s Fraps and Raps.
+With the growing popularity of Frappuccinos, lines grow long, low customer service, and employees get overwhelmed. To help customers and employees with their coffee experience, this project aims to build an app which allows users to effectively run Dan’s Fraps and Raps.
 
 This app will allow customers to view a list of drinks, have the ability to customize their drink, create and add money to their account. It will give access for cashiers to take money from the customer, deliver drinks, and take walk-up orders. It will also keep track of an inventory of items in stock as the barista’s complete orders.
 
