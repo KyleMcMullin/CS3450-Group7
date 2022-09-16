@@ -12,6 +12,167 @@ By including a simple list of options for each user, the app will help Dan’s F
 
 ## Users and their Goals (Use case diagrams)
 
+*Figure 1. Customer uses app to buy a Frappuccino*
+
+
+Participating actors: Customer, Cashier, Barista
+
+Entry conditions:
+	Customer enters app and looks at menu
+Exit conditions:
+	Cashier serves frappuccino
+	Customer can’t buy Frappuccino
+	No inventory
+	Customer is not a part of the club
+Event flow:
+	1. Customer opens the app
+	2. Customer logs in and searches for Frappuccino
+	3. Customer pays for the frappuccino they choose
+		a. Inventory for order gets reserved/removed
+	4. Barista confirms the order
+	5. Barista makes Frappuccino
+	6. Cashier serves Frappuccino
+	7. Customer leaves
+
+*Figure 2. Inventory for store*
+
+
+Participating actors: Customer, Manager
+
+Entry conditions:
+	Customer buys Frappuccino which removes items from inventory
+	Manager logs into their account
+Exit conditions:
+	Manager closes app
+	No items need replaced
+	Manager finishes replacing inventory
+Event flow:
+	1. Customer buys frappuccino
+		b. App keeps track of what is removed and removes it
+	2. Manager searches site for what is missing in the inventory
+		a. App checks the database to see what items were removed
+	3. Manager replaces inventory or buys new items to fill the inventory if needed
+	4. Manager exits the app.
+
+*Figure 3. Employee getting paid*
+
+
+Participating actors: Employee
+
+Entry conditions:
+	Employee logs in and enters hours worked
+Exit conditions:
+	Employee gets paid
+Event flow:
+	1. Employee enters hours worked
+		a. App add hours to total of hours worked for each employee
+		b. App calculates (hours * wage) for each employee
+	2. Employee gets paid
+
+*Figure 4. Manager doing payroll*
+
+
+Participating actors: Manager
+
+Entry conditions:
+	Manager logs on app
+Exit conditions:
+	Manager pays employees
+Event flow:
+	1. Manager updates wages for employees
+	2. Manager views hours
+		a. Verify wage and hours worked are correct
+	3. Manager submits payroll
+	4. Manager logs off app
+
+*Figure 5. Barista use case*
+
+
+Participating Actors: Barista
+
+Entry conditions:
+	Barista looks for orders from customers
+	Barista finishes shift and wants to put in hours
+Exit conditions:
+	Barista finishes making the Frappuccino(s)
+	Barista finishes putting in hours
+Event flow:
+	1. Barista logs onto app
+	2. Barista searches for orders they can make
+	3. If there are orders then tha Barista makes the Frappuccino(s)
+	4. Barista puts in the hours they worked
+	5. Barista logs out of the app.
+
+*Figure 6. Walk-in Order*
+
+
+Participating Actors: Barista, Cashier, Customer
+
+Entry conditions:
+	Customer orders a drink
+	Cashier inputs order
+	Barista receives order
+Exit conditions:
+	Barista finishes making the Frappuccino(s)
+	Cashier gives customer drink
+	Customer receives drink
+	Customer leaves without purchasing drink
+Event flow:
+	1. Customer orders drink
+		a. Customer does not order drink and leaves
+	2. Cashier inputs order
+	3. Payment
+		a. Money out of customer’s funds
+		b. Money into store sales
+		c. Customer has insufficient funds and cannot purchase drink
+	4. Barista receives order
+		a. Makes orders
+		b. Items taken out of stock
+		c. Order is complete
+	5. Order given to Cashier
+	6. Cashier gives order to Customer
+	7. Customer leaves
+
+*Figure 7. Employee Profiles*
+
+
+Participating Actors: Employee
+
+Entry conditions:
+	Employee logs into app
+Exit conditions:
+	Employee logs off app
+Event flow:
+	1. Employee logs onto app
+		a. Invalid Credentials - No login
+		b. Valid Credentials - logs on
+	2. Employee views home screen
+		a. Employee can enter hours worked
+		b. Employee can check orders
+		c. Employee can view customers account status
+	3. Employee logs off app
+
+*Figure 8. Customer Profile*
+
+
+Participating Actors: Customer
+
+Entry conditions:
+	New customer wishes to create account
+	Customer logs into account
+Exit conditions:
+	Account created
+	Favorite drink added to profile
+	Funds added to account
+Event flow:
+	1. Signs up for account
+		a. Email is already in use - new account denied
+		b. Password complexity is not sufficient - new account denied
+		c. New account created
+	2. Specify favorite drink
+	3. Add Funds to account
+		a. Payment Method denied - No funds added
+		b. Funds added
 
 ## Functional Requirements
 
