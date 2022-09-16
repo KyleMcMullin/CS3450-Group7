@@ -37,6 +37,7 @@ Event flow:
 
 *Figure 2. Inventory for store*
 
+![Figure 2 image](/use-case-images/image2.png)
 
 Participating actors: Customer, Manager
 
@@ -57,6 +58,7 @@ Event flow:
 
 *Figure 3. Employee getting paid*
 
+![Figure 3 image](/use-case-images/image3.png)
 
 Participating actors: Employee
 
@@ -72,6 +74,7 @@ Event flow:
 
 *Figure 4. Manager doing payroll*
 
+![Figure 4 image](/use-case-images/image4.png)
 
 Participating actors: Manager
 
@@ -88,6 +91,7 @@ Event flow:
 
 *Figure 5. Barista use case*
 
+![Figure 5 image](/use-case-images/image5.png)
 
 Participating Actors: Barista
 
@@ -106,6 +110,7 @@ Event flow:
 
 *Figure 6. Walk-in Order*
 
+![Figure 6 image](/use-case-images/image6.png)
 
 Participating Actors: Barista, Cashier, Customer
 
@@ -136,6 +141,7 @@ Event flow:
 
 *Figure 7. Employee Profiles*
 
+![Figure 7 image](/use-case-images/image7.png)
 
 Participating Actors: Employee
 
@@ -155,6 +161,7 @@ Event flow:
 
 *Figure 8. Customer Profile*
 
+![Figure 8 image](/use-case-images/image8.png)
 
 Participating Actors: Customer
 
