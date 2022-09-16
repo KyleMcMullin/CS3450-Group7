@@ -14,6 +14,7 @@ By including a simple list of options for each user, the app will help Dan’s F
 
 *Figure 1. Customer uses app to buy a Frappuccino*
 
+![Figure 1 image](/CS3450-Group7/use-case-images/image1.png)
 
 Participating actors: Customer, Cashier, Barista
 
