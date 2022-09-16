@@ -141,7 +141,7 @@ Event flow:
 
 *Figure 7. Employee Profiles*
 
-![Figure 7 image](/use-case-images/image7.jpg)
+![Figure 7 image](/use-case-images/image7.png)
 
 Participating Actors: Employee
 
@@ -161,7 +161,7 @@ Event flow:
 
 *Figure 8. Customer Profile*
 
-![Figure 8 image](/use-case-images/image8.png)
+![Figure 8 image](/use-case-images/image8.jpg)
 
 Participating Actors: Customer
 
