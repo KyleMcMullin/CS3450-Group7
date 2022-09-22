@@ -34,6 +34,7 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
         if (uiState.password.isEmpty()) {
             uiState.passwordError = true
             uiState.errorMessage = "Password cannot be blank."
+            return
         }
 
         try {

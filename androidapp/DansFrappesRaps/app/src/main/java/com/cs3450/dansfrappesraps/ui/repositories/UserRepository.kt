@@ -13,7 +13,7 @@ object UserRepository {
 
     suspend fun createUser(email: String, password: String) {
         try {
-            val authResult = Firebase.auth.createUserWithEmailAndPassword(
+            Firebase.auth.createUserWithEmailAndPassword(
                 email,
                 password
             ).await()
@@ -21,14 +21,13 @@ object UserRepository {
             throw SignUpException(e.message)
         }
     }
-
     suspend fun loginUser(email: String, password: String) {
         try {
             Firebase.auth.signInWithEmailAndPassword(
                 email,
                 password
             ).await()
-        } catch(e: FirebaseAuthException) {
+        } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
     }
@@ -39,6 +38,10 @@ object UserRepository {
 
     fun isUserLoggedIn(): Boolean {
         return getCurrentUserId() != null
+    }
+
+    fun signOutUser() {
+        Firebase.auth.signOut()
     }
 
 }
