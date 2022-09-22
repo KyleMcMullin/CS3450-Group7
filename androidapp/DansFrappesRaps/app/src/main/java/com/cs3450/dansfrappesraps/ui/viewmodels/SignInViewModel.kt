@@ -14,7 +14,7 @@ class SignInScreenState {
     var emailError by mutableStateOf(false)
     var passwordError by mutableStateOf(false)
     var errorMessage by mutableStateOf("")
-    var loginSucces by mutableStateOf(false)
+    var loginSuccess by mutableStateOf(false)
 }
 
 class SignInViewModel(application: Application): AndroidViewModel(application) {
@@ -38,6 +38,7 @@ class SignInViewModel(application: Application): AndroidViewModel(application) {
 
         try {
             UserRepository.loginUser(uiState.email, uiState.password)
+            uiState.loginSuccess = true
         } catch (e: SignInException) {
             uiState.errorMessage = e.message ?: "Oops! An error! Please try again."
         }
