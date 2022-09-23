@@ -164,7 +164,7 @@
 			b. Funds added
 
 	*Figure 9. Customer Edits Order*
-	![Figure 9 image](/use-case-images/image9.jpg)
+![Figure 9 image](/use-case-images/image9.jpg)
 
 	Participating Actors: Customer
 	Entry conditions:
