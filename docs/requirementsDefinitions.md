@@ -163,6 +163,24 @@
 			a. Payment Method denied - No funds added
 			b. Funds added
 
+	*Figure 9. Customer Edits Order*
+	![Figure 9 image](/use-case-images/image9.jpg)
+
+	Participating Actors: Customer
+	Entry conditions:
+		Customer chooses drink from menu
+		Customer views cart
+	Exit conditions: 
+		Customer purchases drink
+	Event flow:
+		1. Customer picks drink from menu
+		2. Customer views cart
+		3. Customer edits drink
+			a. Inventory is updated
+			b. Price of drink is updated
+		4. Drink is updated in cart
+		5. Drink is purchased
+
 ## Functional Requirements
 
 	1. User Authentication and Access
