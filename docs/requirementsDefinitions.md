@@ -31,7 +31,7 @@
 		7. Customer leaves
 
 	*Figure 2. Inventory for store*
-![Figure 2 image](/use-case-images/image2.jpg)
+![Figure 2 image](../docs/use-case-images/image2.jpg)
 	
 	Participating actors: Customer, Manager
 	Entry conditions:
@@ -50,7 +50,7 @@
 		4. Manager exits the app.
 
 	*Figure 3. Employee getting paid*
-![Figure 3 image](/use-case-images/image3.png)
+![Figure 3 image](../docs/use-case-images/image3.png)
 	
 	Participating actors: Employee
 	Entry conditions:
@@ -64,7 +64,7 @@
 		2. Employee gets paid
 
 	*Figure 4. Manager doing payroll*
-![Figure 4 image](/use-case-images/image4.jpg)
+![Figure 4 image](../docs/use-case-images/image4.jpg)
 	
 	Participating actors: Manager
 	Entry conditions:
@@ -79,7 +79,7 @@
 		4. Manager logs off app
 
 	*Figure 5. Barista use case*
-![Figure 5 image](/use-case-images/image5.jpg)
+![Figure 5 image](../docs/use-case-images/image5.jpg)
 	
 	Participating Actors: Barista
 	Entry conditions:
@@ -96,7 +96,7 @@
 		5. Barista logs out of the app.
 
 	*Figure 6. Walk-in Order*
-![Figure 6 image](/use-case-images/image6.jpg)
+![Figure 6 image](../docs/use-case-images/image6.jpg)
 	
 	Participating Actors: Barista, Cashier, Customer
 	Entry conditions:
@@ -125,7 +125,7 @@
 		7. Customer leaves
 
 	*Figure 7. Employee Profiles*
-![Figure 7 image](/use-case-images/image7.png)
+![Figure 7 image](../docs/use-case-images/image7.png)
 	
 	Participating Actors: Employee
 	Entry conditions:
@@ -143,7 +143,7 @@
 		3. Employee logs off app
 
 	*Figure 8. Customer Profile*
-![Figure 8 image](/use-case-images/image8.jpg)
+![Figure 8 image](../docs/use-case-images/image8.jpg)
 	
 	Participating Actors: Customer
 	Entry conditions:
@@ -164,7 +164,7 @@
 			b. Funds added
 
 	*Figure 9. Customer Edits Order*
-![Figure 9 image](/use-case-images/image9.jpg)
+![Figure 9 image](../docs/use-case-images/image9.jpg)
 
 	Participating Actors: Customer
 	Entry conditions:
