@@ -10,7 +10,7 @@
 ## Users and their Goals (Use case diagrams)
 
 	*Figure 1. Customer uses app to buy a Frappuccino*
-![Figure 1 image](/use-case-images/image1.png)
+![Figure 1 image](../docs/use-case-images/image1.png)
 
 	Participating actors: Customer, Cashier, Barista
 	Entry conditions:
