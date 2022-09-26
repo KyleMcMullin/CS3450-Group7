@@ -195,7 +195,7 @@
 	2. User Profile Features
 		2.1. The system will allow any authenticated user to modify their own password.
 		2.2. The system will allow any authenticated user to modify their own email address.
-		2.3. The system will allow managers and customers to increase their account balance.
+		2.3. The system will allow any authenticated user to increase their account balance.
 		2.4. The system will allow any authenticated user to view their account balance.
 			2.4.1. No real money is required, users can add as much as they want through button clicks.
 		2.5. The system should not allow any user that does not have Manager rights to view or modify any other profile.
