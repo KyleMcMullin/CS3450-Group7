@@ -2,8 +2,8 @@
 
 ## Introduction and Context
 
-	With the growing popularity of Frappuccinos, lines grow long, low customer service, and employees get overwhelmed. To help customers and employees with their coffee experience, this project aims to build an app which allows users to effectively run Dan’s Fraps and Raps.
-	This app will allow customers to view a list of drinks, have the ability to customize their drink, create and add money to their account. It will give access for cashiers to take money from the customer, deliver drinks, and take walk-up orders. It will also keep track of an inventory of items in stock as the barista’s complete orders.
+	With the growing popularity of Frappuccinos, lines grow long, low customer service, and employees getting overwhelmed. To help customers and employees with their coffee experience, this project aims to build an app which allows users to effectively buy from and run Dan’s Fraps and Raps.
+	This app will allow customers to view a list of drinks, customize their drink, add a list of favorite drinks, create and add money to their account. It will give access for cashiers to take money from the customers and take walk-up orders. It will also keep track of an inventory of items in stock as the barista’s completes orders.
 	The app will allow the Manager of Dan’s Fraps and Raps to purchase items to restock using money made from frap sales. It will also allow the manager to create or delete accounts and add new drinks to the menu. 
 	By including a simple list of options for each user, the app will help Dan’s Fraps and Raps run smoothly, always keep items in stock and deliver fraps in a crack.
 
@@ -205,11 +205,11 @@
 			3.1.1. The business assumption is that employee accounts will be registered on their company email.
 		3.2. Customer accounts must only be on a personal email.
 		3.3. The system will allow those with Manager and Customer rights to access the Customer features.
-		The system will allow Customers to save favorite drinks, adjust their account, browse the menu, and make online purchases with customizations.
-			3.3.1. The system will allow Customers to select an item from the menu. When the customer selects an item.They will be displayed a card that allows them to pick size, adjust ingredients, and add to cart.
-				3.3.1.1. The cart screen will display the added, customized item, as well as its price. 
-				3.3.1.2. If the customer proceeds to checkout, the cost of the item will be deducted from their account. If they have insufficient funds, they will be unable to complete the purchase.
-			3.3.2. After an order is placed, the customer can see their order status as it progresses.
+		3.4. The system will allow Customers to save favorite drinks, adjust their account, browse the menu, and make online purchases with customizations.
+			3.4.1. The system will allow Customers to select an item from the menu. When the customer selects an item. They will be displayed a card that allows them to pick size, adjust ingredients, and add to cart.
+				3.4.1.1. The cart screen will display the added, customized item, as well as its price. 
+				3.4.1.2. If the customer proceeds to checkout, the cost of the item will be deducted from their account. If they have insufficient funds, they will be unable to complete the purchase.
+			3.4.2. After an order is placed, the customer can see their order status as it progresses.
 	4. Manager features
 		4.1. Only users with Manager rights should have access to manager features.
 		4.2. Users with Manager rights can adjust, create, delete, or change data for all other users.
