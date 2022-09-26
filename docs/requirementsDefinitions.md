@@ -10,7 +10,7 @@
 ## Users and their Goals (Use case diagrams)
 
 	*Figure 1. Customer uses app to buy a Frappuccino*
-![Figure 1 image](../docs/use-case-images/image1.png)
+![Figure 1 image](../docs/diagrams/image1.png)
 
 	Participating actors: Customer, Cashier, Barista
 	Entry conditions:
@@ -31,7 +31,7 @@
 		7. Customer leaves
 
 	*Figure 2. Inventory for store*
-![Figure 2 image](../docs/use-case-images/image2.jpg)
+![Figure 2 image](../docs/diagrams/image2.jpg)
 	
 	Participating actors: Customer, Manager
 	Entry conditions:
@@ -50,7 +50,7 @@
 		4. Manager exits the app.
 
 	*Figure 3. Employee getting paid*
-![Figure 3 image](../docs/use-case-images/image3.png)
+![Figure 3 image](../docs/diagrams/image3.png)
 	
 	Participating actors: Employee
 	Entry conditions:
@@ -64,7 +64,7 @@
 		2. Employee gets paid
 
 	*Figure 4. Manager doing payroll*
-![Figure 4 image](../docs/use-case-images/image4.jpg)
+![Figure 4 image](../docs/diagrams/image4.jpg)
 	
 	Participating actors: Manager
 	Entry conditions:
@@ -79,7 +79,7 @@
 		4. Manager logs off app
 
 	*Figure 5. Barista use case*
-![Figure 5 image](../docs/use-case-images/image5.jpg)
+![Figure 5 image](../docs/diagrams/image5.jpg)
 	
 	Participating Actors: Barista
 	Entry conditions:
@@ -96,7 +96,7 @@
 		5. Barista logs out of the app.
 
 	*Figure 6. Walk-in Order*
-![Figure 6 image](../docs/use-case-images/image6.jpg)
+![Figure 6 image](../docs/diagrams/image6.jpg)
 	
 	Participating Actors: Barista, Cashier, Customer
 	Entry conditions:
@@ -125,7 +125,7 @@
 		7. Customer leaves
 
 	*Figure 7. Employee Profiles*
-![Figure 7 image](../docs/use-case-images/image7.png)
+![Figure 7 image](../docs/diagrams/image7.png)
 	
 	Participating Actors: Employee
 	Entry conditions:
@@ -143,7 +143,7 @@
 		3. Employee logs off app
 
 	*Figure 8. Customer Profile*
-![Figure 8 image](../docs/use-case-images/image8.jpg)
+![Figure 8 image](../docs/diagrams/image8.jpg)
 	
 	Participating Actors: Customer
 	Entry conditions:
@@ -164,7 +164,7 @@
 			b. Funds added
 
 	*Figure 9. Customer Edits Order*
-![Figure 9 image](../docs/use-case-images/image9.jpg)
+![Figure 9 image](../docs/diagrams/image9.jpg)
 
 	Participating Actors: Customer
 	Entry conditions:
@@ -195,7 +195,7 @@
 	2. User Profile Features
 		2.1. The system will allow any authenticated user to modify their own password.
 		2.2. The system will allow any authenticated user to modify their own email address.
-		2.3. The system will allow managers and customers to increase their account balance.
+		2.3. The system will allow any authenticated user to increase their account balance.
 		2.4. The system will allow any authenticated user to view their account balance.
 			2.4.1. No real money is required, users can add as much as they want through button clicks.
 		2.5. The system should not allow any user that does not have Manager rights to view or modify any other profile.
@@ -266,6 +266,7 @@ This section contains a list of features that are beyond the scope of the projec
 		5.5.4 Email confirmation
 	5.6 The system could have a way for a user to attach their credit card to actually pay for some coffee or their employees.
 	5.7 The system could add a way to add food as well as frappuccinos
+	5.8 The system could allow the ability to adjust inventory for incorrect drinks made, spilled drinks, or customer wishes drink to be remade.
 
 
 ## Glossary
