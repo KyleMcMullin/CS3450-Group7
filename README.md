@@ -1,6 +1,6 @@
 <H2>Dan’s Frappes and Raps</H2>
 
-This app creates a place for customers to buy frappe’s and the owner to keep track of inventory/orders and pay employees.
+This app creates a place for customers to buy frappe’s and the owner to keep track of inventory, and orders and pay employees.
 
 <H3>Workspace Layout</H3>
 
@@ -16,21 +16,21 @@ The Firebase project will be based from https://console.firebase.google.com/u/0/
 Collaborators will create a branch off of the master branch in Kyle’s Github account under the project ‘CS3450-Group7.’ Each branch will be associated with a Github issue, and said branch will be prefixed with ‘IssueNumber-Name-BriefTitle’. Ie. 1-Kyle-FirstIssue. After local development is completed on said branch, the collaborator will create a Pull Request and change their Issue status to ‘In Review’. After pull request completion, the collaborator will send a link to the Pull Request to the Discord channel #pull-requests. Reviewers will react with a thumbs up if the PR is approved, or comment on the PR and create a Discord thread stating that comments are added. After reworking the PR to deal with comments, the collaborator will post in the thread that a new iteration has been pushed, to which reviewers will react with a thumbs up or continue the process. Once the PR has been merged to main, the collaborator will change their Issue status to ‘Done’.
 
 Complete workflow process:
-Github issue is created, assigned to collaborator
-Create branch off of master with title ‘IssueNumber-Name-BriefTitle
-Change Issue status to In Progress
-Do local development on said branch
-Create a Pull Request
-Change Issue status to ‘In Review’
-Link Pull Request to Issue by mentioning in description
-Send link to Pull Request in Discord
-Until all reviewer comments are resolved
-Respond to comments and push iterations from branch to PR
-Reply in Discord thread with each new change for review
-When PR is approved, merge into main
-Set Issue status to Done
+<li>Github issue is created, assigned to collaborator</li>
+<li>Create branch off of master with title ‘IssueNumber-Name-BriefTitle</li>
+<li>Change Issue status to In Progress</li>
+<li>Do local development on said branch</li>
+<li>Create a Pull Request</li>
+<li>Change Issue status to ‘In Review’</li>
+<li>Link Pull Request to Issue by mentioning in description</li>
+<li>Send link to Pull Request in Discord</li>
+<li>Until all reviewer comments are resolved</li>
+<li>Respond to comments and push iterations from branch to PR</li>
+<li>Reply in Discord thread with each new change for review</li>
+<li>When PR is approved, merge into main</li>
+<li>Set Issue status to Done</li>
 
-*Note: The Issue status changes should happen automatically, however, it is the collaborators responsibility to ensure they do.
+*Note: The Issue status changes should happen automatically, however, it is the collaborators responsibility to ensure they do.*
 
 
 <H3>Tool Stack Description and Setup Procedure</H3>
