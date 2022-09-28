@@ -7,24 +7,31 @@ import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
 
 private val DarkColorPalette = darkColors(
-    primary = Purple200,
-    primaryVariant = Purple700,
-    secondary = Teal200
+    primary = md_theme_dark_primary,
+    primaryVariant = md_theme_dark_primaryContainer,
+    secondary = md_theme_dark_secondary,
+    background = md_theme_dark_background,
+    surface = md_theme_dark_surface,
+    onPrimary = md_theme_dark_onPrimary,
+    onSecondary = md_theme_dark_onSecondary,
+    error = md_theme_dark_error,
+    onError = md_theme_dark_onError,
+    onBackground = md_theme_dark_onBackground,
+    onSurface = md_theme_dark_onSurface
 )
 
 private val LightColorPalette = lightColors(
-    primary = Purple500,
-    primaryVariant = Purple700,
-    secondary = Teal200
-
-    /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
+    primary = md_theme_light_primary,
+    primaryVariant = md_theme_light_primaryContainer,
+    secondary = md_theme_light_secondary,
+    background = md_theme_light_background,
+    surface = md_theme_light_surface,
+    onPrimary = md_theme_light_onPrimary,
+    onSecondary = md_theme_light_onSecondary,
+    onBackground = md_theme_light_onBackground,
+    onSurface = md_theme_light_onSurface,
+    error = md_theme_light_error,
+    onError = md_theme_light_onError
 )
 
 @Composable
