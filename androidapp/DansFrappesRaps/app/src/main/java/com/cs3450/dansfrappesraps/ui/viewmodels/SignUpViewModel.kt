@@ -10,13 +10,11 @@ import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
 class SignUpScreenState {
     var email by mutableStateOf("")
-    var emailConfirmation by mutableStateOf("")
+    var name by mutableStateOf("")
     var password by mutableStateOf("")
-    var passwordConfirmation by mutableStateOf("")
     var emailError by mutableStateOf(false)
-    var emailConfirmationError by mutableStateOf(false)
+    var nameError by mutableStateOf(false)
     var passwordError by mutableStateOf(false)
-    var passwordConfirmationError by mutableStateOf(false)
     var errorMessage by mutableStateOf("")
     var signUpSuccess by mutableStateOf(false)
 }
@@ -27,18 +25,12 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
     suspend fun signUp() {
         // clear existing errors
         uiState.emailError = false
-        uiState.emailConfirmationError = false
         uiState.passwordError = false
-        uiState.passwordConfirmationError = false
+        uiState.nameError = false
         uiState.errorMessage = ""
         if (!uiState.email.contains("@")) {
             uiState.emailError = true
             uiState.errorMessage = "Email is invalid."
-            return
-        }
-        if (uiState.email != uiState.emailConfirmation) {
-            uiState.emailConfirmationError = true
-            uiState.errorMessage = "Email confirmation does not match."
             return
         }
 
@@ -48,9 +40,9 @@ class SignUpViewModel(application: Application): AndroidViewModel(application) {
             return
         }
 
-        if (uiState.password != uiState.passwordConfirmation) {
-            uiState.passwordConfirmationError = true
-            uiState.errorMessage = "Passwords do not match."
+        if (uiState.name == "") {
+            uiState.nameError = true
+            uiState.errorMessage = "Name must be input."
             return
         }
 

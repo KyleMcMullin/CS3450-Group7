@@ -2,10 +2,10 @@ package com.cs3450.dansfrappesraps.ui.navigation
 
 import android.view.Menu
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,10 +15,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.cs3450.dansfrappesraps.ui.screens.MenuScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
-<<<<<<< HEAD
-=======
 import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
->>>>>>> 4192c327d562c1d1aa9a52311c372058305cff5f
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun RootNavigation() {
@@ -31,14 +30,28 @@ fun RootNavigation() {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(){
-                Text(text="Top App Bar!")
+            TopAppBar() {
+                if (currentDestination?.route == Routes.signUp.route) {
+                    IconButton(onClick = {navController.popBackStack()}) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                } else if (currentDestination?.route == Routes.app.route) {
+                    IconButton(onClick= {scope.launch { scaffoldState.drawerState.open()}}) {
+                        Icon(Icons.Default.Menu, contentDescription = "Menu Button")
+                    }
+                }
+                else {
+
+                }
             }
         },
+//        drawerContent = {
+//
+//        },
+//        floatingActionButton = {},
     ){
         NavHost(
             navController = navController,
-<<<<<<< HEAD
             startDestination = Routes.signIn.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
@@ -50,20 +63,6 @@ fun RootNavigation() {
 //            }
             composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
             composable(route = Routes.menu.route) {MenuScreen(navController)}
-=======
-            startDestination = Routes.foyer.route,
-            modifier = Modifier.padding(paddingValues = it)
-        ) {
-            navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route){
-                composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
-                composable(route = Routes.signUp.route) { SignUpScreen(navController)}
-            }
-            navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
-                composable(route = Routes.menu.route) {MenuScreen(navHostController = navController)}
-            }
-//            composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
-//            composable(route = Routes.menu.route) {MenuScreen(navController)}
->>>>>>> 4192c327d562c1d1aa9a52311c372058305cff5f
         }
     }
 //    NavHost(navController = navController, startDestination = Routes.signIn.route) {
