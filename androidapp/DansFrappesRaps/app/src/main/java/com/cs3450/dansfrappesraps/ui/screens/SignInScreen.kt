@@ -81,16 +81,22 @@ fun SignInScreen(navHostController: NavHostController) {
             Spacer(modifier = Modifier.padding(3.dp))
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
-                    text = "No account yet? ",
+                    text = "No account yet?",
                     textAlign = TextAlign.Right,
                     style = MaterialTheme.typography.subtitle2
                 )
-                Text(
-                    modifier = Modifier.clickable { navHostController.navigate(Routes.signUp.route) },
-                    text = "Register here.",
-                    style = MaterialTheme.typography.subtitle2,
-                    fontWeight = FontWeight.Bold
-                )
+//                Text(
+//                    modifier = Modifier.clickable { navHostController.navigate(Routes.signUp.route) },
+//                    text = "Register here.",
+//                    style = MaterialTheme.typography.subtitle2,
+//                    fontWeight = FontWeight.Bold
+//                )
+                TextButton(onClick = { navHostController.navigate(Routes.signUp.route)}) {
+                    Text(
+                        text = "Register here",
+                        style = MaterialTheme.typography.subtitle2,
+                        fontWeight = FontWeight.Bold )
+                }
             }
         }
     }
