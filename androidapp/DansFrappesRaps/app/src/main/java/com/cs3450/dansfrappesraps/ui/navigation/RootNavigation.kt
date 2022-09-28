@@ -52,7 +52,7 @@ fun RootNavigation() {
     ){
         NavHost(
             navController = navController,
-            startDestination = Routes.signIn.route,
+            startDestination = Routes.foyer.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
 //            navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route){
