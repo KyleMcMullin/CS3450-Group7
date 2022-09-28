@@ -56,7 +56,7 @@ fun SignInScreen(navHostController: NavHostController) {
                 text = state.errorMessage,
                 style = TextStyle(color = MaterialTheme.colors.error),
                 modifier = Modifier.fillMaxWidth(),
-                textAlign = TextAlign.Right
+                textAlign = TextAlign.Left
             )
             SignTextInput(
                 value = state.email,
