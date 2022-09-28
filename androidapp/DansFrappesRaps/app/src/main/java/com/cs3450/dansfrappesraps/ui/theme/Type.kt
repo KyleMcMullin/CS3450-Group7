@@ -1,5 +1,6 @@
-package com.example.ui.theme
+package com.cs3450.dansfrappesraps.ui.theme
 
+//import androidx.compose.material.Typography
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -14,7 +15,7 @@ val Roboto = FontFamily.Default
 
 val AppTypography = Typography(
   labelLarge = TextStyle(
-      fontFamily = Google Sans Text,
+      fontFamily = FontFamily.Serif,
       fontWeight = FontWeight.Medium,
       letterSpacing = 0.sp,
       lineHeight = 20.sp,

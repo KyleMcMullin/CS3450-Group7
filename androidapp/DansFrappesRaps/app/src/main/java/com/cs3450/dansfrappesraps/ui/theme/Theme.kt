@@ -1,4 +1,4 @@
-package com.example.compose
+package com.cs3450.dansfrappesraps.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +35,6 @@ private val LightColors = lightColorScheme(
     inverseSurface = md_theme_light_inverseSurface,
     inversePrimary = md_theme_light_inversePrimary,
     surfaceTint = md_theme_light_surfaceTint,
-    surfaceTintColor = md_theme_light_surfaceTintColor,
 )
 
 
@@ -67,7 +66,6 @@ private val DarkColors = darkColorScheme(
     inverseSurface = md_theme_dark_inverseSurface,
     inversePrimary = md_theme_dark_inversePrimary,
     surfaceTint = md_theme_dark_surfaceTint,
-    surfaceTintColor = md_theme_dark_surfaceTintColor,
 )
 
 @Composable
@@ -76,14 +74,13 @@ fun AppTheme(
   content: @Composable() () -> Unit
 ) {
   val colors = if (!useDarkTheme) {
-    LightThemeColors
+    LightColors
   } else {
-    DarkThemeColors
+    DarkColors
   }
 
   MaterialTheme(
     colorScheme = colors,
-    typography = AppTypography,
     content = content
   )
 }
