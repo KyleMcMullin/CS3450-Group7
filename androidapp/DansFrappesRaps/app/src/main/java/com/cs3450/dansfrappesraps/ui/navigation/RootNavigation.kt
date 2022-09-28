@@ -2,10 +2,10 @@ package com.cs3450.dansfrappesraps.ui.navigation
 
 import android.view.Menu
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
-import androidx.compose.material.rememberScaffoldState
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -16,6 +16,7 @@ import androidx.navigation.compose.*
 import com.cs3450.dansfrappesraps.ui.screens.MenuScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun RootNavigation() {
@@ -28,10 +29,25 @@ fun RootNavigation() {
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
-            TopAppBar(){
-                Text(text="Top App Bar!")
+            TopAppBar() {
+                if (currentDestination?.route == Routes.signUp.route) {
+                    IconButton(onClick = {navController.popBackStack()}) {
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                    }
+                } else if (currentDestination?.route == Routes.app.route) {
+                    IconButton(onClick= {scope.launch { scaffoldState.drawerState.open()}}) {
+                        Icon(Icons.Default.Menu, contentDescription = "Menu Button")
+                    }
+                }
+                else {
+
+                }
             }
         },
+//        drawerContent = {
+//
+//        },
+//        floatingActionButton = {},
     ){
         NavHost(
             navController = navController,
