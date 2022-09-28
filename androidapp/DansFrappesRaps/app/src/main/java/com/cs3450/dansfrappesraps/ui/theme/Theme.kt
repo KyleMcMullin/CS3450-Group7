@@ -69,7 +69,7 @@ private val DarkColors = darkColorScheme(
 )
 
 @Composable
-fun AppTheme(
+fun DansFrappesRapsTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable() () -> Unit
 ) {
