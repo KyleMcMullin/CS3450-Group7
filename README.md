@@ -74,7 +74,7 @@ Firebase Database - Staying within the Google Development ecosystem and using Fi
 <H5>Firebase web access instructions</H5>
 
 *All Firebase edits and info can be found on the firebase console
-https://console.firebase.google.com/u/0/project/cs3450-group7/overview*
+https://console.firebase.google.com/u/1/project/dansfrappesraps/overview*
 
 <H3>Unit Testing Instructions</H3>
 
