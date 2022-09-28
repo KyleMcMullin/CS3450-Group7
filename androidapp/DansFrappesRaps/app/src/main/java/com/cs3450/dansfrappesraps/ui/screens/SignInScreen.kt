@@ -24,7 +24,7 @@ fun SignInScreen(navHostController: NavHostController) {
     val state = viewModel.uiState
     LaunchedEffect(state.loginSuccess) {
         if (state.loginSuccess) {
-            navHostController.navigate(Routes.app.route) {
+            navHostController.navigate(Routes.menu.route) {
                 popUpTo(0)
             }
         }
