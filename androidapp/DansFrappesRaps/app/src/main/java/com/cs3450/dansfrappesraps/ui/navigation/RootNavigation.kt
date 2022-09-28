@@ -15,6 +15,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.cs3450.dansfrappesraps.ui.screens.MenuScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
+<<<<<<< HEAD
+=======
+import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
+>>>>>>> 4192c327d562c1d1aa9a52311c372058305cff5f
 
 @Composable
 fun RootNavigation() {
@@ -34,6 +38,7 @@ fun RootNavigation() {
     ){
         NavHost(
             navController = navController,
+<<<<<<< HEAD
             startDestination = Routes.signIn.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
@@ -45,6 +50,20 @@ fun RootNavigation() {
 //            }
             composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
             composable(route = Routes.menu.route) {MenuScreen(navController)}
+=======
+            startDestination = Routes.foyer.route,
+            modifier = Modifier.padding(paddingValues = it)
+        ) {
+            navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route){
+                composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
+                composable(route = Routes.signUp.route) { SignUpScreen(navController)}
+            }
+            navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
+                composable(route = Routes.menu.route) {MenuScreen(navHostController = navController)}
+            }
+//            composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
+//            composable(route = Routes.menu.route) {MenuScreen(navController)}
+>>>>>>> 4192c327d562c1d1aa9a52311c372058305cff5f
         }
     }
 //    NavHost(navController = navController, startDestination = Routes.signIn.route) {

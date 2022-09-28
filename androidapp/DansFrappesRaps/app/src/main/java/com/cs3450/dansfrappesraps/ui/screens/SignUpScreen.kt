@@ -10,20 +10,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.SignTextInput
-import com.cs3450.dansfrappesraps.ui.navigation.Routes
-import com.cs3450.dansfrappesraps.ui.viewmodels.SignInViewModel
 import kotlinx.coroutines.launch
+import com.cs3450.dansfrappesraps.ui.navigation.Routes
+import com.cs3450.dansfrappesraps.ui.viewmodels.SignUpViewModel
 
 @Composable
-fun SignInScreen(navHostController: NavHostController) {
-    val viewModel: SignInViewModel = viewModel()
+fun SignUpScreen(navHostController: NavHostController) {
+    val viewModel: SignUpViewModel = viewModel()
     val scope = rememberCoroutineScope()
     val state = viewModel.uiState
-    LaunchedEffect(state.loginSuccess) {
-        if (state.loginSuccess) {
+    LaunchedEffect(state.signUpSuccess) {
+        if (state.signUpSuccess) {
             navHostController.navigate(Routes.app.route) {
                 popUpTo(0)
             }
@@ -33,20 +32,23 @@ fun SignInScreen(navHostController: NavHostController) {
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp),
-        verticalArrangement = Arrangement.SpaceAround
-    ) {
+        verticalArrangement = Arrangement.SpaceAround) {
         Surface(elevation = 2.dp) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                Text(text = "Sign In", style = MaterialTheme.typography.h5)
+            Column(modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)) {
+                Text(text = "Create Account", style = MaterialTheme.typography.h5)
                 SignTextInput(
                     value = state.email,
                     onValueChange = { state.email = it },
                     placeholder = { Text("Email") },
                     error = state.emailError
+                )
+                SignTextInput(
+                    value = state.emailConfirmation,
+                    onValueChange = { state.emailConfirmation = it},
+                    placeholder = { Text("Email Confirmation") },
+                    error = state.emailConfirmationError
                 )
                 SignTextInput(
                     value = state.password,
@@ -55,12 +57,22 @@ fun SignInScreen(navHostController: NavHostController) {
                     error = state.passwordError,
                     password = true
                 )
-                Row(
+                SignTextInput(
+                    value = state.passwordConfirmation,
+                    onValueChange = { state.passwordConfirmation = it },
+                    placeholder = { Text("Password Confirmation") },
+                    error = state.passwordConfirmationError,
+                    password = true
+                )
+                Row (
                     horizontalArrangement = Arrangement.End,
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Button(onClick = { scope.launch { viewModel.signIn() } }, elevation = null) {
-                        Text(text = "Sign in")
+                ){
+                    TextButton(onClick = { navHostController.popBackStack() }) {
+                        Text(text = "Cancel")
+                    }
+                    Button(onClick = { scope.launch { viewModel.signUp() } }, elevation = null) {
+                        Text(text = "Create Account")
                     }
                 }
                 Text(
@@ -69,16 +81,6 @@ fun SignInScreen(navHostController: NavHostController) {
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Right
                 )
-            }
-        }
-        Row () {
-            Text(
-                text = "No account yet?",
-                textAlign = TextAlign.Right
-            )
-            // /* TODO Make this a clickable text field */
-            Button(onClick = { navHostController.navigate(Routes.signUp.route) }) {
-                Text(text = "Signup here")
             }
         }
     }
