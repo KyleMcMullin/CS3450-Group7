@@ -24,7 +24,7 @@ fun SignInScreen(navHostController: NavHostController) {
     val state = viewModel.uiState
     LaunchedEffect(state.loginSuccess) {
         if (state.loginSuccess) {
-            navHostController.navigate(Routes.app.route) {
+            navHostController.navigate(Routes.menu.route) {
                 popUpTo(0)
             }
         }
@@ -69,16 +69,6 @@ fun SignInScreen(navHostController: NavHostController) {
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Right
                 )
-            }
-        }
-        Row () {
-            Text(
-                text = "No account yet?",
-                textAlign = TextAlign.Right
-                )
-            // /* TODO Make this a clickable text field */
-            Button(onClick = { navHostController.navigate(Routes.signUp.route) }) {
-                Text(text = "Signup here")
             }
         }
     }
