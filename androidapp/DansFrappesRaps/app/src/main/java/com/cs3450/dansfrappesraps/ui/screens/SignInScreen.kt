@@ -85,12 +85,6 @@ fun SignInScreen(navHostController: NavHostController) {
                     textAlign = TextAlign.Right,
                     style = MaterialTheme.typography.subtitle2
                 )
-//                Text(
-//                    modifier = Modifier.clickable { navHostController.navigate(Routes.signUp.route) },
-//                    text = "Register here.",
-//                    style = MaterialTheme.typography.subtitle2,
-//                    fontWeight = FontWeight.Bold
-//                )
                 TextButton(onClick = { navHostController.navigate(Routes.signUp.route)}) {
                     Text(
                         text = "Register here",
