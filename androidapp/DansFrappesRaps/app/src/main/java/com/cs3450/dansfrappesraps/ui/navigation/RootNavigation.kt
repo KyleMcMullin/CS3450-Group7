@@ -18,6 +18,7 @@ import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
 import kotlinx.coroutines.launch
 
+
 @Composable
 fun RootNavigation() {
     val navController = rememberNavController()
@@ -54,19 +55,14 @@ fun RootNavigation() {
             startDestination = Routes.foyer.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
-            navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route){
-                composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
-                composable(route = Routes.signUp.route) { SignUpScreen(navController)}
-            }
-            navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
-                composable(route = Routes.menu.route) {MenuScreen(navHostController = navController)}
-            }
-//            composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
-//            composable(route = Routes.menu.route) {MenuScreen(navController)}
+           navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route){
+               composable(route = Routes.signIn.route) { SignInScreen(navHostController = navController)}
+               composable(route = Routes.signUp.route) { SignUpScreen(navHostController = navController)}
+           }
+           navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
+               composable(route = Routes.menu.route) {MenuScreen(navHostController = navController)}
+           }
         }
     }
-//    NavHost(navController = navController, startDestination = Routes.signIn.route) {
-//        composable(Routes.signIn.route) { SignInScreen(navController = navController)}
-//        composable(Routes.menu.route) { MenuScreen(navController = navController)}
-//    }
+
 }

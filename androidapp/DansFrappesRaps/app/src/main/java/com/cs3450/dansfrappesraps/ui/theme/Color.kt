@@ -1,5 +1,4 @@
 package com.cs3450.dansfrappesraps.ui.theme
-
 import androidx.compose.ui.graphics.Color
 
 val md_theme_light_primary = Color(0xFF006875)
@@ -59,3 +58,6 @@ val md_theme_dark_inverseSurface = Color(0xFFE1E3E3)
 val md_theme_dark_inversePrimary = Color(0xFF006875)
 val md_theme_dark_shadow = Color(0xFF000000)
 val md_theme_dark_surfaceTint = Color(0xFF50D7ED)
+
+
+val seed = Color(0xFF006875)
