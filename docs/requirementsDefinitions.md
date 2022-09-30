@@ -243,11 +243,11 @@
 		4.1.2 The database must be scalable to support a large quantity of users
 	4.2 The team will use the Git version control system, with GitHub as a remote repository.
 	4.3 The system must be deployable
-		4.3.1 The system will target Android 12 (API 31)
+		4.3.1 The system will target Android 12 (API 33)
 		4.3.2 The system will support a minimum API 28
 	4.4 The system will be operable over the system’s entire lifecycle
 		4.4.1 The system will be consistently maintained
-	4.5 The system will comply the material design requirements here
+	4.5 The system will comply the material3 design requirements here
 	4.6 The system as a whole will satisfy all the requirements for assignments in CS3450 at Utah State University
 
 
