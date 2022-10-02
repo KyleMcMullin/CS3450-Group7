@@ -59,16 +59,16 @@ fun SignUpScreen(navHostController: NavHostController) {
                     textAlign = TextAlign.Left
                 )
                 SignTextInput(
-                    value = state.email,
-                    onValueChange = { state.email = it },
-                    placeholder = { Text("Email") },
-                    error = state.emailError
-                )
-                SignTextInput(
                     value = state.name,
                     onValueChange = { state.name = it},
                     placeholder = { Text("Full Name")},
                     error = state.nameError
+                )
+                SignTextInput(
+                    value = state.email,
+                    onValueChange = { state.email = it },
+                    placeholder = { Text("Email") },
+                    error = state.emailError
                 )
                 SignTextInput(
                     value = state.password,
