@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 //Following import needs to be material instead of material3
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -29,7 +30,10 @@ fun SignTextInput(
         modifier = Modifier.fillMaxWidth(),
         textStyle = TextStyle(color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold),
         visualTransformation = if (password) PasswordVisualTransformation() else VisualTransformation.None,
-        isError = error
+        isError = error,
+        colors = TextFieldDefaults.outlinedTextFieldColors(
+            focusedBorderColor = MaterialTheme.colorScheme.primary
+        )
     )
     Spacer(modifier = Modifier.padding(5.dp))
 }
