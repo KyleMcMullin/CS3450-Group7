@@ -6,9 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ExitToApp
-import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -38,11 +36,14 @@ fun RootNavigation() {
             TopAppBar() {
                 if (currentDestination?.route == Routes.signUp.route) {
                     IconButton(onClick = {navController.popBackStack()}) {
-                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else {
+                } else if (currentDestination?.hierarchy?.none {it.route == Routes.foyer.route} == false) {
+
+                }
+                else {
                     IconButton(onClick= {scope.launch { scaffoldState.drawerState.open()}}) {
-                        Icon(Icons.Default.Menu, contentDescription = "Menu Button")
+                        Icon(Icons.Outlined.Menu, contentDescription = "Menu Button")
                     }
                 }
 
@@ -51,6 +52,33 @@ fun RootNavigation() {
         drawerContent = {
             if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route  } == true) {
                 DropdownMenuItem(onClick = {
+                    /*TODO*/
+                }) {
+                    Icon(Icons.Outlined.AccountCircle, "Profile")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "Profile")
+                }
+                DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Outlined.DateRange, "Hours")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "Payroll")
+                }
+                DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Outlined.PendingActions, "Inventory")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "Manage Inventory")
+                }
+                DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Outlined.Storefront, "Menu")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "Manage Menu")
+                }
+                DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    Icon(Icons.Outlined.ManageAccounts, "Manage Users")
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Text(text = "Manage Users")
+                }
+                DropdownMenuItem(onClick = {
                     scope.launch {
                         scaffoldState.drawerState.snapTo(DrawerValue.Closed)
                     }
@@ -58,17 +86,18 @@ fun RootNavigation() {
                         popUpTo(0)
                     }
                 }) {
-                    Icon(Icons.Default.ExitToApp, "Logout")
+                    Icon(Icons.Outlined.ExitToApp, "Logout")
                     Spacer(modifier = Modifier.width(16.dp))
                     Text(text = "Logout")
                 }
+
             }
         },
         floatingActionButton = {},
     ){
         NavHost(
             navController = navController,
-            startDestination = Routes.foyer.route,
+            startDestination = Routes.app.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
            navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route){
