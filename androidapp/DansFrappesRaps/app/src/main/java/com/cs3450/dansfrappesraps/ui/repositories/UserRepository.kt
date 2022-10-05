@@ -4,6 +4,8 @@ import com.cs3450.dansfrappesraps.ui.models.User
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 import java.lang.RuntimeException
@@ -12,6 +14,8 @@ class SignInException(message: String?): RuntimeException(message)
 class SignUpException(message: String?): RuntimeException(message)
 
 object UserRepository {
+
+    private var userCache = User()
 
     suspend fun createUser(email: String, password: String, name: String) {
         try {
@@ -29,16 +33,29 @@ object UserRepository {
                 employee = false
             )
             doc.set(user).await()
+            userCache = user
         } catch (e: FirebaseAuthException) {
             throw SignUpException(e.message)
         }
     }
     suspend fun loginUser(email: String, password: String) {
         try {
+            var user= User();
             Firebase.auth.signInWithEmailAndPassword(
                 email,
                 password
             ).await()
+            val snapshot = Firebase.firestore
+                .collection("users")
+                .whereEqualTo("userId", getCurrentUserId())
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    for (document in documentSnapshot) {
+                        user = document.toObject<User>()
+                    }
+                }
+                .await()
+            userCache = user
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
@@ -56,4 +73,22 @@ object UserRepository {
         Firebase.auth.signOut()
     }
 
+    fun isUserManager(): Boolean {
+        try {
+            //TODO cache
+            return userCache.manager!!
+        } catch (_: Exception) {
+
+        }
+        return false
+    }
+
+    fun isUserEmployee(): Boolean {
+        try {
+            return userCache.employee!!
+        } catch (_: Exception) {
+
+        }
+        return false
+    }
 }
