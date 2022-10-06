@@ -1,0 +1,41 @@
+Ingredients List:
+
+	Milk - 
+		Whole Milk
+		Almond Milk
+		Soy Milk
+	Espresso Beans - 
+		Decaf Espresso Beans
+		Blonde Espresso Beans
+		Signature Espresso Beans
+		Frappuccino Roast
+	Flavors - 
+		Cinnamon
+		Pumpkin Sauce
+		Caramel Syrup
+		Hazelnut Syrup
+		Pepermint Syrup
+		Vanilla Syrup
+		Classic Syrup
+	Powder - 
+		Matcha Powder
+		Vanilla Bean Powder
+	Tea - 
+		Chai
+	Toppings - 
+		Caramel Drizzle
+		Mocha Drizzle
+		Pumpkin Spice
+		Whipped Cream
+		Cinnamon
+	Sweeteners - 
+		Honey
+		Sugar
+	Add-Ins - 
+		Ice
+
+Price for extra items
+	Espresso Shots: $1.50
+	Flavors: 25c
+	Powder/Tea: 50c
+	Toppings: 75c

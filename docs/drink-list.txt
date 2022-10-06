@@ -1,0 +1,48 @@
+Drink Format Defaults
+	Milk -> Whole Milk
+	Roast -> Frappuccino Roast
+
+1. Vanilla Iced
+	Toppings - 
+		Whipped Cream
+	Add-ins - 
+		Vanilla Bean Powder
+
+2. The Notorious P.U.M.P.K.I.N.
+	Flavors - 
+		Pumpkin Sauce
+	Toppings - 
+		Pumpkin Spice Topping
+		Whipped Cream
+
+3. Post Mocha
+	Flavors - 
+		Mocha Sauce
+	Toppings - 
+		Whipped Cream
+
+4. 50 Chai
+	Toppings - 
+		Cinnamon Powder
+		Whipped Cream
+	Tea - 
+		Chai
+	Add-ins - 
+		Ice
+
+5. Doja Caramel
+	Flavors - 
+		Caramel Syrup
+	Toppings - 
+		Caramel Drizzle
+		Whipped Cream
+
+6. Matcha Thee Stallion
+	Powder - 
+		Matcha Powder
+	Toppings - 
+		Whipped Cream
+	Sweeteners - 
+		Classic Syrup
+	Add-ins - 
+		Ice
