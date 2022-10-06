@@ -8,4 +8,5 @@ object Routes {
     val signUp = Screen("signup")
     val menu = Screen("menu")
     val app = Screen("app")
+    val splashScreen = Screen("splashscreen")
 }
