@@ -59,16 +59,16 @@ fun SignUpScreen(navHostController: NavHostController) {
                     textAlign = TextAlign.Left
                 )
                 SignTextInput(
+                    value = state.name,
+                    onValueChange = { state.name = it},
+                    placeholder = { Text("Full Name")},
+                    error = state.nameError
+                )
+                SignTextInput(
                     value = state.email,
                     onValueChange = { state.email = it },
                     placeholder = { Text("Email") },
                     error = state.emailError
-                )
-                SignTextInput(
-                    value = state.name,
-                    onValueChange = { state.email = it},
-                    placeholder = { Text("Full Name")},
-                    error = state.nameError
                 )
                 SignTextInput(
                     value = state.password,
@@ -83,9 +83,6 @@ fun SignUpScreen(navHostController: NavHostController) {
                     modifier = Modifier.fillMaxWidth()
                 ){
                     SignButton(text = "Create Account", onClick = {scope.launch { viewModel.signUp()}})
-//                    TextButton(onClick = { navHostController.popBackStack() }) {
-//                        Text(text = "Cancel")
-//                    }
                 }
         }
     }
