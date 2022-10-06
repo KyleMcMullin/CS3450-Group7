@@ -20,6 +20,7 @@ import androidx.navigation.compose.*
 import com.cs3450.dansfrappesraps.ui.screens.MenuScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
+import com.cs3450.dansfrappesraps.ui.screens.SplashScreen
 import com.cs3450.dansfrappesraps.ui.viewmodels.RootNavigationViewModel
 import kotlinx.coroutines.launch
 
@@ -44,7 +45,7 @@ fun RootNavigation() {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route } == false) {
+                } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == false) {
 
                 } else {
                     LaunchedEffect(true) {
@@ -60,7 +61,7 @@ fun RootNavigation() {
             }
         },
         drawerContent = {
-            if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route } == true) {
+            if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
                 DropdownMenuItem(onClick = {
                     /*TODO*/
                 }) {
@@ -112,7 +113,7 @@ fun RootNavigation() {
     ) {
         NavHost(
             navController = navController,
-            startDestination = Routes.foyer.route,
+            startDestination = Routes.splashScreen.route,
             modifier = Modifier.padding(paddingValues = it)
         ) {
             navigation(route = Routes.foyer.route, startDestination = Routes.signIn.route) {
@@ -122,6 +123,7 @@ fun RootNavigation() {
             navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
             }
+            composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController)}
         }
     }
 }
