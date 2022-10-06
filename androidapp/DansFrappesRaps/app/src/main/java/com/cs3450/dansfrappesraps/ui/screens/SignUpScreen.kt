@@ -1,7 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -41,20 +41,20 @@ fun SignUpScreen(navHostController: NavHostController) {
                 Column(modifier = Modifier.fillMaxWidth(),
                     horizontalAlignment = Alignment.Start) {
                     Text(text = "Sign up",
-                        style = MaterialTheme.typography.h4,
+                        style = MaterialTheme.typography.headlineSmall,
                         textAlign = TextAlign.Center,
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.padding(2.dp))
                     Text(text = "Frappes and Raps headed your way soon!",
-                        style = MaterialTheme.typography.subtitle2,
+                        style = MaterialTheme.typography.titleSmall,
                         textAlign = TextAlign.Center
                     )
                 }
                 Spacer(modifier = Modifier.padding(10.dp))
                 Text(
                     text = state.errorMessage,
-                    style = TextStyle(color = MaterialTheme.colors.error),
+                    style = TextStyle(color = MaterialTheme.colorScheme.error),
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Left
                 )

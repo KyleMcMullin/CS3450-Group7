@@ -2,9 +2,9 @@ package com.cs3450.dansfrappesraps.ui.components
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
+//Following import needs to be material instead of material3
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -27,7 +27,7 @@ fun SignTextInput(
         onValueChange = onValueChange,
         placeholder = placeholder,
         modifier = Modifier.fillMaxWidth(),
-        textStyle = TextStyle(color = MaterialTheme.colors.primary, fontWeight = FontWeight.Bold),
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold),
         visualTransformation = if (password) PasswordVisualTransformation() else VisualTransformation.None,
         isError = error
     )
