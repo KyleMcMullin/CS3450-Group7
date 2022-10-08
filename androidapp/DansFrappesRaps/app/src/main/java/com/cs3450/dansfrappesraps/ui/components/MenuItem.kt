@@ -15,6 +15,7 @@ import androidx.compose.ui.semantics.Role.Companion.Image
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.cs3450.dansfrappesraps.R
+import com.cs3450.dansfrappesraps.ui.theme.Shapes
 
 /*
 Author: Hamilton Hardy
@@ -36,7 +37,7 @@ fun MenuItem(name:String = "Menu Item", imageId: Int = R.drawable.emptyimage) {
                 enabled = true,
                 colors = CardDefaults.elevatedCardColors(),
                 elevation = CardDefaults.cardElevation(5.dp),
-                shape = RoundedCornerShape(10.dp)
+                shape = Shapes.medium
             ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
