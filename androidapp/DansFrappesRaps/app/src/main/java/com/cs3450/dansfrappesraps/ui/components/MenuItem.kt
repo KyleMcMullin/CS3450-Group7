@@ -25,9 +25,10 @@ TODO: On click behaviour
  */
 
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MenuItem(name:String = "Menu Item", imageId: Int = R.drawable.emptyimage) {
+fun MenuItem(name:String = "Menu Item", imageId: Int = R.drawable.emptyimage,imageDescription: String = "DEFAULT IMAGE") {
             Card(
                 onClick = { /*TODO*/ },
                 modifier = Modifier
@@ -57,7 +58,7 @@ fun MenuItem(name:String = "Menu Item", imageId: Int = R.drawable.emptyimage) {
                         modifier = Modifier
                             .fillMaxWidth(),
                         painter = painterResource(id = imageId),
-                        contentDescription = "[DEFAULT IMAGE]",
+                        contentDescription = imageDescription,
                         contentScale = ContentScale.Crop)
 
                 }
