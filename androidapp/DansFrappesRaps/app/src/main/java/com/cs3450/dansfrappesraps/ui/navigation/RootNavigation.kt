@@ -109,7 +109,16 @@ fun RootNavigation() {
 
             }
         },
-        floatingActionButton = {},
+        floatingActionButton = {
+            if (currentDestination?.hierarchy?.none { it.route == Routes.menu.route } == false) {
+                FloatingActionButton(
+                    onClick = { /*TODO*/ },
+                    contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
+                }
+            }
+        },
     ) {
         NavHost(
             navController = navController,
