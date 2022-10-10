@@ -7,7 +7,6 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
-            <value value="C:\Users\andre\.android\avd\Resizable_Experimental_API_33_1.avd" />
           </Key>
         </deviceKey>
       </Target>
