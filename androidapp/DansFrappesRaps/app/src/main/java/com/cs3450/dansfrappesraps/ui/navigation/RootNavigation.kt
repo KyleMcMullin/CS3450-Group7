@@ -115,7 +115,7 @@ fun RootNavigation() {
                     onClick = { /*TODO*/ },
                     contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
                 ) {
-                    Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")//shoppingcartcheckout icon?
+                    Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
         },
