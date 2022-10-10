@@ -30,8 +30,5 @@ fun MenuScreen(navHostController: NavHostController) {
             text="Menu Screen",
             style=TextStyle(color = MaterialTheme.colorScheme.primary)
             )
-        Button(onClick = {scope.launch{UserRepository.addUserBalance(10.12)}}){
-            
-        }
     }
 }
