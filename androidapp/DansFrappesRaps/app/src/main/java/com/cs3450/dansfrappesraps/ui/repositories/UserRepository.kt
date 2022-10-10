@@ -63,6 +63,25 @@ object UserRepository {
         }
     }
 
+    suspend fun setUserCache() {
+        try {
+            var user = User()
+            val snapshot = Firebase.firestore
+                .collection("users")
+                .whereEqualTo("userId", getCurrentUserId())
+                .get()
+                .addOnSuccessListener { documentSnapshot ->
+                    for (document in documentSnapshot) {
+                        user = document.toObject<User>()
+                    }
+                }
+                .await()
+            userCache = user
+        } catch (e: FirebaseAuthException) {
+            throw SignInException(e.message)
+        }
+    }
+
     fun getCurrentUserId(): String? {
         return Firebase.auth.currentUser?.uid
     }
@@ -72,6 +91,7 @@ object UserRepository {
     }
 
     fun signOutUser() {
+        userCache = User()
         Firebase.auth.signOut()
     }
 

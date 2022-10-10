@@ -18,7 +18,8 @@ class RootNavigationViewModel(application: Application): AndroidViewModel(applic
         UserRepository.signOutUser()
     }
 
-    fun initialSetup() {
+    suspend fun initialSetup() {
+        UserRepository.setUserCache()
         uiState.isManager = UserRepository.isUserManager()
         uiState.isEmployee = UserRepository.isUserEmployee()
     }

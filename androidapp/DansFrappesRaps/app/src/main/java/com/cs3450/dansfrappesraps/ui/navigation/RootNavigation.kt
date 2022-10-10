@@ -41,21 +41,22 @@ fun RootNavigation() {
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
+                if (viewModel.isUserLoggedIn()) {
+                    LaunchedEffect(Unit) {
+                        scope.launch { viewModel.initialSetup()}
+                    }
+                }
                 if (currentDestination?.route == Routes.signUp.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == false) {
+                } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
 
-                } else {
-                    LaunchedEffect(true) {
-                        if (viewModel.isUserLoggedIn()) {
-                            viewModel.initialSetup()
-                        }
-                    }
                     IconButton(onClick = { scope.launch { scaffoldState.drawerState.open() } }) {
                         Icon(Icons.Outlined.Menu, contentDescription = "Menu Button")
                     }
+                } else {
+
                 }
 
             }
