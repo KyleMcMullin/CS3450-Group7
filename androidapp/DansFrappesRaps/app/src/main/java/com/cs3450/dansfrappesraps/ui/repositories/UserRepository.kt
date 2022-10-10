@@ -1,14 +1,14 @@
 package com.cs3450.dansfrappesraps.ui.repositories
 
+import androidx.compose.runtime.internal.updateLiveLiteralValue
 import com.cs3450.dansfrappesraps.ui.models.User
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
-import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
-import java.lang.RuntimeException
 
 class SignInException(message: String?): RuntimeException(message)
 class SignUpException(message: String?): RuntimeException(message)
@@ -16,6 +16,7 @@ class SignUpException(message: String?): RuntimeException(message)
 object UserRepository {
 
     private var userCache = User()
+
 
     suspend fun createUser(email: String, password: String, name: String) {
         try {
@@ -30,7 +31,8 @@ object UserRepository {
                 userId = getCurrentUserId(),
                 id = doc.id,
                 manager = false,
-                employee = false
+                employee = false,
+                balance = 0.00
             )
             doc.set(user).await()
             userCache = user
@@ -40,7 +42,7 @@ object UserRepository {
     }
     suspend fun loginUser(email: String, password: String) {
         try {
-            var user= User();
+            var user= User()
             Firebase.auth.signInWithEmailAndPassword(
                 email,
                 password
@@ -81,6 +83,21 @@ object UserRepository {
 
         }
         return false
+    }
+
+    fun userBalance(): Double? {
+        return userCache.balance
+    }
+
+    suspend fun addUserBalance(addedBalance : Double){
+        val user = userCache
+        user.balance = user.balance?.plus(addedBalance)
+        val db = Firebase.firestore
+        db.collection("users")
+            .document(userCache.id!!)
+            .set(user)
+            .await()
+        userCache = user
     }
 
     fun isUserEmployee(): Boolean {

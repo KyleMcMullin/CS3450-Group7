@@ -7,5 +7,6 @@ data class User(
     val email: String? = null,
     val employee: Boolean? = false,
     val manager: Boolean? = false,
-    val favorites: List<String>? = null
+    val favorites: List<String>? = null,
+    var balance: Double? = 0.00
 )
