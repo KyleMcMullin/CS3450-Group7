@@ -99,7 +99,10 @@ fun RootNavigation() {
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Menu")
                     }
-                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    DropdownMenuItem(onClick = {
+                        navController.navigate(Routes.manageUsers.route)
+                        scope.launch { scaffoldState.drawerState.close() }
+                    }) {
                         Icon(Icons.Outlined.ManageAccounts, "Manage Users")
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Users")
@@ -147,6 +150,7 @@ fun RootNavigation() {
             //TODO make this default to profile screen
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
                 composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
+                composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController)}
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
         }
