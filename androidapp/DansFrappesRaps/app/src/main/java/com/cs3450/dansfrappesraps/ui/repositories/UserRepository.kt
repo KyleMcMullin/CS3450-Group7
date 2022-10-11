@@ -1,11 +1,9 @@
 package com.cs3450.dansfrappesraps.ui.repositories
 
-import androidx.compose.runtime.internal.updateLiveLiteralValue
 import com.cs3450.dansfrappesraps.ui.models.User
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.getField
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
@@ -53,7 +51,7 @@ object UserRepository {
                 .get()
                 .addOnSuccessListener { documentSnapshot ->
                     for (document in documentSnapshot) {
-                        user = document.toObject<User>()
+                        user = document.toObject()
                         userCache = user
                     }
                 }
@@ -72,7 +70,7 @@ object UserRepository {
                 .get()
                 .addOnSuccessListener { documentSnapshot ->
                     for (document in documentSnapshot) {
-                        user = document.toObject<User>()
+                        user = document.toObject()
                         userCache = user
                     }
                 }
@@ -82,7 +80,7 @@ object UserRepository {
         }
     }
 
-    fun getCurrentUserId(): String? {
+    private fun getCurrentUserId(): String? {
         return Firebase.auth.currentUser?.uid
     }
 
