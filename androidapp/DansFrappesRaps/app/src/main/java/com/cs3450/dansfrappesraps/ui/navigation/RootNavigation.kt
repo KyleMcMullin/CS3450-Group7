@@ -17,11 +17,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
-import com.cs3450.dansfrappesraps.ui.screens.MenuScreen
-import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
-import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
-import com.cs3450.dansfrappesraps.ui.screens.SplashScreen
+import com.cs3450.dansfrappesraps.ui.screens.*
 import com.cs3450.dansfrappesraps.ui.viewmodels.RootNavigationViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
@@ -36,33 +35,42 @@ fun RootNavigation() {
     val scope = rememberCoroutineScope()
     val state = viewModel.uiState
 
+    LaunchedEffect(currentDestination?.route) {
+        if (viewModel.isUserLoggedIn()) {
+            val user = async { viewModel.initialSetup() }
+            user.await()
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
-                if (viewModel.isUserLoggedIn()) {
-                    LaunchedEffect(Unit) {
-                        scope.launch { viewModel.initialSetup()}
-                    }
-                }
                 if (currentDestination?.route == Routes.signUp.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
-
+                } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
+                    IconButton(onClick = {
+                        navController.popBackStack()
+                        scope.launch {
+                            delay(500)
+                            scaffoldState.drawerState.open()
+                        }
+                    }) {
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                    }
+                } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route } == true) {
                     IconButton(onClick = { scope.launch { scaffoldState.drawerState.open() } }) {
                         Icon(Icons.Outlined.Menu, contentDescription = "Menu Button")
                     }
                 } else {
 
                 }
-
             }
         },
         drawerContent = {
-            if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
+            if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route } == true) {
                 DropdownMenuItem(onClick = {
                     /*TODO*/
                 }) {
@@ -83,7 +91,10 @@ fun RootNavigation() {
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Inventory")
                     }
-                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    DropdownMenuItem(onClick = {
+                        navController.navigate(Routes.manageOrders.route)
+                        scope.launch { scaffoldState.drawerState.close() }
+                    }) {
                         Icon(Icons.Outlined.Storefront, "Menu")
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Menu")
@@ -133,7 +144,11 @@ fun RootNavigation() {
             navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
             }
-            composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController)}
+            //TODO make this default to profile screen
+            navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
+                composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
+            }
+            composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
         }
     }
 }
