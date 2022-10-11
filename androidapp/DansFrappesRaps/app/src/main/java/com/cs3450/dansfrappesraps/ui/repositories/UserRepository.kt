@@ -42,12 +42,12 @@ object UserRepository {
     }
     suspend fun loginUser(email: String, password: String) {
         try {
-            var user= User()
+            var user: User
             Firebase.auth.signInWithEmailAndPassword(
                 email,
                 password
             ).await()
-            val snapshot = Firebase.firestore
+            Firebase.firestore
                 .collection("users")
                 .whereEqualTo("userId", getCurrentUserId())
                 .get()
@@ -65,8 +65,8 @@ object UserRepository {
 
     suspend fun setUserCache() {
         try {
-            var user = User()
-            val snapshot = Firebase.firestore
+            var user: User
+            Firebase.firestore
                 .collection("users")
                 .whereEqualTo("userId", getCurrentUserId())
                 .get()

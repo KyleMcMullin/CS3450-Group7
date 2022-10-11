@@ -63,7 +63,6 @@ fun RootNavigation() {
             }
         },
         drawerContent = {
-
             if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
                 DropdownMenuItem(onClick = {
                     /*TODO*/
