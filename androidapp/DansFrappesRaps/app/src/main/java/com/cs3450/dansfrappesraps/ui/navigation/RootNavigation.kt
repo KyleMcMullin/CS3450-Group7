@@ -22,6 +22,7 @@ import com.cs3450.dansfrappesraps.ui.screens.SignInScreen
 import com.cs3450.dansfrappesraps.ui.screens.SignUpScreen
 import com.cs3450.dansfrappesraps.ui.screens.SplashScreen
 import com.cs3450.dansfrappesraps.ui.viewmodels.RootNavigationViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
@@ -36,22 +37,22 @@ fun RootNavigation() {
     val scope = rememberCoroutineScope()
     val state = viewModel.uiState
 
+    LaunchedEffect(currentDestination?.route) {
+        if (viewModel.isUserLoggedIn()) {
+            val user = async { viewModel.initialSetup() }
+            user.await()
+        }
+    }
 
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
-                if (viewModel.isUserLoggedIn()) {
-                    LaunchedEffect(Unit) {
-                        scope.launch { viewModel.initialSetup()}
-                    }
-                }
                 if (currentDestination?.route == Routes.signUp.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
                 } else if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
-
                     IconButton(onClick = { scope.launch { scaffoldState.drawerState.open() } }) {
                         Icon(Icons.Outlined.Menu, contentDescription = "Menu Button")
                     }
@@ -62,6 +63,7 @@ fun RootNavigation() {
             }
         },
         drawerContent = {
+
             if (currentDestination?.hierarchy?.none { it.route == Routes.foyer.route || it.route == Routes.splashScreen.route} == true) {
                 DropdownMenuItem(onClick = {
                     /*TODO*/

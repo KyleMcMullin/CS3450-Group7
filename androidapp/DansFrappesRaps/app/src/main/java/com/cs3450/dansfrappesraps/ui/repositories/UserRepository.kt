@@ -54,10 +54,10 @@ object UserRepository {
                 .addOnSuccessListener { documentSnapshot ->
                     for (document in documentSnapshot) {
                         user = document.toObject<User>()
+                        userCache = user
                     }
                 }
                 .await()
-            userCache = user
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
@@ -73,10 +73,10 @@ object UserRepository {
                 .addOnSuccessListener { documentSnapshot ->
                     for (document in documentSnapshot) {
                         user = document.toObject<User>()
+                        userCache = user
                     }
                 }
                 .await()
-            userCache = user
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
