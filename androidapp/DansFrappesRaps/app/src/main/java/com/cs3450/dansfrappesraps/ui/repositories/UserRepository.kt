@@ -16,7 +16,7 @@ object UserRepository {
     private var userCache = User()
 
 
-    suspend fun createUser(email: String, password: String, name: String) {
+    suspend fun createUser(email: String, password: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
         try {
             Firebase.auth.createUserWithEmailAndPassword(
                 email,
@@ -28,8 +28,8 @@ object UserRepository {
                 email = email,
                 userId = getCurrentUserId(),
                 id = doc.id,
-                manager = false,
-                employee = false,
+                manager = isManager,
+                employee = isEmployee,
                 balance = 0.00
             )
             doc.set(user).await()

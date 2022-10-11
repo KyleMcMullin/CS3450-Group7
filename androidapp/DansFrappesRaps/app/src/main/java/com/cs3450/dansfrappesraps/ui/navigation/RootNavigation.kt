@@ -1,5 +1,6 @@
 package com.cs3450.dansfrappesraps.ui.navigation
 
+import CreateNewUserScreen
 import android.view.Menu
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
@@ -133,6 +134,14 @@ fun RootNavigation() {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
+            if (currentDestination?.route == Routes.manageUsers.route) {
+                FloatingActionButton(
+                    onClick = { navController.navigate(Routes.createNewUser.route)},
+                    contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(Icons.Outlined.Add, contentDescription = "Add")
+                }
+            }
         },
     ) {
         NavHost(
@@ -151,6 +160,7 @@ fun RootNavigation() {
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
                 composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
                 composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController)}
+                composable(route = Routes.createNewUser.route) { CreateNewUserScreen(navHostController = navController)}
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
         }

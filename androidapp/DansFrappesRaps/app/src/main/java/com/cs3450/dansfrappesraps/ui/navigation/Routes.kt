@@ -12,4 +12,5 @@ object Routes {
     val sideBar = Screen("sideBar")
     val manageOrders = Screen("manageOrders")
     val manageUsers = Screen("manageUsers")
+    val createNewUser = Screen("createNewUser")
 }

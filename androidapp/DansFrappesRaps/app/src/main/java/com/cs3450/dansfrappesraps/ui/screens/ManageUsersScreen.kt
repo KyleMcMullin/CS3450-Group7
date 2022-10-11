@@ -20,6 +20,7 @@ fun ManageUsersScreen(navHostController: NavHostController) {
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+
         Text(
             text="Manage Users Screen",
             style= TextStyle(color = MaterialTheme.colorScheme.primary)
