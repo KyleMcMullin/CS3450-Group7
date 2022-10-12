@@ -9,12 +9,18 @@ import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.User
 import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
+enum class SortState() {
+    ALL,
+    CUSTOMER,
+    EMPLOYEE,
+    MANAGER
+}
 class ManageUsersScreenState {
     val _users = mutableStateListOf<User>()
     val users: List<User> get() = _users
     var loading by mutableStateOf(false)
-    var sortManagersOnly by mutableStateOf(false)
-    var sortEmployeesOnly by mutableStateOf(false)
+    var sortState by mutableStateOf(SortState.ALL)
+    var dropdownExpanded by mutableStateOf(false)
 }
 
 class ManageUsersViewModel(application: Application): AndroidViewModel(application) {
