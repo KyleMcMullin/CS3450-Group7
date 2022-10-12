@@ -1,7 +1,9 @@
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -16,9 +18,11 @@ import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.SignButton
 import com.cs3450.dansfrappesraps.ui.components.SignTextInput
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
+import com.cs3450.dansfrappesraps.ui.viewmodels.CreateNewUserScreenState
 import com.cs3450.dansfrappesraps.ui.viewmodels.CreateNewUserViewModel
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditUserScreen(navHostController: NavHostController, id: String?) {
     val viewModel: CreateNewUserViewModel = viewModel()
@@ -94,30 +98,61 @@ fun EditUserScreen(navHostController: NavHostController, id: String?) {
                     password = true
                 )
             }
-            Row(
-                horizontalArrangement = Arrangement.Center,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column {
-                    Text(text = "Manager")
-                    Checkbox(
-                        checked = state.isManager,
-                        onCheckedChange = { state.isManager = it }
-                    )
+            Box() {
+                OutlinedTextField(
+                    value = state.userType,
+                    onValueChange = {},
+                    modifier = Modifier
+                        .clickable {
+                            state.dropdownExpanded = true
+                        },
+                    trailingIcon = {
+                        Icon(
+                            imageVector = Icons.Filled.ArrowDropDown,
+                            contentDescription = "Dropdown"
+                        )
+                    },
+                    enabled = false,
+                    label = { Text("User Type", color = MaterialTheme.colorScheme.primary) },
+                    textStyle = TextStyle(color = MaterialTheme.colorScheme.onPrimaryContainer),
+                )
+                DropdownMenu(
+                    expanded = state.dropdownExpanded,
+                    onDismissRequest = {state.dropdownExpanded = false }) {
+                    listOf(
+                        CreateNewUserScreenState.CUSTOMER,
+                        CreateNewUserScreenState.EMPLOYEE,
+                        CreateNewUserScreenState.MANAGER
+                    ).forEach {
+                        DropdownMenuItem(
+                            onClick = {
+                                state.userType = it
+                            },
+                            text = { Text(it) })
+                    }
+
                 }
-//                Text(text = "Manager",)
-//                Checkbox(checked = state.isEmployee, onCheckedChange = { state.isEmployee = it })
-                Spacer(modifier = Modifier.padding(20.dp))
-                Column {
-                    Text(text = "Employee")
-                    Checkbox(
-                        checked = state.isEmployee,
-                        onCheckedChange = { state.isEmployee = it }
-                    )
-                }
-//                Text(text = "Employee")
-//                Checkbox(checked = state.isManager, onCheckedChange = { state.isManager = it })
             }
+//            Row(
+//                horizontalArrangement = Arrangement.Center,
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Column {
+//                    Text(text = "Manager")
+//                    Checkbox(
+//                        checked = state.isManager,
+//                        onCheckedChange = { state.isManager = it }
+//                    )
+//                }
+//                Spacer(modifier = Modifier.padding(20.dp))
+//                Column {
+//                    Text(text = "Employee")
+//                    Checkbox(
+//                        checked = state.isEmployee,
+//                        onCheckedChange = { state.isEmployee = it }
+//                    )
+//                }
+//            }
 
         }
         Spacer(modifier = Modifier.padding(6.dp))

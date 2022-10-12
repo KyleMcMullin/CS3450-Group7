@@ -20,6 +20,14 @@ class CreateNewUserScreenState {
     var signUpSuccess by mutableStateOf(false)
     var isManager by mutableStateOf(false)
     var isEmployee by mutableStateOf(false)
+    var dropdownExpanded by mutableStateOf(false)
+    var userType by mutableStateOf(UserTypes.CUSTOMER)
+
+    companion object UserTypes {
+        const val MANAGER = "Manager"
+        const val EMPLOYEE = "Employee"
+        const val CUSTOMER = "Customer"
+    }
 }
 class CreateNewUserViewModel(application: Application): AndroidViewModel(application) {
     val uiState = CreateNewUserScreenState()
@@ -35,6 +43,11 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
         uiState.isEmployee = user.employee ?: false
         uiState.isManager = user.manager ?: false
         uiState.name = user.name ?: ""
+        uiState.userType = when {
+            uiState.isManager -> CreateNewUserScreenState.UserTypes.MANAGER
+            uiState.isEmployee -> CreateNewUserScreenState.UserTypes.EMPLOYEE
+            else -> CreateNewUserScreenState.UserTypes.CUSTOMER
+        }
     }
 
     suspend fun signUp() {
@@ -61,8 +74,14 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
             return
         }
 
+        if (uiState.userType == CreateNewUserScreenState.UserTypes.MANAGER) {
+            uiState.isManager = true
+        } else if (uiState.userType == CreateNewUserScreenState.UserTypes.EMPLOYEE) {
+            uiState.isEmployee = true
+        }
+
         try {
-            UserRepository.createUser(uiState.email, uiState.password, uiState.name, uiState.isManager, uiState.isEmployee)
+            UserRepository.createDifferentUser(uiState.email, uiState.password, uiState.name, uiState.isManager, uiState.isEmployee)
             uiState.signUpSuccess = true
         } catch (e: SignUpException) {
             uiState.errorMessage = e.message ?: "Something went wrong. Please try again."
@@ -91,6 +110,14 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
         this.user?.email = uiState.email
         this.user?.manager = uiState.isManager
         this.user?.employee = uiState.isEmployee
+
+        if (uiState.userType == CreateNewUserScreenState.UserTypes.MANAGER) {
+            uiState.isManager = true
+            uiState.isEmployee = false
+        } else if (uiState.userType == CreateNewUserScreenState.UserTypes.EMPLOYEE) {
+            uiState.isEmployee = true
+            uiState.isManager = false
+        }
 
         try {
             UserRepository.updateUser(this.user!!)
