@@ -13,4 +13,6 @@ object Routes {
     val manageOrders = Screen("manageOrders")
     val manageUsers = Screen("manageUsers")
     val editUser = Screen("editUser?id={id}")
+    val manageInventory = Screen("manageInventory")
+    val editInventory = Screen("editInventory?id={id}")
 }
