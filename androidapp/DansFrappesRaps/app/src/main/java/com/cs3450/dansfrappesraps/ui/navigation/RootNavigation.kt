@@ -1,6 +1,6 @@
 package com.cs3450.dansfrappesraps.ui.navigation
 
-import android.view.Menu
+import EditUserScreen
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -15,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.cs3450.dansfrappesraps.ui.screens.*
 import com.cs3450.dansfrappesraps.ui.viewmodels.RootNavigationViewModel
 import kotlinx.coroutines.async
@@ -53,10 +53,13 @@ fun RootNavigation() {
                 } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
                     IconButton(onClick = {
                         navController.popBackStack()
-                        scope.launch {
-                            delay(500)
-                            scaffoldState.drawerState.open()
+                        if (currentDestination?.route != Routes.editUser.route) {
+                            scope.launch {
+                                delay(500)
+                                scaffoldState.drawerState.open()
+                            }
                         }
+
                     }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
@@ -99,7 +102,10 @@ fun RootNavigation() {
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Menu")
                     }
-                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    DropdownMenuItem(onClick = {
+                        navController.navigate(Routes.manageUsers.route)
+                        scope.launch { scaffoldState.drawerState.close() }
+                    }) {
                         Icon(Icons.Outlined.ManageAccounts, "Manage Users")
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Users")
@@ -130,6 +136,14 @@ fun RootNavigation() {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
+            if (currentDestination?.route == Routes.manageUsers.route) {
+                FloatingActionButton(
+                    onClick = { navController.navigate(Routes.editUser.route)},
+                    contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
+                ) {
+                    Icon(Icons.Outlined.Add, contentDescription = "Add")
+                }
+            }
         },
     ) {
         NavHost(
@@ -147,6 +161,13 @@ fun RootNavigation() {
             //TODO make this default to profile screen
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
                 composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
+                composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController)}
+                    composable(
+                        route = Routes.editUser.route,
+                        arguments = listOf(navArgument("id") { defaultValue = "new" })
+                    ) { navBackStackEntry ->
+                        EditUserScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                    }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
         }
