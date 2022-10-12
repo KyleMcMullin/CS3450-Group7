@@ -24,18 +24,31 @@ object UserRepository {
                 email,
                 password
             ).await()
-            val doc = Firebase.firestore.collection("users").document()
-            val user = User(
-                name = name,
-                email = email,
-                userId = getCurrentUserId(),
-                id = doc.id,
-                manager = isManager,
-                employee = isEmployee,
-                balance = 0.00
-            )
-            doc.set(user).await()
-            userCache = user
+            val testDoc = Firebase.firestore.collection("users").whereEqualTo("email", email)
+            var doc = Firebase.firestore.collection("users").document()
+            if (testDoc.get().await().isEmpty) {
+                doc.set(User(
+                    name = name,
+                    email = email,
+                    userId = getCurrentUserId(),
+                    id = doc.id,
+                    manager = isManager,
+                    employee = isEmployee,
+                    balance = 0.00
+                ))
+            } else {
+                doc = testDoc.get().await().documents[0].reference
+                doc.set(User(
+                    name = name,
+                    email = email,
+                    userId = getCurrentUserId(),
+                    id = doc.id,
+                    manager = isManager,
+                    employee = isEmployee,
+                    balance = 0.00
+                ))
+            }
+            userCache = doc.get().await().toObject()!!
         } catch (e: FirebaseAuthException) {
             throw SignUpException(e.message)
         }
@@ -43,15 +56,11 @@ object UserRepository {
 
     suspend fun createDifferentUser(email: String, password: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
         try {
-            Firebase.auth.createUserWithEmailAndPassword(
-                email,
-                password
-            ).await()
             val doc = Firebase.firestore.collection("users").document()
             val user = User(
                 name = name,
                 email = email,
-                userId = getCurrentUserId(),
+                userId = "",
                 id = doc.id,
                 manager = isManager,
                 employee = isEmployee,
