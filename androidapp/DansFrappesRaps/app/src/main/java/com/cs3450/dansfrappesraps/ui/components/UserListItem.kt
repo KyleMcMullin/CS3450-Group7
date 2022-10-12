@@ -113,7 +113,6 @@ fun UserListItem(
                             )
                         }
                     }
-                    //TODO BALANCE AND THE REST OF INFO
                 }
             }
         }
