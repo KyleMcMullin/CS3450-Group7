@@ -41,6 +41,29 @@ object UserRepository {
         }
     }
 
+    suspend fun createDifferentUser(email: String, password: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
+        try {
+            Firebase.auth.createUserWithEmailAndPassword(
+                email,
+                password
+            ).await()
+            val doc = Firebase.firestore.collection("users").document()
+            val user = User(
+                name = name,
+                email = email,
+                userId = getCurrentUserId(),
+                id = doc.id,
+                manager = isManager,
+                employee = isEmployee,
+                balance = 0.00
+            )
+            doc.set(user).await()
+
+        } catch (e: FirebaseAuthException) {
+            throw SignUpException(e.message)
+        }
+    }
+
     suspend fun updateUser(user: User) {
         Firebase.firestore.collection("users").document(user.id!!).set(user).await()
         val oldUserIndex = allUsersCache.indexOfFirst { it.id == user.id }
