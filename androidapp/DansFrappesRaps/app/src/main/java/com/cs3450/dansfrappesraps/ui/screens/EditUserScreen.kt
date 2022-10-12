@@ -133,27 +133,6 @@ fun EditUserScreen(navHostController: NavHostController, id: String?) {
 
                 }
             }
-//            Row(
-//                horizontalArrangement = Arrangement.Center,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Column {
-//                    Text(text = "Manager")
-//                    Checkbox(
-//                        checked = state.isManager,
-//                        onCheckedChange = { state.isManager = it }
-//                    )
-//                }
-//                Spacer(modifier = Modifier.padding(20.dp))
-//                Column {
-//                    Text(text = "Employee")
-//                    Checkbox(
-//                        checked = state.isEmployee,
-//                        onCheckedChange = { state.isEmployee = it }
-//                    )
-//                }
-//            }
-
         }
         Spacer(modifier = Modifier.padding(6.dp))
         Row(
