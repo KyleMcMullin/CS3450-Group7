@@ -89,15 +89,6 @@ fun EditUserScreen(navHostController: NavHostController, id: String?) {
                 placeholder = { Text("Email") },
                 error = state.emailError
             )
-            if (id == null || id == "new") {
-                SignTextInput(
-                    value = state.password,
-                    onValueChange = { state.password = it },
-                    placeholder = { Text("Password") },
-                    error = state.passwordError,
-                    password = true
-                )
-            }
             Box() {
                 OutlinedTextField(
                     value = state.userType,

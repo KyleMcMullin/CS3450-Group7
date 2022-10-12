@@ -12,10 +12,8 @@ import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 class CreateNewUserScreenState {
     var email by mutableStateOf("")
     var name by mutableStateOf("")
-    var password by mutableStateOf("")
     var emailError by mutableStateOf(false)
     var nameError by mutableStateOf(false)
-    var passwordError by mutableStateOf(false)
     var errorMessage by mutableStateOf("")
     var signUpSuccess by mutableStateOf(false)
     var isManager by mutableStateOf(false)
@@ -53,18 +51,11 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
     suspend fun signUp() {
         // clear existing errors
         uiState.emailError = false
-        uiState.passwordError = false
         uiState.nameError = false
         uiState.errorMessage = ""
         if (!uiState.email.contains("@")) {
             uiState.emailError = true
             uiState.errorMessage = "Email is invalid."
-            return
-        }
-
-        if (uiState.password.length < 8) {
-            uiState.passwordError = true
-            uiState.errorMessage = "Password needs to be at least 8 characters."
             return
         }
 
@@ -81,7 +72,7 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
         }
 
         try {
-            UserRepository.createDifferentUser(uiState.email, uiState.password, uiState.name, uiState.isManager, uiState.isEmployee)
+            UserRepository.createDifferentUser(uiState.email, uiState.name, uiState.isManager, uiState.isEmployee)
             uiState.signUpSuccess = true
         } catch (e: SignUpException) {
             uiState.errorMessage = e.message ?: "Something went wrong. Please try again."
@@ -91,7 +82,6 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
     suspend fun updateUser() {
         // clear existing errors
         uiState.emailError = false
-        uiState.passwordError = false
         uiState.nameError = false
         uiState.errorMessage = ""
         if (!uiState.email.contains("@")) {

@@ -54,7 +54,7 @@ object UserRepository {
         }
     }
 
-    suspend fun createDifferentUser(email: String, password: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
+    suspend fun createDifferentUser(email: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
         try {
             val doc = Firebase.firestore.collection("users").document()
             val user = User(
@@ -67,7 +67,7 @@ object UserRepository {
                 balance = 0.00
             )
             doc.set(user).await()
-
+            allUsersCache.add(user)
         } catch (e: FirebaseAuthException) {
             throw SignUpException(e.message)
         }
