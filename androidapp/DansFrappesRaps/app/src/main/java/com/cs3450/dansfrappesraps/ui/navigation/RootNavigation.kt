@@ -187,7 +187,7 @@ fun RootNavigation() {
                     route = Routes.editInventory.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
                 ) { navBackStackEntry ->
-                    EditInventoryScreen(
+                    AdjustInventoryScreen(
                         navController,
                         navBackStackEntry.arguments?.get("id").toString()
                     )
