@@ -1,6 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.components
 
 import android.graphics.drawable.GradientDrawable
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
@@ -67,19 +68,49 @@ fun UserListItem(
         Surface(
             modifier = Modifier
                 .offset { IntOffset(swipeableState.offset.value.toInt(), 0) }
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(4.dp)
+                )
                 .clickable { onEditPressed() },
             elevation = 2.dp,
             shape = RoundedCornerShape(4.dp),
         ) {
             Column() {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(text = user.name ?: "", modifier = Modifier.padding(10.dp))
-                        Spacer(modifier = Modifier.width(10.dp))
-                        if (user.manager == true) {
-                            Text(text = "Manager", modifier = Modifier.padding(10.dp), fontWeight = FontWeight.Bold)
-                        } else if (user.employee == true) {
-                            Text(text = "Employee", modifier = Modifier.padding(10.dp), fontWeight = FontWeight.Bold)
+                    Column() {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+                            Text(text = user.name ?: "", modifier = Modifier.padding(10.dp))
+                            Spacer(modifier = Modifier.width(10.dp))
+                            if (user.manager == true) {
+                                Text(
+                                    text = "Manager",
+                                    modifier = Modifier.padding(10.dp),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            } else if (user.employee == true) {
+                                Text(
+                                    text = "Employee",
+                                    modifier = Modifier.padding(10.dp),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                        Divider(modifier = Modifier.padding(4.dp))
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+                            Text(text = user.email ?: "", modifier = Modifier.padding(10.dp))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(
+                                text = "Balance: ${user.balance}",
+                                modifier = Modifier.padding(10.dp)
+                            )
                         }
                     }
                     //TODO BALANCE AND THE REST OF INFO
