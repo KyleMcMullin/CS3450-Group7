@@ -20,7 +20,7 @@ import com.cs3450.dansfrappesraps.ui.viewmodels.CreateNewUserViewModel
 import kotlinx.coroutines.launch
 
 @Composable
-fun CreateNewUserScreen(navHostController: NavHostController) {
+fun EditUserScreen(navHostController: NavHostController, id: String?) {
     val viewModel: CreateNewUserViewModel = viewModel()
     val scope = rememberCoroutineScope()
     val state = viewModel.uiState
@@ -32,6 +32,9 @@ fun CreateNewUserScreen(navHostController: NavHostController) {
                 }
             }
         }
+    }
+    LaunchedEffect(true) {
+        viewModel.setupInitialState(id)
     }
     Column(
         modifier = Modifier
@@ -47,12 +50,21 @@ fun CreateNewUserScreen(navHostController: NavHostController) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    text = "Create a new user",
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Center,
-                    fontWeight = FontWeight.Bold
-                )
+                if (id == null || id == "new") {
+                    Text(
+                        text = "Create New User",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Start
+                    )
+                } else {
+                    Text(
+                        text = "Edit User",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        textAlign = TextAlign.Start
+                    )
+                }
             }
             Spacer(modifier = Modifier.padding(10.dp))
             Text(
@@ -73,13 +85,15 @@ fun CreateNewUserScreen(navHostController: NavHostController) {
                 placeholder = { Text("Email") },
                 error = state.emailError
             )
-            SignTextInput(
-                value = state.password,
-                onValueChange = { state.password = it },
-                placeholder = { Text("Password") },
-                error = state.passwordError,
-                password = true
-            )
+            if (id == null || id == "new") {
+                SignTextInput(
+                    value = state.password,
+                    onValueChange = { state.password = it },
+                    placeholder = { Text("Password") },
+                    error = state.passwordError,
+                    password = true
+                )
+            }
             Row(
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.fillMaxWidth()
@@ -111,9 +125,25 @@ fun CreateNewUserScreen(navHostController: NavHostController) {
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
         ) {
-            SignButton(text = "Create Account", onClick = {
-                scope.launch { viewModel.signUp() }
-            })
+            if (id == null || id == "new") {
+                SignButton(
+                    text = "Create User",
+                    onClick = {
+                        scope.launch {
+                            viewModel.signUp()
+                        }
+                    }
+                )
+            } else {
+                SignButton(
+                    text = "Save User",
+                    onClick = {
+                        scope.launch {
+                            viewModel.updateUser()
+                        }
+                    }
+                )
+            }
         }
     }
 }

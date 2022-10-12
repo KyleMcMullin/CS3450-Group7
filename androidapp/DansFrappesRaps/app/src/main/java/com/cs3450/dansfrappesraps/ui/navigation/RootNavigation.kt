@@ -1,7 +1,6 @@
 package com.cs3450.dansfrappesraps.ui.navigation
 
-import CreateNewUserScreen
-import android.view.Menu
+import EditUserScreen
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -16,8 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import com.cs3450.dansfrappesraps.ui.screens.*
 import com.cs3450.dansfrappesraps.ui.viewmodels.RootNavigationViewModel
 import kotlinx.coroutines.async
@@ -54,10 +53,13 @@ fun RootNavigation() {
                 } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
                     IconButton(onClick = {
                         navController.popBackStack()
-                        scope.launch {
-                            delay(500)
-                            scaffoldState.drawerState.open()
+                        if (currentDestination?.route != Routes.editUser.route) {
+                            scope.launch {
+                                delay(500)
+                                scaffoldState.drawerState.open()
+                            }
                         }
+
                     }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
@@ -136,7 +138,7 @@ fun RootNavigation() {
             }
             if (currentDestination?.route == Routes.manageUsers.route) {
                 FloatingActionButton(
-                    onClick = { navController.navigate(Routes.createNewUser.route)},
+                    onClick = { navController.navigate(Routes.editUser.route)},
                     contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = "Add")
@@ -160,7 +162,12 @@ fun RootNavigation() {
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
                 composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
                 composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController)}
-                composable(route = Routes.createNewUser.route) { CreateNewUserScreen(navHostController = navController)}
+                    composable(
+                        route = Routes.editUser.route,
+                        arguments = listOf(navArgument("id") { defaultValue = "new" })
+                    ) { navBackStackEntry ->
+                        EditUserScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                    }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
         }

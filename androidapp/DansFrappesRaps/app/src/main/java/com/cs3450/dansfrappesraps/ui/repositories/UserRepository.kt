@@ -5,6 +5,7 @@ import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
@@ -14,6 +15,7 @@ class SignUpException(message: String?): RuntimeException(message)
 object UserRepository {
 
     private var userCache = User()
+    private val allUsersCache = mutableListOf<User>()
 
 
     suspend fun createUser(email: String, password: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
@@ -38,6 +40,13 @@ object UserRepository {
             throw SignUpException(e.message)
         }
     }
+
+    suspend fun updateUser(user: User) {
+        Firebase.firestore.collection("users").document(user.id!!).set(user).await()
+        val oldUserIndex = allUsersCache.indexOfFirst { it.id == user.id }
+        allUsersCache[oldUserIndex] = user
+    }
+
     suspend fun loginUser(email: String, password: String) {
         try {
             var user: User
@@ -74,6 +83,36 @@ object UserRepository {
                         userCache = user
                     }
                 }
+                .await()
+        } catch (e: FirebaseAuthException) {
+            throw SignInException(e.message)
+        }
+    }
+
+    suspend fun getAllUsers(): List<User> {
+        try {
+            if (allUsersCache.isEmpty()) {
+                val snapshot = Firebase.firestore
+                    .collection("users")
+                    .get()
+                    .await()
+                allUsersCache.addAll(snapshot.toObjects())
+            }
+
+            return allUsersCache
+        } catch (e: FirebaseAuthException) {
+            throw SignInException(e.message)
+        }
+    }
+
+    suspend fun deleteUser(user: User) {
+        try {
+            // Only delete the user from Firestore, not from authentication
+            // That way they can still sign in and access their account, but it is wiped
+            Firebase.firestore
+                .collection("users")
+                .document(user.id!!)
+                .delete()
                 .await()
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)

@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import com.cs3450.dansfrappesraps.ui.models.User
 import com.cs3450.dansfrappesraps.ui.repositories.SignUpException
 import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
@@ -22,6 +23,19 @@ class CreateNewUserScreenState {
 }
 class CreateNewUserViewModel(application: Application): AndroidViewModel(application) {
     val uiState = CreateNewUserScreenState()
+    var id: String? = null
+    var user: User? = null
+
+    suspend fun setupInitialState(id: String?) {
+        if (id == null || id == "new") return
+        this.id = id
+        val user = UserRepository.getAllUsers().find {it.id == id} ?: return
+        this.user = user
+        uiState.email = user.email ?: ""
+        uiState.isEmployee = user.employee ?: false
+        uiState.isManager = user.manager ?: false
+        uiState.name = user.name ?: ""
+    }
 
     suspend fun signUp() {
         // clear existing errors
@@ -49,6 +63,37 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
 
         try {
             UserRepository.createUser(uiState.email, uiState.password, uiState.name, uiState.isManager, uiState.isEmployee)
+            uiState.signUpSuccess = true
+        } catch (e: SignUpException) {
+            uiState.errorMessage = e.message ?: "Something went wrong. Please try again."
+        }
+    }
+
+    suspend fun updateUser() {
+        // clear existing errors
+        uiState.emailError = false
+        uiState.passwordError = false
+        uiState.nameError = false
+        uiState.errorMessage = ""
+        if (!uiState.email.contains("@")) {
+            uiState.emailError = true
+            uiState.errorMessage = "Email is invalid."
+            return
+        }
+
+        if (uiState.name == "") {
+            uiState.nameError = true
+            uiState.errorMessage = "Name must be input."
+            return
+        }
+
+        this.user?.name = uiState.name
+        this.user?.email = uiState.email
+        this.user?.manager = uiState.isManager
+        this.user?.employee = uiState.isEmployee
+
+        try {
+            UserRepository.updateUser(this.user!!)
             uiState.signUpSuccess = true
         } catch (e: SignUpException) {
             uiState.errorMessage = e.message ?: "Something went wrong. Please try again."
