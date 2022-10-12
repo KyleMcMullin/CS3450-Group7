@@ -2,8 +2,11 @@ package com.cs3450.dansfrappesraps.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.outlined.AttachMoney
+import androidx.compose.material.icons.outlined.Money
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -12,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -90,7 +94,8 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                 label = "Quantity",
                 onValueChange = { state.quantity = it },
                 placeholder = { Text("Item Quantity") },
-                error = state.quantityError
+                error = state.quantityError,
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
             LabelledTextInput(
                 value = state.PPU,
@@ -98,6 +103,8 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                 onValueChange = { state.PPU = it },
                 placeholder = { Text("Price Per Unit") },
                 error = state.PPUError,
+                leadingIcon = { Icon(imageVector = Icons.Outlined.AttachMoney, contentDescription = "Dollar") },
+                keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal)
             )
         }
         Spacer(modifier = Modifier.padding(6.dp))

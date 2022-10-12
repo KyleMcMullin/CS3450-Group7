@@ -1,8 +1,10 @@
 package com.cs3450.dansfrappesraps.ui.components
 
+import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.material.TextFieldDefaults
@@ -23,6 +25,8 @@ fun LabelledTextInput(
     placeholder: @Composable () -> Unit,
     password: Boolean = false,
     error: Boolean = false,
+    leadingIcon: @Composable () -> Unit = {},
+    keyboardOptions: KeyboardOptions? = null,
 ) {
     OutlinedTextField(
         value = value,
@@ -35,7 +39,9 @@ fun LabelledTextInput(
         colors = TextFieldDefaults.outlinedTextFieldColors(
             focusedBorderColor = MaterialTheme.colorScheme.primary
         ),
-        label = { Text(text = label, color = MaterialTheme.colorScheme.primary )}
+        label = { Text(text = label, color = MaterialTheme.colorScheme.primary )},
+        leadingIcon = leadingIcon,
+        keyboardOptions = keyboardOptions ?: KeyboardOptions.Default,
     )
     Spacer(modifier = Modifier.padding(5.dp))
 }

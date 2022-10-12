@@ -35,7 +35,7 @@ object InventoryRepository {
         ))
     }
 
-    suspend fun editInventory(id: String, name: String, PPU: Double, quantity: Int) {
+    suspend fun editInventory(id: String, name: String, quantity: Int, PPU: Double) {
         val doc = Firebase.firestore.collection("inventory").document(id)
         doc.set(Inventory(
             name = name,

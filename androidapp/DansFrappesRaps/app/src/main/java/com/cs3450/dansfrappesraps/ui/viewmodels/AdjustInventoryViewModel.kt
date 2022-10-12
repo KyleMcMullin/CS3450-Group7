@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
+import kotlin.math.roundToInt
 
 class AdjustInventoryState{
     var name by mutableStateOf("")
@@ -22,28 +23,10 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
     var uiState = AdjustInventoryState()
 
     suspend fun adjustInventory(id: String?) {
-        // clear existing errors
-        uiState.nameError = false
-        uiState.quantityError = false
-        uiState.PPUError = false
-        uiState.errorMessage = ""
-        if (uiState.name == "") {
-            uiState.nameError = true
-            uiState.errorMessage = "Name is invalid."
-            return
+        if (runChecks()) {
+            InventoryRepository.editInventory(id!!, uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble())
+            uiState.adjustSuccess = true
         }
-        if (uiState.quantity == "") {
-            uiState.quantityError = true
-            uiState.errorMessage = "Quantity is invalid."
-            return
-        }
-        if (uiState.PPU == "") {
-            uiState.PPUError = true
-            uiState.errorMessage = "Price per unit is invalid."
-            return
-        }
-        InventoryRepository.editInventory(id!!, uiState.name, uiState.quantity.toDouble(), uiState.PPU.toInt())
-        uiState.adjustSuccess = true
     }
 
     suspend fun deleteInventory(id: String?) {
@@ -51,28 +34,10 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
     }
 
     suspend fun addInventory() {
-        // clear existing errors
-        uiState.nameError = false
-        uiState.quantityError = false
-        uiState.PPUError = false
-        uiState.errorMessage = ""
-        if (uiState.name == "") {
-            uiState.nameError = true
-            uiState.errorMessage = "Name is invalid."
-            return
+        if (runChecks()) {
+            InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble())
+            uiState.adjustSuccess = true
         }
-        if (uiState.quantity == "") {
-            uiState.quantityError = true
-            uiState.errorMessage = "Quantity is invalid."
-            return
-        }
-        if (uiState.PPU == "") {
-            uiState.PPUError = true
-            uiState.errorMessage = "Price per unit is invalid."
-            return
-        }
-        InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble())
-        uiState.adjustSuccess = true
     }
 
     suspend fun setUpInitialState(id: String?) {
@@ -82,5 +47,43 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
             uiState.quantity = inventory.quantity.toString()
             uiState.PPU = inventory.PPU.toString()
         }
+    }
+
+    private fun runChecks(): Boolean {
+        uiState.nameError = false
+        uiState.quantityError = false
+        uiState.PPUError = false
+        uiState.errorMessage = ""
+        if (uiState.name == "") {
+            uiState.nameError = true
+            uiState.errorMessage = "Name is invalid."
+            return false
+        }
+        if (uiState.quantity == "") {
+            uiState.quantityError = true
+            uiState.errorMessage = "Quantity is invalid."
+            return false
+        }
+        if (uiState.PPU == "") {
+            uiState.PPUError = true
+            uiState.errorMessage = "Price per unit is invalid."
+            return false
+        }
+        if (uiState.quantity.contains(".")) {
+            uiState.quantityError = true
+            uiState.errorMessage = "Quantity cannot contain decimals."
+            return false
+        }
+        if (uiState.quantity.toInt() < 0) {
+            uiState.quantityError = true
+            uiState.errorMessage = "Quantity cannot be negative."
+            return false
+        }
+        if (uiState.PPU.toDouble() < 0) {
+            uiState.PPUError = true
+            uiState.errorMessage = "Price per unit cannot be negative."
+            return false
+        }
+        return true
     }
 }
