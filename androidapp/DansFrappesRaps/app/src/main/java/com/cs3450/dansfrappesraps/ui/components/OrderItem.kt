@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.cs3450.dansfrappesraps.ui.theme.Shapes
 import java.nio.ByteOrder
+import java.util.Arrays.asList
 
 /*
 Author: Hamilton Hardy
@@ -25,7 +26,10 @@ Parameters to Specify: Customer Name, Customer Order
 
 @Composable
 @OptIn(ExperimentalFoundationApi::class)
-fun OrderItem(customerName:String = "Customer Name",customerOrder: Array<String> = arrayOf("Drink1","Drink2")){
+fun OrderItem(customerName:String = "Customer Name",customerOrder: MutableList<String> = listOf(
+    "Drink1",
+    "Drink2"
+) as MutableList<String>){
     Card(modifier = Modifier
         .size(296.dp, 150.dp)
         .padding(5.dp)
