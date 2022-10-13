@@ -29,10 +29,6 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
         }
     }
 
-    suspend fun deleteInventory(id: String?) {
-        InventoryRepository.deleteInventory(id!!)
-    }
-
     suspend fun addInventory() {
         if (runChecks()) {
             InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble())
@@ -41,12 +37,12 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
     }
 
     suspend fun setUpInitialState(id: String?) {
-        if (id != null) {
-            val inventory = InventoryRepository.getInventory().find { it.id == id } ?: return
-            uiState.name = inventory.name ?: ""
-            uiState.quantity = inventory.quantity.toString()
-            uiState.PPU = inventory.PPU.toString()
-        }
+        if (id == null || id == "new") return
+        val inventory = InventoryRepository.getInventory().find { it.id == id } ?: return
+        uiState.name = inventory.name ?: ""
+        uiState.quantity = inventory.quantity.toString()
+        uiState.PPU = inventory.PPU.toString()
+
     }
 
     private fun runChecks(): Boolean {

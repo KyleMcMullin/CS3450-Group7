@@ -187,10 +187,7 @@ fun RootNavigation() {
                     route = Routes.editInventory.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
                 ) { navBackStackEntry ->
-                    AdjustInventoryScreen(
-                        navController,
-                        navBackStackEntry.arguments?.get("id").toString()
-                    )
+                    AdjustInventoryScreen(navController, navBackStackEntry.arguments?.get("id").toString())
                 }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
