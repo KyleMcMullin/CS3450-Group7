@@ -74,9 +74,12 @@ object UserRepository {
     }
 
     suspend fun updateUser(user: User) {
-        Firebase.firestore.collection("users").document(user.id!!).set(user).await()
-        val oldUserIndex = allUsersCache.indexOfFirst { it.id == user.id }
-        allUsersCache[oldUserIndex] = user
+        try {
+            Firebase.firestore.collection("users").document(user.id!!).set(user).await()
+            val oldUserIndex = allUsersCache.indexOfFirst { it.id == user.id }
+            allUsersCache[oldUserIndex] = user
+        } catch (_: Exception) {
+        }
     }
 
     suspend fun loginUser(email: String, password: String) {
@@ -160,8 +163,10 @@ object UserRepository {
     }
 
     fun signOutUser() {
-        userCache = User()
-        Firebase.auth.signOut()
+        try {
+            userCache = User()
+            Firebase.auth.signOut()
+        } catch (_: Exception){}
     }
 
     fun isUserManager(): Boolean {
@@ -179,21 +184,23 @@ object UserRepository {
     }
 
     suspend fun addUserBalance(addedBalance : Double){
-        val user = userCache
-        user.balance = user.balance?.plus(addedBalance)
-        val db = Firebase.firestore
-        db.collection("users")
-            .document(userCache.id!!)
-            .set(user)
-            .await()
-        userCache = user
+        try {
+            val user = userCache
+            user.balance = user.balance?.plus(addedBalance)
+            val db = Firebase.firestore
+            db.collection("users")
+                .document(userCache.id!!)
+                .set(user)
+                .await()
+            userCache = user
+        } catch (_: Exception) {
+        }
     }
 
     fun isUserEmployee(): Boolean {
         try {
             return userCache.employee!!
         } catch (_: Exception) {
-
         }
         return false
     }

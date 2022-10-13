@@ -56,6 +56,14 @@ fun ManageUsersScreen(navHostController: NavHostController) {
             Spacer(modifier = Modifier.height(16.dp))
             //Loader()
         } else {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Text(
+                    text = "Manage Users",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .padding(8.dp)
+                )
+            }
             Row(horizontalArrangement = Arrangement.Start, verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier

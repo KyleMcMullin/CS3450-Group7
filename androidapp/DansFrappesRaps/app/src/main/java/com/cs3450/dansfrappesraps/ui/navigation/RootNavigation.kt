@@ -53,7 +53,7 @@ fun RootNavigation() {
                 } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
                     IconButton(onClick = {
                         navController.popBackStack()
-                        if (currentDestination?.route != Routes.editUser.route) {
+                        if (currentDestination.route != Routes.editUser.route && currentDestination.route != Routes.editInventory.route) {
                             scope.launch {
                                 delay(500)
                                 scaffoldState.drawerState.open()
@@ -89,7 +89,10 @@ fun RootNavigation() {
                     }
                 }
                 if (state.isManager) {
-                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    DropdownMenuItem(onClick = {
+                        navController.navigate(Routes.manageInventory.route)
+                        scope.launch { scaffoldState.drawerState.close() }
+                    }) {
                         Icon(Icons.Outlined.PendingActions, "Inventory")
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Manage Inventory")
@@ -127,6 +130,7 @@ fun RootNavigation() {
 
             }
         },
+        //TODO nest all of these into a single floatingActionButton
         floatingActionButton = {
             if (currentDestination?.hierarchy?.none { it.route == Routes.menu.route } == false) {
                 FloatingActionButton(
@@ -136,9 +140,15 @@ fun RootNavigation() {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
-            if (currentDestination?.route == Routes.manageUsers.route) {
+            if (currentDestination?.route == Routes.manageUsers.route || currentDestination?.route == Routes.manageInventory.route) {
                 FloatingActionButton(
-                    onClick = { navController.navigate(Routes.editUser.route)},
+                    onClick = {
+                        if (currentDestination.route == Routes.manageUsers.route) {
+                            navController.navigate(Routes.editUser.route)
+                        } else {
+                            navController.navigate(Routes.editInventory.route)
+                        }
+                    },
                     contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
                 ) {
                     Icon(Icons.Outlined.Add, contentDescription = "Add")
@@ -161,13 +171,24 @@ fun RootNavigation() {
             //TODO make this default to profile screen
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
                 composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
-                composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController)}
-                    composable(
-                        route = Routes.editUser.route,
-                        arguments = listOf(navArgument("id") { defaultValue = "new" })
-                    ) { navBackStackEntry ->
-                        EditUserScreen(navController, navBackStackEntry.arguments?.get("id").toString())
-                    }
+                composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController) }
+                composable(
+                    route = Routes.editUser.route,
+                    arguments = listOf(navArgument("id") { defaultValue = "new" })
+                ) { navBackStackEntry ->
+                    EditUserScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                }
+                composable(route = Routes.manageInventory.route) {
+                    ManageInventoryScreen(
+                        navHostController = navController
+                    )
+                }
+                composable(
+                    route = Routes.editInventory.route,
+                    arguments = listOf(navArgument("id") { defaultValue = "new" })
+                ) { navBackStackEntry ->
+                    AdjustInventoryScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
         }
