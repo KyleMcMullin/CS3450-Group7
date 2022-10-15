@@ -6,12 +6,12 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
-import com.cs3450.dansfrappesraps.ui.models.Ingredient
+import com.cs3450.dansfrappesraps.ui.models.Inventory
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
 
 class ManageInventoryState() {
-    val _inventoryItems = mutableStateListOf<Ingredient>()
-    val inventory: List<Ingredient> get() = _inventoryItems
+    val _inventoryItems = mutableStateListOf<Inventory>()
+    val inventory: List<Inventory> get() = _inventoryItems
     var loading by mutableStateOf(false)
 }
 
@@ -25,7 +25,7 @@ class ManageInventoryViewModel(application: Application): AndroidViewModel(appli
         uiState.loading = false
     }
 
-    suspend fun deleteInventory(inventory: Ingredient) {
+    suspend fun deleteInventory(inventory: Inventory) {
         InventoryRepository.deleteInventory(inventory.id!!)
         uiState._inventoryItems.remove(inventory)
     }
