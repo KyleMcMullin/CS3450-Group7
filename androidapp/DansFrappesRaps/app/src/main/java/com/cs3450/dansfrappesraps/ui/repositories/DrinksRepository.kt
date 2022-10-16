@@ -36,4 +36,11 @@ object DrinksRepository {
             return mutableListOf()
         }
     }
+
+    suspend fun deleteDrink(drink: Drink) {
+        try {
+            Firebase.firestore.collection("menu").document(drink.id!!).delete().await()
+        } catch (_: Exception) {
+        }
+    }
 }

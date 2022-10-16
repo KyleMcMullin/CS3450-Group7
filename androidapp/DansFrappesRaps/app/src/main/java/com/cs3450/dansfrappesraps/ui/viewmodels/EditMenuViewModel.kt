@@ -21,16 +21,24 @@ class EditMenuState() {
 class EditMenuViewModel(application: Application): AndroidViewModel(application) {
     var uiState = EditMenuState()
 
-    fun setUpInitialState(id: String?) {
+    suspend fun setUpInitialState(id: String?) {
         if (id == null) return
-//        val drink = uiState.ingredients?.find { it.id == id } ?: return
+        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
+        uiState.name = drink.name ?: ""
+        for (ingredient in drink.ingredients!!) {
+            uiState._ingredients.removeIf { it.inventory?.id == ingredient.inventory?.id }
+            uiState._ingredients.add(0, ingredient)
+        }
+//        uiState._ingredients.reverse()
+//        val drink = uiState.ingredients.find { it.inventory?.id == id } ?: return
 //        uiState.name = drink.name ?: ""
 //        uiState.ingredients = drink.ingredients ?: mutableListOf()
+//    }
     }
 
     fun incrementIngredient(ingredient: Ingredient) {
         uiState._ingredients[uiState._ingredients.indexOf(ingredient)] = ingredient.copy(count = ingredient.count?.plus(1))
-//        uiState._ingredients.find(ingredient::equals)?.count?.plus(1)
+
     }
 
     fun decrementIngredient(ingredient: Ingredient) {
@@ -52,4 +60,4 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
         DrinksRepository.newDrink(drink)
 
     }
-}
+    }

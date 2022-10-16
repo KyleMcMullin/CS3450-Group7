@@ -11,7 +11,7 @@ object Routes {
     val splashScreen = Screen("splashscreen")
     val sideBar = Screen("sideBar")
     val manageMenu = Screen("manageMenu")
-    val editMenu = Screen("editMenu")
+    val editMenu = Screen("editMenu?id={id}")
     val manageUsers = Screen("manageUsers")
     val editUser = Screen("editUser?id={id}")
     val manageInventory = Screen("manageInventory")

@@ -39,10 +39,12 @@ fun EditMenuScreen(navController: NavController, id: String?) {
         val loadingIngredients = async { viewModel.getIngredients() }
         delay(2000)
         loadingIngredients.await()
+        viewModel.setUpInitialState(id)
         state.loading = false
     }
     if (state.loading) {
-        Text(text = "Loading")
+        Spacer(modifier = Modifier.height(16.dp))
+        //Loader()
     }
     else {
         Column(
