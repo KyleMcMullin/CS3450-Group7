@@ -6,9 +6,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material3.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.rememberSwipeableState
+import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,7 +51,9 @@ fun DrinkItem(
                 onClick = onDeletePressed,
                 modifier = Modifier
                     .fillMaxWidth(.5f),
-                colors = ButtonDefaults.buttonColors(backgroundColor = MaterialTheme.colors.error)
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                )
             ) {
                 Row(
                     modifier = Modifier
@@ -61,16 +66,16 @@ fun DrinkItem(
                 }
             }
         }
-        Surface(
+        Card(
             modifier = Modifier
                 .offset { IntOffset(swipeableState.offset.value.toInt(), 0) }
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.2f),
+                    color = MaterialTheme.colorScheme.onPrimary,
                     shape = RoundedCornerShape(4.dp)
                 )
                 .clickable { onSelected() },
-            elevation = 2.dp,
+            elevation = CardDefaults.cardElevation(5.dp),
             shape = RoundedCornerShape(4.dp),
         ) {
             Column() {

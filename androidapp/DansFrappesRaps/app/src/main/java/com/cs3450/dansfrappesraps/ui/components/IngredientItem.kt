@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
@@ -33,7 +33,7 @@ fun IngredientItem(
             Spacer(modifier = Modifier.width(4.dp))
             Text(
                 text = "${ingredient.count}",
-                style = MaterialTheme.typography.h4,
+                style = MaterialTheme.typography.headlineMedium,
             )
             Spacer(modifier = Modifier.width(4.dp))
             Button(
