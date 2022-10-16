@@ -1,9 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
@@ -14,7 +12,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.SignButton
 import com.cs3450.dansfrappesraps.ui.components.SignTextInput
@@ -48,13 +45,13 @@ fun SignInScreen(navHostController: NavHostController) {
         ) {
             Text(
                 text = "Dan's Frappes & Raps",
-                style = MaterialTheme.typography.h3,
+                style = MaterialTheme.typography.headlineLarge,
                 textAlign = TextAlign.Center
             )
             Spacer(modifier = Modifier.padding(25.dp))
             Text(
                 text = state.errorMessage,
-                style = TextStyle(color = MaterialTheme.colors.error),
+                style = TextStyle(color = MaterialTheme.colorScheme.error),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Left
             )
@@ -83,12 +80,12 @@ fun SignInScreen(navHostController: NavHostController) {
                 Text(
                     text = "No account yet?",
                     textAlign = TextAlign.Right,
-                    style = MaterialTheme.typography.subtitle2
+                    style = MaterialTheme.typography.titleSmall
                 )
                 TextButton(onClick = { navHostController.navigate(Routes.signUp.route)}) {
                     Text(
                         text = "Register here",
-                        style = MaterialTheme.typography.subtitle2,
+                        style = MaterialTheme.typography.titleSmall,
                         fontWeight = FontWeight.Bold )
                 }
             }
