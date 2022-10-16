@@ -99,7 +99,7 @@ fun DrinkItem(
                                 appendString += if (drink.ingredients.lastIndex == drink.ingredients.indexOf(ingredient)) {
                                     "."
                                 } else {
-                                    " , "
+                                    ", "
                                 }
                             }
                             Text(

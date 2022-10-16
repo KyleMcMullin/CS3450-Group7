@@ -26,6 +26,16 @@ object DrinksRepository {
         }
     }
 
+    suspend fun updateDrink(drink: Drink) {
+        try {
+            val doc = Firebase.firestore.collection("menu").document(drink.id!!)
+            doc.set(drink).await()
+            drinksCache.removeIf { it.id == drink.id }
+            drinksCache.add(drink)
+        } catch (_: Exception) {
+        }
+    }
+
     suspend fun getAllDrinks(): List<Drink> {
         try {
             val snapshot = Firebase.firestore.collection("menu")

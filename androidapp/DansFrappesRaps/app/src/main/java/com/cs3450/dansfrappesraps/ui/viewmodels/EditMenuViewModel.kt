@@ -22,7 +22,7 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
     var uiState = EditMenuState()
 
     suspend fun setUpInitialState(id: String?) {
-        if (id == null) return
+        if (id == null || id == "new") return
         val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
         uiState.name = drink.name ?: ""
         for (ingredient in drink.ingredients!!) {
@@ -59,5 +59,13 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
         )
         DrinksRepository.newDrink(drink)
 
+    }
+    suspend fun updateDrink(id: String) {
+        val drink: Drink = Drink(
+            id = id,
+            name = uiState.name,
+            ingredients = uiState._ingredients.filter { it.count!! > 0 }
+        )
+        DrinksRepository.updateDrink(drink)
     }
     }

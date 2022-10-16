@@ -77,7 +77,12 @@ fun EditMenuScreen(navController: NavController, id: String?) {
             }
             Button(onClick = {
                 scope.launch {
-                    viewModel.addDrink()
+                    if (id == null || id == "new") {
+                        viewModel.addDrink()
+                    }
+                    else {
+                        viewModel.updateDrink(id)
+                    }
                     navController.popBackStack()
                 }
                              }, modifier = Modifier.fillMaxWidth()) {
