@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.AttachMoney
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -53,13 +54,13 @@ fun EditMenuScreen(navController: NavController, id: String?) {
             LabelledTextInput(
                 value = state.name,
                 label = "Drink Name",
-                onValueChange = {  },
+                onValueChange = { state.name = it },
                 placeholder = { Text("Drink Name") },
                 error = false
             )
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxHeight()
+                    .weight(1f)
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
@@ -71,6 +72,14 @@ fun EditMenuScreen(navController: NavController, id: String?) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
+            }
+            Button(onClick = {
+                scope.launch {
+                    viewModel.addDrink()
+                    navController.popBackStack()
+                }
+                             }, modifier = Modifier.fillMaxWidth()) {
+                Text(text = "Save")
             }
         }
     }

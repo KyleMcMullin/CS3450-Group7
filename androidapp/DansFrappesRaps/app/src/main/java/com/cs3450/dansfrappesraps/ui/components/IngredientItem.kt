@@ -1,13 +1,18 @@
 package com.cs3450.dansfrappesraps.ui.components
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.material.Button
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 
 @Composable
@@ -18,16 +23,30 @@ fun IngredientItem(
     onPlusPressed: () -> Unit = {},
     onMinusPressed: () -> Unit = {}
 ) {
-    Row() {
-        Button(onClick = onMinusPressed) {
-            Icon(imageVector = Icons.Default.Remove, contentDescription = "Minus")
-        }
-        Text(text = "${ingredient.count}")
-        Button(onClick= onPlusPressed) {
-            Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")
-        }
-        Text(text = ingredient.inventory?.name ?: "")
+    Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
+        Row() {
+            Button(
+                onClick = onMinusPressed
+            ) {
+                Icon(imageVector = Icons.Default.Remove, contentDescription = "Minus")
+            }
+            Spacer(modifier = Modifier.width(4.dp))
+            Text(
+                text = "${ingredient.count}",
+                style = MaterialTheme.typography.h4,
+            )
+            Spacer(modifier = Modifier.width(4.dp))
+            Button(
+                onClick= onPlusPressed
+            ) {
+                Icon(imageVector = Icons.Default.Add, contentDescription = "Plus")
+            }
+            Text(
+                text = ingredient.inventory?.name ?: "",
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+            )
 
+        }
     }
 
 }
