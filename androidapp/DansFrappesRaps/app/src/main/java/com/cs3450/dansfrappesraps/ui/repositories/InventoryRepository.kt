@@ -43,6 +43,7 @@ object InventoryRepository {
                     id = doc.id
                 )
             )
+            IngredientsRepository.refresh()
         } catch (_: Exception) {
         }
     }

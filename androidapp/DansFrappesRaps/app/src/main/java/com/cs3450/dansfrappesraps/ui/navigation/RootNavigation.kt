@@ -53,7 +53,7 @@ fun RootNavigation() {
                 } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
                     IconButton(onClick = {
                         navController.popBackStack()
-                        if (currentDestination.route != Routes.editUser.route && currentDestination.route != Routes.editInventory.route) {
+                        if (currentDestination.route != Routes.editUser.route && currentDestination.route != Routes.editInventory.route && currentDestination.route != Routes.editMenu.route) {
                             scope.launch {
                                 delay(500)
                                 scaffoldState.drawerState.open()
@@ -98,7 +98,7 @@ fun RootNavigation() {
                         Text(text = "Manage Inventory")
                     }
                     DropdownMenuItem(onClick = {
-                        navController.navigate(Routes.manageOrders.route)
+                        navController.navigate(Routes.manageMenu.route)
                         scope.launch { scaffoldState.drawerState.close() }
                     }) {
                         Icon(Icons.Outlined.Storefront, "Menu")
@@ -140,13 +140,15 @@ fun RootNavigation() {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
-            if (currentDestination?.route == Routes.manageUsers.route || currentDestination?.route == Routes.manageInventory.route) {
+            if (currentDestination?.route == Routes.manageUsers.route || currentDestination?.route == Routes.manageInventory.route || currentDestination?.route == Routes.manageMenu.route) {
                 FloatingActionButton(
                     onClick = {
                         if (currentDestination.route == Routes.manageUsers.route) {
                             navController.navigate(Routes.editUser.route)
-                        } else {
+                        } else if (currentDestination.route == Routes.manageInventory.route) {
                             navController.navigate(Routes.editInventory.route)
+                        } else if (currentDestination.route == Routes.manageMenu.route) {
+                            navController.navigate(Routes.editMenu.route)
                         }
                     },
                     contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
@@ -169,8 +171,8 @@ fun RootNavigation() {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
             }
             //TODO make this default to profile screen
-            navigation(route = Routes.sideBar.route, startDestination = Routes.manageOrders.route) {
-                composable(route = Routes.manageOrders.route) { ManageMenuScreen(navHostController = navController) }
+            navigation(route = Routes.sideBar.route, startDestination = Routes.manageMenu.route) {
+                composable(route = Routes.manageMenu.route) { ManageMenuScreen(navHostController = navController) }
                 composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController) }
                 composable(
                     route = Routes.editUser.route,
@@ -188,6 +190,12 @@ fun RootNavigation() {
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
                 ) { navBackStackEntry ->
                     AdjustInventoryScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                }
+                composable(
+                    route = Routes.editMenu.route,
+                    arguments = listOf(navArgument("id") { defaultValue = "new" })
+                ) { navBackStackEntry ->
+                    EditMenuScreen(navController, navBackStackEntry.arguments?.get("id").toString())
                 }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
