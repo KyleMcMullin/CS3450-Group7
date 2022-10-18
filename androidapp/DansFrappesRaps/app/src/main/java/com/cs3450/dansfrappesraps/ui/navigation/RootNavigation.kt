@@ -140,7 +140,7 @@ fun RootNavigation() {
         floatingActionButton = {
             if (currentDestination?.hierarchy?.none { it.route == Routes.menu.route } == false) {
                 FloatingActionButton(
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(Routes.cart.route)},
                     contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
                 ) {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
@@ -212,6 +212,7 @@ fun RootNavigation() {
                 }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
+            composable(route = Routes.cart.route){ CartScreen(navHostController = navController )}
         }
     }
 }
