@@ -6,6 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -19,6 +20,10 @@ fun CartScreen(navHostController: NavHostController){
     var viewModel: CartScreenViewModel = viewModel()
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
+
+    LaunchedEffect(state.checkCart){
+        state.checkCart = state.frappuccinos.isNotEmpty()
+    }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .padding(16.dp)
@@ -44,7 +49,7 @@ fun CartScreen(navHostController: NavHostController){
         }
         else{
             Text(text =
-            "Your cart is empty! Please check out our menu for coffee you can order!",
+            "\tYour cart is empty! Please check out our menu for more coffee",
             style = MaterialTheme.typography.headlineSmall
             )
             Button(onClick = {navHostController.popBackStack()}) {
