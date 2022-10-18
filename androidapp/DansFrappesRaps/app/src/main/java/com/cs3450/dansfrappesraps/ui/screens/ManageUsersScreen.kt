@@ -14,6 +14,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.components.UserListItem
 import com.cs3450.dansfrappesraps.ui.viewmodels.ManageUsersViewModel
 import com.cs3450.dansfrappesraps.ui.viewmodels.SortState
@@ -22,7 +23,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ManageUsersScreen(navHostController: NavHostController) {
     val viewModel: ManageUsersViewModel = viewModel()
@@ -54,7 +54,7 @@ fun ManageUsersScreen(navHostController: NavHostController) {
     ) {
         if (state.loading) {
             Spacer(modifier = Modifier.height(16.dp))
-            //Loader()
+            Loader()
         } else {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                 Text(

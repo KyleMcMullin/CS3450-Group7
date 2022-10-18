@@ -1,22 +1,13 @@
 package com.cs3450.dansfrappesraps.ui.components
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
-import androidx.compose.foundation.interaction.InteractionSource
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.magnifier
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.*
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import com.cs3450.dansfrappesraps.ui.theme.Shapes
-import java.nio.ByteOrder
-import java.util.Arrays.asList
 
 /*
 Author: Hamilton Hardy

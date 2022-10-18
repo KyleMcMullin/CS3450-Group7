@@ -1,6 +1,5 @@
 package com.cs3450.dansfrappesraps.ui.components
 
-import android.graphics.drawable.GradientDrawable
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation

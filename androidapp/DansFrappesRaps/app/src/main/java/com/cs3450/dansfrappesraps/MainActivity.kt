@@ -7,10 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import com.cs3450.dansfrappesraps.ui.navigation.RootNavigation
 import com.cs3450.dansfrappesraps.ui.theme.DansFrappesRapsTheme
 

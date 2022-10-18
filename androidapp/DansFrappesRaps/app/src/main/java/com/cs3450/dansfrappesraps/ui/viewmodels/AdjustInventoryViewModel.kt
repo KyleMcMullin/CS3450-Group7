@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
-import kotlin.math.roundToInt
 
 class AdjustInventoryState{
     var name by mutableStateOf("")

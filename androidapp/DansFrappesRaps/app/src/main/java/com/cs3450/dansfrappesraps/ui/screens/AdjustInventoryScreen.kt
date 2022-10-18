@@ -25,7 +25,6 @@ import com.cs3450.dansfrappesraps.ui.components.SignButton
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.AdjustInventoryViewModel
-import com.cs3450.dansfrappesraps.ui.viewmodels.CreateNewUserScreenState
 import kotlinx.coroutines.launch
 
 

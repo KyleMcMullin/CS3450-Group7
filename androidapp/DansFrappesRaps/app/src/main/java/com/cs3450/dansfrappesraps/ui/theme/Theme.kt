@@ -1,7 +1,5 @@
 package com.cs3450.dansfrappesraps.ui.theme
 
-import android.content.res.Resources.Theme
-import android.window.SplashScreen
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
