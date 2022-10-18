@@ -97,6 +97,11 @@ fun UserListItem(
                                     modifier = Modifier.padding(10.dp),
                                     fontWeight = FontWeight.Bold
                                 )
+                                Text(
+                                    text = "Pay Rate: ${user.payRate}",
+                                    modifier = Modifier.padding(10.dp),
+                                    fontWeight = FontWeight.Bold
+                                )
                             }
                         }
                         Divider(modifier = Modifier.padding(4.dp))

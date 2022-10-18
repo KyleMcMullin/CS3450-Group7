@@ -8,5 +8,7 @@ data class User(
     var employee: Boolean? = false,
     var manager: Boolean? = false,
     val favorites: List<String>? = null,
-    var balance: Double? = 0.00
+    var balance: Double? = 0.00,
+    var payRate: Double? = 0.00,
+    var hours: Int = 0
 )

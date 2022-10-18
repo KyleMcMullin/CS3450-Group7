@@ -1,7 +1,9 @@
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.AttachMoney
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -10,10 +12,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.components.SignButton
 import com.cs3450.dansfrappesraps.ui.components.SignTextInput
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
@@ -123,6 +127,18 @@ fun EditUserScreen(navHostController: NavHostController, id: String?) {
 
                 }
             }
+        }
+        if (state.userType == CreateNewUserScreenState.EMPLOYEE) {
+            Spacer(modifier = Modifier.padding(6.dp))
+            LabelledTextInput(
+                placeholder = { Text("Pay Rate") },
+                label = "Pay Rate",
+                value = state.payRate,
+                onValueChange = { state.payRate = it },
+                error = state.payRateError,
+                leadingIcon = { Icon(imageVector = Icons.Filled.AttachMoney, contentDescription = "Pay Rate") },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
         }
         Spacer(modifier = Modifier.padding(6.dp))
         Row(

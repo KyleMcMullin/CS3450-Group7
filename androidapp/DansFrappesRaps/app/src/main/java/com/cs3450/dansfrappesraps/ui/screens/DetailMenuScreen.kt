@@ -47,7 +47,12 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
-            Text(modifier = Modifier.fillMaxWidth(), text = "Size",  style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Left)
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = "Size",
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Left
+            )
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -83,20 +88,25 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
             Column(modifier = Modifier.fillMaxWidth()) {
                 Button(modifier = Modifier
                     .fillMaxWidth()
-                    .padding(3.dp), onClick = {}){
-                    Text(modifier = Modifier.fillMaxWidth(),
+                    .padding(3.dp), onClick = {}) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = "Large",
                         textAlign = TextAlign.Center,
                         style = MaterialTheme.typography.headlineSmall
                     )
                 }
             }
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp)) {
-                Text(text = "Customization", modifier = Modifier
+            Row(
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(3.dp), style = MaterialTheme.typography.headlineMedium)
+                    .padding(top = 20.dp)
+            ) {
+                Text(
+                    text = "Customization", modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(3.dp), style = MaterialTheme.typography.headlineMedium
+                )
                 Divider()
 //                Text(text = "Quantity", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,)
             }
@@ -120,7 +130,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
             }
 //            Button(modifier = Modifier.fillMaxWidth(), onClick = { /*TODO*/ }) {
 
-            }
         }
     }
 }
