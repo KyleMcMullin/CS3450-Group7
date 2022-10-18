@@ -1,6 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.components
 
 import android.graphics.drawable.GradientDrawable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -15,11 +16,16 @@ import androidx.compose.material.swipeable
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.cs3450.dansfrappesraps.R
 import com.cs3450.dansfrappesraps.ui.models.Drink
 
+
+//Manager DrinkItem
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun DrinkItem(
@@ -93,6 +99,16 @@ fun DrinkItem(
                             Spacer(modifier = Modifier.width(10.dp))
                         }
                         Divider(modifier = Modifier.padding(4.dp))
+
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            painter = painterResource(id = R.drawable.emptyimage),
+                            contentDescription = "DEFAULT IMAGE",
+                            contentScale = ContentScale.Fit)
+
+                        Divider(modifier = Modifier.padding(4.dp))
+
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(4.dp).fillMaxWidth(),
@@ -112,6 +128,70 @@ fun DrinkItem(
                                 modifier = Modifier.padding(10.dp)
                             )
                         }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+//Customer DrinkItem
+@Composable
+fun DrinkItem(drink: Drink, onSelected: () -> Unit){
+        Card(
+            modifier = Modifier
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onPrimary,
+                    shape = RoundedCornerShape(4.dp)
+                )
+                .clickable { onSelected() },
+            elevation = CardDefaults.cardElevation(5.dp),
+            shape = RoundedCornerShape(4.dp),
+        ) {
+            Column() {
+                Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                    Column( verticalArrangement = Arrangement.Center) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+                            Text(
+                                text = drink.name ?: "",
+                                modifier = Modifier.padding(10.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                        }
+                        Divider(modifier = Modifier.padding(4.dp))
+
+                        Image(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            painter = painterResource(id = R.drawable.emptyimage),
+                            contentDescription = "DEFAULT IMAGE",
+                            contentScale = ContentScale.Fit)
+
+                        Divider(modifier = Modifier.padding(4.dp))
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(4.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            var appendString = ""
+                            for (ingredient in drink.ingredients!!) {
+                                appendString += ingredient.inventory?.name
+                                appendString += if (drink.ingredients.lastIndex == drink.ingredients.indexOf(ingredient)) {
+                                    "."
+                                } else {
+                                    ", "
+                                }
+                            }
+                            Text(
+                                text = appendString,
+                                modifier = Modifier.padding(10.dp)
+                            )
                         }
                     }
                 }

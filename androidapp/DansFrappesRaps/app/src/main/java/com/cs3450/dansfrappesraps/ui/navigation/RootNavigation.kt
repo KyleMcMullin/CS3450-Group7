@@ -46,7 +46,7 @@ fun RootNavigation() {
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
-                if (currentDestination?.route == Routes.signUp.route) {
+                if (currentDestination?.route == Routes.signUp.route || currentDestination?.route == Routes.detailMenu.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
@@ -169,6 +169,11 @@ fun RootNavigation() {
             }
             navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
+                composable(route = Routes.detailMenu.route,
+                    arguments = listOf(navArgument("id") { defaultValue = "new" })
+                ) { navBackStackEntry ->
+                    DetailMenuScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                }
             }
             //TODO make this default to profile screen
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageMenu.route) {
