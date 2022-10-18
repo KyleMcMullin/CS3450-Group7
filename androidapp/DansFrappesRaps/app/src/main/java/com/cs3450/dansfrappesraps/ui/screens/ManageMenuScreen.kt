@@ -10,11 +10,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.DrinkItem
+import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.ManageMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -35,7 +35,7 @@ fun ManageMenuScreen(navHostController: NavHostController) {
     Column {
         if (state.loading) {
             Spacer(modifier = Modifier.height(16.dp))
-            //Loader()
+            Loader()
         }
         else {
             Column(
