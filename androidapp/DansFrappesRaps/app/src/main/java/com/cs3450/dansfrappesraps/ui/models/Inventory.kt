@@ -4,5 +4,6 @@ data class Inventory (
     val id: String? = null,
     var name: String? = null,
     var PPU: Double? = 0.00,
-    var quantity: Int? = 0
+    var quantity: Int? = 0,
+    var type: String? = null
 )

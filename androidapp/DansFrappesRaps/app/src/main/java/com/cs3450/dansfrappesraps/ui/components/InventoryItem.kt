@@ -98,6 +98,8 @@ fun InventoryItem(
                                 text = "PPU: $${inventory.PPU ?: ""}",
                                 modifier = Modifier.padding(10.dp),
                             )
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text(text = "Type: ${inventory.type ?: ""}", modifier = Modifier.padding(10.dp))
                         }
                     }
                 }

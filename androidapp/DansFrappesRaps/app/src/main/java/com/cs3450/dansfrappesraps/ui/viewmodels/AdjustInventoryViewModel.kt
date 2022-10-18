@@ -17,6 +17,10 @@ class AdjustInventoryState{
     var PPUError by mutableStateOf(false)
     var errorMessage by mutableStateOf("")
     var adjustSuccess by mutableStateOf(false)
+    var type by mutableStateOf("")
+    var typeError by mutableStateOf(false)
+    var dropDownExpanded by mutableStateOf(false)
+    var types by mutableStateOf(listOf<String>())
 }
 
 class AdjustInventoryViewModel(application: Application): AndroidViewModel(application) {
@@ -24,14 +28,14 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
 
     suspend fun adjustInventory(id: String?) {
         if (runChecks()) {
-            InventoryRepository.editInventory(id!!, uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble())
+            InventoryRepository.editInventory(id!!, uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble(),uiState.type)
             uiState.adjustSuccess = true
         }
     }
 
     suspend fun addInventory() {
         if (runChecks()) {
-            InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble())
+            InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble(), uiState.type)
             uiState.adjustSuccess = true
         }
     }
@@ -39,9 +43,11 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
     suspend fun setUpInitialState(id: String?) {
         if (id == null || id == "new") return
         val inventory = InventoryRepository.getInventory().find { it.id == id } ?: return
+        uiState.types = InventoryRepository.getTypes() + listOf("")
         uiState.name = inventory.name ?: ""
         uiState.quantity = inventory.quantity.toString()
         uiState.PPU = inventory.PPU.toString()
+        uiState.type = inventory.type ?: ""
 
     }
 
@@ -78,6 +84,11 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
         if (uiState.PPU.toDouble() < 0) {
             uiState.PPUError = true
             uiState.errorMessage = "Price per unit cannot be negative."
+            return false
+        }
+        if (uiState.type == "") {
+            uiState.typeError = true
+            uiState.errorMessage = "Type is invalid."
             return false
         }
         return true

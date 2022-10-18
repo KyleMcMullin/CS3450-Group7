@@ -29,11 +29,6 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
             uiState._ingredients.removeIf { it.inventory?.id == ingredient.inventory?.id }
             uiState._ingredients.add(0, ingredient)
         }
-//        uiState._ingredients.reverse()
-//        val drink = uiState.ingredients.find { it.inventory?.id == id } ?: return
-//        uiState.name = drink.name ?: ""
-//        uiState.ingredients = drink.ingredients ?: mutableListOf()
-//    }
     }
 
     fun incrementIngredient(ingredient: Ingredient) {
