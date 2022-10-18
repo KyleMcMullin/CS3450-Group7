@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
+import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -36,7 +37,7 @@ fun EditMenuScreen(navController: NavController, id: String?) {
     }
     if (state.loading) {
         Spacer(modifier = Modifier.height(16.dp))
-        //Loader()
+        Loader()
     }
     else {
         Column(
