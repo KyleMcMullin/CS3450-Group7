@@ -81,7 +81,11 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
         }
 
         try {
-            UserRepository.createDifferentUser(uiState.email, uiState.name, uiState.isManager, uiState.isEmployee, payRate = uiState.payRate.toDouble())
+            if (uiState.isEmployee) {
+                UserRepository.createDifferentUser(uiState.email, uiState.name, uiState.isManager, uiState.isEmployee, payRate = uiState.payRate.toDouble())
+            } else{
+                UserRepository.createDifferentUser(uiState.email, uiState.name, uiState.isManager, uiState.isEmployee)
+            }
             uiState.signUpSuccess = true
         } catch (e: SignUpException) {
             uiState.errorMessage = e.message ?: "Something went wrong. Please try again."
@@ -105,10 +109,6 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
             return
         }
 
-        this.user?.name = uiState.name
-        this.user?.email = uiState.email
-        this.user?.manager = uiState.isManager
-        this.user?.employee = uiState.isEmployee
 
         if (uiState.userType == CreateNewUserScreenState.UserTypes.MANAGER) {
             uiState.isManager = true
@@ -124,6 +124,10 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
             return
         }
 
+        this.user?.name = uiState.name
+        this.user?.email = uiState.email
+        this.user?.manager = uiState.isManager
+        this.user?.employee = uiState.isEmployee
         this.user?.payRate = uiState.payRate.toDouble()
 
         try {
