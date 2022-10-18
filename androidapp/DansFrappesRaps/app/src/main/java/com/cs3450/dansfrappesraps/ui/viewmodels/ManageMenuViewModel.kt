@@ -7,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Drink
-import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 
 class ManageMenuState() {
