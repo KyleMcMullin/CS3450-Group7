@@ -17,4 +17,7 @@ object Routes {
     val editUser = Screen("editUser?id={id}")
     val manageInventory = Screen("manageInventory")
     val editInventory = Screen("editInventory?id={id}")
+    val cart = Screen("cart")
+    val managePayroll = Screen("managePayroll")
+    val employeePayroll = Screen("employeePayroll")
 }

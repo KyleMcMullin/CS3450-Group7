@@ -82,7 +82,14 @@ fun RootNavigation() {
                     Text(text = "Profile")
                 }
                 if (state.isEmployee || state.isManager) {
-                    DropdownMenuItem(onClick = { /*TODO*/ }) {
+                    DropdownMenuItem(onClick = {
+                        if (state.isEmployee) {
+                            navController.navigate(Routes.managePayroll.route)
+                        } else {
+                            navController.navigate(Routes.employeePayroll.route)
+                        }
+                        scope.launch { scaffoldState.drawerState.close() }
+                    }) {
                         Icon(Icons.Outlined.DateRange, "Hours")
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(text = "Payroll")
@@ -130,7 +137,6 @@ fun RootNavigation() {
 
             }
         },
-        //TODO nest all of these into a single floatingActionButton
         floatingActionButton = {
             if (currentDestination?.hierarchy?.none { it.route == Routes.menu.route } == false) {
                 FloatingActionButton(
@@ -179,6 +185,8 @@ fun RootNavigation() {
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageMenu.route) {
                 composable(route = Routes.manageMenu.route) { ManageMenuScreen(navHostController = navController) }
                 composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController) }
+                composable(route = Routes.managePayroll.route) { ManagePayRollScreen(navController = navController) }
+                composable(route = Routes.employeePayroll.route) { EmployeePayrollScreen(navController = navController) }
                 composable(
                     route = Routes.editUser.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
