@@ -17,7 +17,6 @@ object UserRepository {
     private var userCache = User()
     private val allUsersCache = mutableListOf<User>()
 
-
     suspend fun createUser(email: String, password: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
         try {
             Firebase.auth.createUserWithEmailAndPassword(
@@ -27,26 +26,30 @@ object UserRepository {
             val testDoc = Firebase.firestore.collection("users").whereEqualTo("email", email)
             var doc = Firebase.firestore.collection("users").document()
             if (testDoc.get().await().isEmpty) {
-                doc.set(User(
-                    name = name,
-                    email = email,
-                    userId = getCurrentUserId(),
-                    id = doc.id,
-                    manager = isManager,
-                    employee = isEmployee,
-                    balance = 0.00
-                ))
+                doc.set(
+                    User(
+                        name = name,
+                        email = email,
+                        userId = getCurrentUserId(),
+                        id = doc.id,
+                        manager = isManager,
+                        employee = isEmployee,
+                        balance = 0.00
+                    )
+                )
             } else {
                 doc = testDoc.get().await().documents[0].reference
-                doc.set(User(
-                    name = name,
-                    email = email,
-                    userId = getCurrentUserId(),
-                    id = doc.id,
-                    manager = isManager,
-                    employee = isEmployee,
-                    balance = 0.00
-                ))
+                doc.set(
+                    User(
+                        name = name,
+                        email = email,
+                        userId = getCurrentUserId(),
+                        id = doc.id,
+                        manager = isManager,
+                        employee = isEmployee,
+                        balance = 0.00
+                    )
+                )
             }
             userCache = doc.get().await().toObject()!!
         } catch (e: FirebaseAuthException) {
@@ -54,7 +57,7 @@ object UserRepository {
         }
     }
 
-    suspend fun createDifferentUser(email: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false) {
+    suspend fun createDifferentUser(email: String, name: String, isManager: Boolean = false, isEmployee: Boolean = false, payRate: Double = 0.00) {
         try {
             val doc = Firebase.firestore.collection("users").document()
             val user = User(
@@ -64,7 +67,8 @@ object UserRepository {
                 id = doc.id,
                 manager = isManager,
                 employee = isEmployee,
-                balance = 0.00
+                balance = 0.00,
+                payRate = payRate
             )
             doc.set(user).await()
             allUsersCache.add(user)

@@ -20,6 +20,8 @@ class CreateNewUserScreenState {
     var isEmployee by mutableStateOf(false)
     var dropdownExpanded by mutableStateOf(false)
     var userType by mutableStateOf(UserTypes.CUSTOMER)
+    var payRate by mutableStateOf("")
+    var payRateError by mutableStateOf(false)
 
     companion object UserTypes {
         const val MANAGER = "Manager"
@@ -46,6 +48,7 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
             uiState.isEmployee -> CreateNewUserScreenState.UserTypes.EMPLOYEE
             else -> CreateNewUserScreenState.UserTypes.CUSTOMER
         }
+        uiState.payRate = user.payRate.toString()
     }
 
     suspend fun signUp() {
@@ -71,8 +74,14 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
             uiState.isEmployee = true
         }
 
+        if (uiState.isEmployee && uiState.payRate == "") {
+            uiState.payRateError = true
+            uiState.errorMessage = "Pay rate must be input."
+            return
+        }
+
         try {
-            UserRepository.createDifferentUser(uiState.email, uiState.name, uiState.isManager, uiState.isEmployee)
+            UserRepository.createDifferentUser(uiState.email, uiState.name, uiState.isManager, uiState.isEmployee, payRate = uiState.payRate.toDouble())
             uiState.signUpSuccess = true
         } catch (e: SignUpException) {
             uiState.errorMessage = e.message ?: "Something went wrong. Please try again."
@@ -108,6 +117,14 @@ class CreateNewUserViewModel(application: Application): AndroidViewModel(applica
             uiState.isEmployee = true
             uiState.isManager = false
         }
+
+        if (uiState.isEmployee && uiState.payRate == "") {
+            uiState.payRateError = true
+            uiState.errorMessage = "Pay rate must be input."
+            return
+        }
+
+        this.user?.payRate = uiState.payRate.toDouble()
 
         try {
             UserRepository.updateUser(this.user!!)
