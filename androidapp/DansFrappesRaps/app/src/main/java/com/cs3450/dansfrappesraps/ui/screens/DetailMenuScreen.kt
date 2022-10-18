@@ -20,7 +20,6 @@ import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailMenuScreen(navController: NavController, id: String?) {
     var viewModel: EditMenuViewModel = viewModel()
@@ -113,8 +112,8 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 items(state.ingredients, key = { it.inventory?.id!! }) { ingredient ->
                     IngredientItem(
                         ingredient = ingredient,
-                        onMinusPressed = {viewModel.decrementIngredient(ingredient)},
-                        onPlusPressed = { viewModel.incrementIngredient(ingredient) },
+                        onMinusPressed = {},
+                        onPlusPressed = {},
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                 }
