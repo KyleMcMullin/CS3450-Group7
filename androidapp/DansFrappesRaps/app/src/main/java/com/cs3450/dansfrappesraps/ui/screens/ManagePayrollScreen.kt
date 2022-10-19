@@ -18,6 +18,7 @@ import com.cs3450.dansfrappesraps.ui.components.ManagePayrollItem
 import com.cs3450.dansfrappesraps.ui.viewmodels.ManagePayrollViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
 fun ManagePayRollScreen(navController: NavController) {
@@ -65,6 +66,15 @@ fun ManagePayRollScreen(navController: NavController) {
                     items(state.users, key = { it.id!! }) { user ->
                         ManagePayrollItem(
                             user = user,
+                            onApprove = {
+                                scope.launch {
+                                    viewModel.approveUser(user)
+                                } },
+                            onSaveHours = {
+                                scope.launch {
+                                    viewModel.saveHours(user)
+                                }
+                            }
                             )
                         Spacer(modifier = Modifier.height(8.dp))
                     }

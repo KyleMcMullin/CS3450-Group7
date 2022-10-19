@@ -31,8 +31,8 @@ import androidx.compose.ui.text.input.KeyboardType
 @Composable
 fun ManagePayrollItem(
     user: User,
-    onEditPressed: () -> Unit = {},
-    onApprovePressed: () -> Unit = {},
+    onSaveHours: () -> Unit = {},
+    onApprove: () -> Unit = {},
 ) {
     val swipeableState = rememberSwipeableState(initialValue = SwipeState.CLOSED)
     var showDetail by remember {mutableStateOf(false)}
@@ -40,6 +40,10 @@ fun ManagePayrollItem(
         0f to SwipeState.CLOSED,
         -200f to SwipeState.OPEN
     )
+    LaunchedEffect(user) {
+        showDetail = false
+    }
+    var textHours by remember { mutableStateOf(user.hours.toString()) }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,7 +58,7 @@ fun ManagePayrollItem(
             .fillMaxHeight(),
             horizontalArrangement = Arrangement.End) {
             Button(
-                onClick = onApprovePressed,
+                onClick = onApprove,
                 modifier = Modifier
 //                    .fillMaxHeight()
                     .fillMaxWidth(.5f),
@@ -117,21 +121,25 @@ fun ManagePayrollItem(
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Divider(modifier = Modifier.padding(4.dp))
                                 Row(
-                                    horizontalArrangement = Arrangement.Center
+                                    horizontalArrangement = Arrangement.Center,
+                                    modifier = Modifier.padding(8.dp)
                                 ) {
-                                    OutlinedTextField(
-                                        value = user.hours.toString(),
-                                        onValueChange = { },
-                                        label = { Text(text = "Edit Hours") },
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .padding(4.dp),
+                                    LabelledTextInput(
+                                        placeholder = { Text(text="Hours") },
+                                        value = textHours,
+                                        onValueChange = {
+                                            if (it != "") {
+                                                user.hours = it.toInt()
+                                            }
+                                            textHours = it
+                                        },
+                                        label = "Edit Hours",
                                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
                                 Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                                    Button(onClick = { /*TODO*/ }) {
+                                    Button(onClick = onSaveHours) {
                                         Text(text = "Save Hours")
                                     }
                                 }
