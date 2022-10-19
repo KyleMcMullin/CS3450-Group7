@@ -36,15 +36,17 @@ fun ManagePayRollScreen(navController: NavController) {
         if (state.loading) {
             Spacer(modifier = Modifier.height(16.dp))
             Loader()
-        }
-        else {
+        } else {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     androidx.compose.material3.Text(
                         text = "Manage Payroll",
                         style = MaterialTheme.typography.headlineMedium,
@@ -53,7 +55,7 @@ fun ManagePayRollScreen(navController: NavController) {
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { }) {
+                Button(onClick = { scope.launch { viewModel.approveAll() } }) {
                     androidx.compose.material3.Text(text = "Approve All")
                 }
                 Spacer(modifier = Modifier.height(16.dp))
@@ -69,13 +71,14 @@ fun ManagePayRollScreen(navController: NavController) {
                             onApprove = {
                                 scope.launch {
                                     viewModel.approveUser(user)
-                                } },
+                                }
+                            },
                             onSaveHours = {
                                 scope.launch {
                                     viewModel.saveHours(user)
                                 }
                             }
-                            )
+                        )
                         Spacer(modifier = Modifier.height(8.dp))
                     }
                 }

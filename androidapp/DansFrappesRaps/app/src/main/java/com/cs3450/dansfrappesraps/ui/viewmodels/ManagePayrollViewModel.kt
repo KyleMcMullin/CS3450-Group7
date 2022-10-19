@@ -31,6 +31,9 @@ class ManagePayrollViewModel(application: Application): AndroidViewModel(applica
             user.hours = 0
             UserRepository.updateUser(user)
         }
+        uiState._users.clear()
+        uiState._users.addAll(UserRepository.getAllUsers())
+        uiState._users.removeIf { user -> user.employee == false }
     }
 
     suspend fun approveUser(user: User) {

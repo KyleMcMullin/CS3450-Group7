@@ -40,10 +40,9 @@ fun ManagePayrollItem(
         0f to SwipeState.CLOSED,
         -200f to SwipeState.OPEN
     )
-    LaunchedEffect(user) {
-        showDetail = false
-    }
+    showDetail = false
     var textHours by remember { mutableStateOf(user.hours.toString()) }
+
     Box(
         modifier = Modifier
             .fillMaxWidth()
