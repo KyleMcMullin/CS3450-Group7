@@ -84,9 +84,9 @@ fun RootNavigation() {
                 if (state.isEmployee || state.isManager) {
                     DropdownMenuItem(onClick = {
                         if (state.isEmployee) {
-                            navController.navigate(Routes.managePayroll.route)
-                        } else {
                             navController.navigate(Routes.employeePayroll.route)
+                        } else {
+                            navController.navigate(Routes.managePayroll.route)
                         }
                         scope.launch { scaffoldState.drawerState.close() }
                     }) {

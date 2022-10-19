@@ -132,3 +132,4 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
 
         }
     }
+}
