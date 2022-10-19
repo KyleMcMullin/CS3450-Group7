@@ -169,6 +169,13 @@ object UserRepository {
         }
     }
 
+    suspend fun sendToBank(user: User) {
+        try {
+            updateUser(user)
+        } catch (_: Exception) {
+        }
+    }
+
     fun getCurrentUser(): User {
         return userCache
     }

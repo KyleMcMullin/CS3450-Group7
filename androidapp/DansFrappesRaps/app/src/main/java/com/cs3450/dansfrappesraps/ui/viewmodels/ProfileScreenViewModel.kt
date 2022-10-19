@@ -44,4 +44,11 @@ class ProfileScreenViewModel(application: Application): AndroidViewModel(applica
             uiState.addBalance = ""
         }
     }
+
+    suspend fun sendToBank() {
+        val user = UserRepository.getCurrentUser()
+        user.balance = 0.0
+        uiState.balance = "0.0"
+        UserRepository.sendToBank(user)
+    }
 }

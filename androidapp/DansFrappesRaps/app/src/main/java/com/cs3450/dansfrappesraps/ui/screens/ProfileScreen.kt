@@ -139,7 +139,9 @@ fun ProfileScreen(navHostController: NavHostController) {
                 horizontalArrangement = Arrangement.Center
             ) {
                 if (state.isEmployee || state.isManager) {
-                    Button(onClick = {}) {
+                    Button(onClick = {
+                        scope.launch { viewModel.sendToBank()}
+                    }) {
                         Text("Withdraw Balance")
                     }
                 } else {
