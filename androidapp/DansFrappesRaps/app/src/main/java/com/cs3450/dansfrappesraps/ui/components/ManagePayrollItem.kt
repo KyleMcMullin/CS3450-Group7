@@ -33,6 +33,7 @@ fun ManagePayrollItem(
     user: User,
     onSaveHours: () -> Unit = {},
     onApprove: () -> Unit = {},
+    onEditRate: () -> Unit = {}
 ) {
     val swipeableState = rememberSwipeableState(initialValue = SwipeState.CLOSED)
     var showDetail by remember {mutableStateOf(false)}
@@ -137,9 +138,13 @@ fun ManagePayrollItem(
                                     )
                                 }
                                 Spacer(modifier = Modifier.width(4.dp))
-                                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                                Row(horizontalArrangement = Arrangement.SpaceEvenly, verticalAlignment = Alignment.CenterVertically) {
                                     Button(onClick = onSaveHours) {
                                         Text(text = "Save Hours")
+                                    }
+                                    Spacer(modifier = Modifier.width(6.dp))
+                                    Button(onClick = onEditRate) {
+                                        Text(text = "Edit Pay Rate")
                                     }
                                 }
                             }

@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.components.ManagePayrollItem
 import com.cs3450.dansfrappesraps.ui.viewmodels.ManagePayrollViewModel
@@ -21,7 +21,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun ManagePayRollScreen(navController: NavController) {
+fun ManagePayRollScreen(navHostController: NavHostController) {
     val viewModel: ManagePayrollViewModel = viewModel()
     val state = viewModel.uiState
     val scope = rememberCoroutineScope()
@@ -77,6 +77,9 @@ fun ManagePayRollScreen(navController: NavController) {
                                 scope.launch {
                                     viewModel.saveHours(user)
                                 }
+                            },
+                            onEditRate = {
+                                navHostController.navigate("editUser?id=${user.id}")
                             }
                         )
                         Spacer(modifier = Modifier.height(8.dp))

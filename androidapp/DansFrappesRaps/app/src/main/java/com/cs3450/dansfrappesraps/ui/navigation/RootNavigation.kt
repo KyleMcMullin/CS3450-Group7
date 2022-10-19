@@ -185,7 +185,7 @@ fun RootNavigation() {
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageMenu.route) {
                 composable(route = Routes.manageMenu.route) { ManageMenuScreen(navHostController = navController) }
                 composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController) }
-                composable(route = Routes.managePayroll.route) { ManagePayRollScreen(navController = navController) }
+                composable(route = Routes.managePayroll.route) { ManagePayRollScreen(navHostController = navController) }
                 composable(route = Routes.employeePayroll.route) { EmployeePayrollScreen(navController = navController) }
                 composable(
                     route = Routes.editUser.route,
