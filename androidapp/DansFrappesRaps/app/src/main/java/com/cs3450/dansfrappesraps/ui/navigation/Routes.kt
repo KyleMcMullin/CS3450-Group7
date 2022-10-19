@@ -20,4 +20,6 @@ object Routes {
     val cart = Screen("cart")
     val managePayroll = Screen("managePayroll")
     val employeePayroll = Screen("employeePayroll")
+    val profile = Screen("profile")
+    val editProfile = Screen("editProfile")
 }

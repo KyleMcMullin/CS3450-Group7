@@ -161,6 +161,21 @@ object UserRepository {
         }
     }
 
+    suspend fun editAuthUser(email: String) {
+        try {
+            Firebase.auth.currentUser!!.updateEmail(email).await()
+        } catch (e: FirebaseAuthException) {
+            throw SignInException(e.message)
+        }
+    }
+
+    suspend fun sendToBank(user: User) {
+        try {
+            updateUser(user)
+        } catch (_: Exception) {
+        }
+    }
+
     fun getCurrentUser(): User {
         return userCache
     }
