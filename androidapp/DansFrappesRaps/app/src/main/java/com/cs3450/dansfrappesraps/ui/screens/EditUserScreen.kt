@@ -33,11 +33,7 @@ fun EditUserScreen(navHostController: NavHostController, id: String?) {
     val state = viewModel.uiState
     LaunchedEffect(state.signUpSuccess) {
         if (state.signUpSuccess) {
-            navHostController.navigate(Routes.manageUsers.route) {
-                popUpTo(Routes.manageUsers.route) {
-                    inclusive = true
-                }
-            }
+            navHostController.popBackStack()
         }
     }
     LaunchedEffect(true) {
