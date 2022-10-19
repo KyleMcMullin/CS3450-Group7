@@ -140,8 +140,8 @@ fun ProfileScreen(navHostController: NavHostController) {
             ) {
                 if (state.isEmployee || state.isManager) {
                     Button(onClick = {}) {
+                        Text("Withdraw Balance")
                     }
-                    Text("Withdraw Balance")
                 } else {
                     Button(onClick = {
                         if (state.isExpanded) {

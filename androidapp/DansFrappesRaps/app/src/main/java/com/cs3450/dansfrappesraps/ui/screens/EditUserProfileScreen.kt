@@ -1,6 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -10,14 +11,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.SignButton
 import com.cs3450.dansfrappesraps.ui.components.SignTextInput
-import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.EditUserProfileViewModel
 import kotlinx.coroutines.launch
 
@@ -34,13 +33,13 @@ fun EditUserProfileScreen(navHostController: NavHostController) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(10.dp),
+            .padding(2.dp),
         verticalArrangement = Arrangement.SpaceAround
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
@@ -76,6 +75,18 @@ fun EditUserProfileScreen(navHostController: NavHostController) {
                     navHostController.popBackStack()
                     scope.launch { viewModel.updateUser() }
                 }, text = "Update User")
+            }
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(onClick = {
+                    /*TODO
+                    * This is a future feature based on firebase password reset email
+                    * */
+                }) {
+                    Text(text = "Send Password Reset")
+                }
             }
         }
     }
