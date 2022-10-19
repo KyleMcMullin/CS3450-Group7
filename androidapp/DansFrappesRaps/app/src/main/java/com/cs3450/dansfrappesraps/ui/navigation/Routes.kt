@@ -21,4 +21,5 @@ object Routes {
     val managePayroll = Screen("managePayroll")
     val employeePayroll = Screen("employeePayroll")
     val profile = Screen("profile")
+    val editProfile = Screen("editProfile")
 }

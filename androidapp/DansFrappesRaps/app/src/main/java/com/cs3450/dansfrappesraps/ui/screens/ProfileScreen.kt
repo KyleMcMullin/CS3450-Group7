@@ -3,6 +3,7 @@ package com.cs3450.dansfrappesraps.ui.screens
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -19,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
+import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.ProfileScreenViewModel
 import kotlinx.coroutines.launch
 
@@ -34,7 +36,9 @@ fun ProfileScreen(navHostController: NavHostController) {
     Column(horizontalAlignment = Alignment.End, modifier = Modifier.fillMaxWidth()) {
         Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
             Button(
-                onClick = {  },
+                onClick = {
+                    scope.launch { navHostController.navigate(Routes.editProfile.route) }
+                },
                 modifier = Modifier
                     .padding(8.dp)
             ) {
@@ -110,7 +114,9 @@ fun ProfileScreen(navHostController: NavHostController) {
                 exit = shrinkVertically()
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Divider(modifier = Modifier.padding(4.dp))
+                    Divider(modifier = Modifier
+                        .padding(4.dp)
+                        .clickable(onClick = { state.isExpanded = false }))
                     Row(
                         horizontalArrangement = Arrangement.Center,
                         modifier = Modifier.padding(8.dp)

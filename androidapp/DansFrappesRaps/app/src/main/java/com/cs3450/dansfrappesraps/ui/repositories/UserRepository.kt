@@ -161,6 +161,14 @@ object UserRepository {
         }
     }
 
+    suspend fun editAuthUser(email: String) {
+        try {
+            Firebase.auth.currentUser!!.updateEmail(email).await()
+        } catch (e: FirebaseAuthException) {
+            throw SignInException(e.message)
+        }
+    }
+
     fun getCurrentUser(): User {
         return userCache
     }

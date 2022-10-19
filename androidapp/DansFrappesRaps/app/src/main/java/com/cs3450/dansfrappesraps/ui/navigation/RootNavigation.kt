@@ -189,6 +189,7 @@ fun RootNavigation() {
                 composable(route = Routes.managePayroll.route) { ManagePayRollScreen(navHostController = navController) }
                 composable(route = Routes.employeePayroll.route) { EmployeePayrollScreen(navController = navController) }
                 composable(route = Routes.profile.route) { ProfileScreen(navHostController = navController) }
+                composable(route = Routes.editProfile.route) { EditUserProfileScreen(navHostController = navController) }
                 composable(
                     route = Routes.editUser.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
