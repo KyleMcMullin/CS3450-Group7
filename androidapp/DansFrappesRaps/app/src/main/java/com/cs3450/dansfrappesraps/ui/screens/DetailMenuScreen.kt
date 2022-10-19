@@ -129,7 +129,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
 
             }
 //            Button(modifier = Modifier.fillMaxWidth(), onClick = { /*TODO*/ }) {
-
         }
     }
 }
