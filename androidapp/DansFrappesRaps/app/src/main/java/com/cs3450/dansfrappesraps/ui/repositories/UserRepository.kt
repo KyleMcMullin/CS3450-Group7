@@ -82,6 +82,9 @@ object UserRepository {
             Firebase.firestore.collection("users").document(user.id!!).set(user).await()
             val oldUserIndex = allUsersCache.indexOfFirst { it.id == user.id }
             allUsersCache[oldUserIndex] = user
+            if (userCache.id == user.id) {
+                userCache = user
+            }
         } catch (_: Exception) {
         }
     }
@@ -156,6 +159,10 @@ object UserRepository {
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
+    }
+
+    fun getCurrentUser(): User {
+        return userCache
     }
 
     private fun getCurrentUserId(): String? {
