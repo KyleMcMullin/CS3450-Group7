@@ -18,9 +18,10 @@ import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.ManageMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @Composable
-fun MenuScreen(navHostController: NavHostController) {
+fun ManageMenuScreen(navHostController: NavHostController) {
     val viewModel: ManageMenuViewModel = viewModel()
     val state = viewModel.uiState
     val scope = rememberCoroutineScope()
@@ -45,7 +46,7 @@ fun MenuScreen(navHostController: NavHostController) {
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
                     Text(
-                        text = "Menu",
+                        text = "Manage Menu",
                         style = MaterialTheme.typography.headlineMedium,
                         modifier = Modifier
                             .padding(8.dp)
@@ -56,7 +57,10 @@ fun MenuScreen(navHostController: NavHostController) {
                     items(state.drinks) { drink ->
                         DrinkItem(
                             drink = drink,
-                            onSelected = { navHostController.navigate("detailMenu?id=${drink.id}") })
+                            onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
+                            onDeletePressed = { scope.launch {
+                                viewModel.deleteDrink(drink)
+                            }})
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
