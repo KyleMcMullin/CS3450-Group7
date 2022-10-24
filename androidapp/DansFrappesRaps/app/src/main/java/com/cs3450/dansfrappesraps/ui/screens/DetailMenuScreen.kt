@@ -1,12 +1,14 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -14,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.IngredientItem
+import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
@@ -112,24 +115,76 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
 //                Text(text = "Quantity", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,)
             }
 
-            LazyColumn(
-                modifier = Modifier
+            Column(modifier = Modifier
                     .fillMaxWidth()
                     .fillMaxHeight(.9F)
                     .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                items(state.ingredients, key = { it.inventory?.id!! }) { ingredient ->
-                        IngredientItem(
-                            ingredient = ingredient,
-                            onMinusPressed = {},
-                            onPlusPressed = {},
+                horizontalAlignment = Alignment.CenterHorizontally) {
+                state.types.forEach { i ->
+                    var dropDownExpanded by remember{ mutableStateOf(false)}
+                    Box() {
+                        LabelledTextInput(
+                            value = "hello",
+                            label = i,
+                            onValueChange = { state.type = i },
+                            placeholder = { Text("Item Type") },
+                            error = state.typeError,
+                            leadingIcon = {
+                                Icon(
+                                    imageVector = Icons.Outlined.ArrowDropDown,
+                                    contentDescription = "Dropdown",
+                                    modifier = Modifier.clickable {
+                                        dropDownExpanded = true
+                                    }
+                                )
+                            },
                         )
-                    println(state.type)
+                        DropdownMenu(
+                            expanded = dropDownExpanded,
+                            onDismissRequest = { dropDownExpanded = false }) {
+                            Log.e("ERROR", i)
+                            state.ingredients.forEach { j->
+                                if(j.inventory?.type == i){
+                                    DropdownMenuItem(
+                                        text = { j.inventory.name?.let { it1 -> Text(it1) } },
+                                        onClick = {})
+                                }
+
+                            }
+                        }
+                    }
+
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-
             }
+
+//            DropdownMenu(expanded = state.dropDownExpanded, onDismissRequest = {state.dropDownExpanded = false}) {
+//                state.types.forEach {
+//                    DropdownMenuItem(onClick = {
+//                        state.type = it
+//                        state.dropDownExpanded = false
+//                    }, text = { Text(it) })
+//                }
+//            }
+//            LazyColumn(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .fillMaxHeight(.9F)
+//                    .padding(horizontal = 16.dp),
+//                horizontalAlignment = Alignment.CenterHorizontally
+//            ) {
+//                items(state.list.get(0), key = { it.inventory?.id!! }) { ingredient ->
+//
+//                        IngredientItem(
+//                            ingredient = ingredient,
+//                            onMinusPressed = {},
+//                            onPlusPressed = {},
+//                        )
+//                    println(state.type)
+//                    Spacer(modifier = Modifier.height(8.dp))
+//                }
+//
+//            }
 //            Button(modifier = Modifier.fillMaxWidth(), onClick = { /*TODO*/ }) {
         }
     }
