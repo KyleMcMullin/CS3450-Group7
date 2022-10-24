@@ -17,13 +17,12 @@ class DetailMenuState(){
     var nameError by mutableStateOf(false)
     var typeError by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())
-    var _ingredients = mutableStateListOf<Ingredient>()
-    val ingredients: List<Ingredient> get() = _ingredients
+    var _customization = mutableStateListOf<Ingredient>()
+    val customization: List<Ingredient> get() = _customization
     var loading by mutableStateOf(false)
     var type by mutableStateOf("")
 //    Need these?
     var errorMessage by mutableStateOf("")
-    var dropDownExpanded by mutableStateOf(false)
 }
 
 
@@ -36,18 +35,9 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
         uiState.drinkName = drink.name.toString()
         for (ingredient in drink.ingredients!!) {
-            uiState._ingredients.removeIf { it.inventory?.id == ingredient.inventory?.id }
-//            uiState._ingredients.add(0, ingredient)
+            uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
         }
-        val inventory = uiState._ingredients.get(0).inventory?.quantity
         uiState.types = InventoryRepository.getTypes() + listOf("")
-
-        Log.e("ERROR", uiState.types.toString())
-
-//        uiState.drinkName = inventory.name ?: ""
-//        uiState.quantity = inventory.quantity.toString()
-//        uiState.type = inventory.type ?: ""
-
     }
 
     suspend fun getIngredients() {
@@ -56,7 +46,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         for(i in ingredients){
                 runChecks()
         }
-        uiState._ingredients.addAll(IngredientsRepository.getIngredients())
+        uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
 
     private fun runChecks(): Boolean {

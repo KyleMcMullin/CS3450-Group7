@@ -15,11 +15,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
-import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
@@ -45,7 +43,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Drink name", style = MaterialTheme.typography.headlineLarge)
+            Text(text = state.drinkName, style = MaterialTheme.typography.headlineLarge)
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -114,19 +112,20 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 Divider()
 //                Text(text = "Quantity", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,)
             }
-
-            Column(modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(.9F)
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally) {
-                state.types.forEach { i ->
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                items(state.types,key = {it}){
                     var dropDownExpanded by remember{ mutableStateOf(false)}
+                    
                     Box() {
                         LabelledTextInput(
                             value = "hello",
-                            label = i,
-                            onValueChange = { state.type = i },
+                            label = it,
+                            onValueChange = { state.type = it },
                             placeholder = { Text("Item Type") },
                             error = state.typeError,
                             leadingIcon = {
@@ -142,9 +141,9 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                         DropdownMenu(
                             expanded = dropDownExpanded,
                             onDismissRequest = { dropDownExpanded = false }) {
-                            Log.e("ERROR", i)
-                            state.ingredients.forEach { j->
-                                if(j.inventory?.type == i){
+                            Log.e("ERROR", it)
+                            state.customization.forEach { j->
+                                if(j.inventory?.type == it){
                                     DropdownMenuItem(
                                         text = { j.inventory.name?.let { it1 -> Text(it1) } },
                                         onClick = {})
