@@ -49,10 +49,6 @@ fun Loader() {
 
         )}
 
-        //            modifier = Modifier.clip(RoundedCornerShape(16.dp))
-        //contentScale = ContentScale.Crop,
-        //contentDescription = stringResource(id = R.string.dog_content_description),
-
         Text(text = "Loading...")
     }
 }

@@ -15,13 +15,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
+import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
 @Composable
 fun DetailMenuScreen(navController: NavController, id: String?) {
-    var viewModel: EditMenuViewModel = viewModel()
+    var viewModel: DetailMenuViewModel = viewModel()
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
 
@@ -119,11 +120,12 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 items(state.ingredients, key = { it.inventory?.id!! }) { ingredient ->
-                    IngredientItem(
-                        ingredient = ingredient,
-                        onMinusPressed = {},
-                        onPlusPressed = {},
-                    )
+                        IngredientItem(
+                            ingredient = ingredient,
+                            onMinusPressed = {},
+                            onPlusPressed = {},
+                        )
+                    println(state.type)
                     Spacer(modifier = Modifier.height(8.dp))
                 }
 
