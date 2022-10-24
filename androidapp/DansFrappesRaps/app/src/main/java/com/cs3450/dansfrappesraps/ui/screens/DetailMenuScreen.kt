@@ -1,17 +1,26 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -118,73 +127,81 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(state.types,key = {it}){
-                    var dropDownExpanded by remember{ mutableStateOf(false)}
-                    
-                    Box() {
-                        LabelledTextInput(
-                            value = "hello",
-                            label = it,
-                            onValueChange = { state.type = it },
-                            placeholder = { Text("Item Type") },
-                            error = state.typeError,
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.ArrowDropDown,
-                                    contentDescription = "Dropdown",
-                                    modifier = Modifier.clickable {
-                                        dropDownExpanded = true
-                                    }
-                                )
-                            },
-                        )
-                        DropdownMenu(
-                            expanded = dropDownExpanded,
-                            onDismissRequest = { dropDownExpanded = false }) {
-                            Log.e("ERROR", it)
-                            state.customization.forEach { j->
-                                if(j.inventory?.type == it){
-                                    DropdownMenuItem(
-                                        text = { j.inventory.name?.let { it1 -> Text(it1) } },
-                                        onClick = {})
-                                }
+                items(state.types, key = { it }) {
+                    var showDetail by remember { mutableStateOf(false) }
 
+
+                    Surface(
+                        modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+                                shape = RoundedCornerShape(4.dp)
+                            )
+                            .clickable { showDetail = !showDetail },
+                        tonalElevation = 2.dp,
+                        shape = RoundedCornerShape(4.dp),
+                    ) {
+                        Column() {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column() {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.padding(4.dp)
+                                    ) {
+                                        Text(
+                                            text = it,
+                                            modifier = Modifier.padding(10.dp)
+                                        )
+                                    }
+                                    Column() {
+                                        AnimatedVisibility(
+                                            visible = showDetail,
+                                            enter = expandVertically(),
+                                            exit = shrinkVertically()
+                                        ) {
+                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Divider(
+                                                    modifier = Modifier.padding(4.dp)
+                                                )
+                                                Row(
+                                                    horizontalArrangement = Arrangement.Center,
+                                                    modifier = Modifier.padding(8.dp)
+                                                ) {
+                                                    DropdownMenu(
+                                                        expanded = showDetail,
+                                                        onDismissRequest = { showDetail = false }) {
+                                                        Log.e("ERROR", it)
+                                                        state.customization.forEach { j ->
+                                                            if (j.inventory?.type == it) {
+                                                                DropdownMenuItem(
+                                                                    text = {
+                                                                        j.inventory.name?.let { it1 ->
+                                                                            Text(
+                                                                                it1
+                                                                            )
+                                                                        }
+                                                                    },
+                                                                    onClick = {})
+                                                            }
+
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
-
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
-
-//            DropdownMenu(expanded = state.dropDownExpanded, onDismissRequest = {state.dropDownExpanded = false}) {
-//                state.types.forEach {
-//                    DropdownMenuItem(onClick = {
-//                        state.type = it
-//                        state.dropDownExpanded = false
-//                    }, text = { Text(it) })
-//                }
-//            }
-//            LazyColumn(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .fillMaxHeight(.9F)
-//                    .padding(horizontal = 16.dp),
-//                horizontalAlignment = Alignment.CenterHorizontally
-//            ) {
-//                items(state.list.get(0), key = { it.inventory?.id!! }) { ingredient ->
-//
-//                        IngredientItem(
-//                            ingredient = ingredient,
-//                            onMinusPressed = {},
-//                            onPlusPressed = {},
-//                        )
-//                    println(state.type)
-//                    Spacer(modifier = Modifier.height(8.dp))
-//                }
-//
-//            }
-//            Button(modifier = Modifier.fillMaxWidth(), onClick = { /*TODO*/ }) {
         }
     }
 }
