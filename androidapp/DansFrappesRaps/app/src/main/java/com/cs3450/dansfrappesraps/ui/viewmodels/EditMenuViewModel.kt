@@ -1,6 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.viewmodels
 
 import android.app.Application
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -16,6 +17,8 @@ class EditMenuState() {
     var _ingredients = mutableStateListOf<Ingredient>()
     val ingredients: List<Ingredient> get() = _ingredients
     var loading by mutableStateOf(false)
+    var isImage by mutableStateOf(false)
+    var image by mutableStateOf<Uri?>(null)
 }
 
 class EditMenuViewModel(application: Application): AndroidViewModel(application) {

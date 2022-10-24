@@ -1,5 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -27,6 +29,11 @@ fun EditMenuScreen(navController: NavController, id: String?) {
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
 
+    val selectImageLauncher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+        state.image = uri
+        state.isImage = true
+    }
+
     LaunchedEffect(true) {
         val loadingIngredients = async { viewModel.getIngredients() }
         delay(2000)
@@ -52,6 +59,9 @@ fun EditMenuScreen(navController: NavController, id: String?) {
                 placeholder = { Text("Drink Name") },
                 error = false
             )
+            Button(onClick = {selectImageLauncher.launch("image/*")}) {
+                Text(text = "Upload Image")
+            }
             LazyColumn(
                 modifier = Modifier
                     .weight(1f)
