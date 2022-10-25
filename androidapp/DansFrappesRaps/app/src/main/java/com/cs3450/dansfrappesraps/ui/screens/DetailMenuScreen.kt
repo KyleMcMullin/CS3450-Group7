@@ -165,10 +165,10 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                                     horizontalArrangement = Arrangement.Center,
                                                     modifier = Modifier.padding(8.dp)
                                                 ) {
-                                                    DropdownMenu(
-                                                        expanded = showDetail,
-                                                        onDismissRequest = { showDetail = false }) {
-                                                        Log.e("ERROR", it)
+//                                                    DropdownMenu(
+//                                                        expanded = showDetail,
+//                                                        onDismissRequest = { showDetail = false }) {
+//                                                        Log.e("ERROR", it)
 
                                                         state.customization.forEach { j ->
                                                             var selected by remember { mutableStateOf(false) }
@@ -180,7 +180,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                                             }
 
                                                         }
-                                                    }
+//                                                    }
                                                 }
                                             }
                                         }

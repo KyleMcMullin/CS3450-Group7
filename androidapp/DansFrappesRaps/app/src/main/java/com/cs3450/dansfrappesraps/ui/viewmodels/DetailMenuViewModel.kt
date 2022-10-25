@@ -15,7 +15,6 @@ import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
 class DetailMenuState(){
     var drinkName by mutableStateOf("")
     var nameError by mutableStateOf(false)
-    var typeError by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())
     var _customization = mutableStateListOf<Ingredient>()
     val customization: List<Ingredient> get() = _customization
