@@ -48,6 +48,9 @@ android {
 
 dependencies {
 
+    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.2'
+
     def activity_version = "1.6.0"
 
     implementation("androidx.activity:activity-ktx:$activity_version")

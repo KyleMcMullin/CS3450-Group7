@@ -1,5 +1,6 @@
 package com.cs3450.dansfrappesraps.ui.components
 
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -20,12 +21,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
 import com.cs3450.dansfrappesraps.R
 import com.cs3450.dansfrappesraps.ui.models.Drink
 
 
 //Manager DrinkItem
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterialApi::class, ExperimentalGlideComposeApi::class)
 @Composable
 fun DrinkItem(
     drink: Drink,
@@ -99,12 +102,19 @@ fun DrinkItem(
                         }
                         Divider(modifier = Modifier.padding(4.dp))
 
-                        Image(
+                        GlideImage(
+                            model = Uri.parse(drink.image ?: ""),
+                            contentDescription = "Drink Image",
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            painter = painterResource(id = R.drawable.emptyimage),
-                            contentDescription = "DEFAULT IMAGE",
-                            contentScale = ContentScale.Fit)
+                                .fillMaxWidth()
+                        )
+//                        Image(
+//                            modifier = Modifier
+//                                .fillMaxWidth(),
+//                            painter = painterResource(id = R.drawable.emptyimage),
+//                            contentDescription = "DEFAULT IMAGE",
+//                            contentScale = ContentScale.Fit)
 
                         Divider(modifier = Modifier.padding(4.dp))
 
@@ -135,6 +145,7 @@ fun DrinkItem(
     }
 
 //Customer DrinkItem
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun DrinkItem(drink: Drink, onSelected: () -> Unit){
         Card(
@@ -164,12 +175,13 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
                         }
                         Divider(modifier = Modifier.padding(4.dp))
 
-                        Image(
+                        GlideImage(
+                            model = Uri.parse(drink.image ?: ""),
+                            contentDescription = "Drink Image",
+                            contentScale = ContentScale.Fit,
                             modifier = Modifier
-                                .fillMaxWidth(),
-                            painter = painterResource(id = R.drawable.emptyimage),
-                            contentDescription = "DEFAULT IMAGE",
-                            contentScale = ContentScale.Fit)
+                                .fillMaxWidth()
+                        )
 
                         Divider(modifier = Modifier.padding(4.dp))
 

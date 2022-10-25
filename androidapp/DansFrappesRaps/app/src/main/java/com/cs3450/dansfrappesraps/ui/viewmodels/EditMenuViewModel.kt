@@ -9,6 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
+import com.cs3450.dansfrappesraps.ui.repositories.DrinkImageRepository
 import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
 
@@ -18,6 +19,7 @@ class EditMenuState() {
     val ingredients: List<Ingredient> get() = _ingredients
     var loading by mutableStateOf(false)
     var isImage by mutableStateOf(false)
+    var showImage by mutableStateOf(false)
     var image by mutableStateOf<Uri?>(null)
 }
 
@@ -53,7 +55,8 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
     suspend fun addDrink() {
         val drink: Drink = Drink(
             name = uiState.name,
-            ingredients = uiState._ingredients.filter { it.count!! > 0 }
+            ingredients = uiState._ingredients.filter { it.count!! > 0 },
+            image = DrinkImageRepository.addImageToFirebaseStorage(uiState.image!!).toString()
         )
         DrinksRepository.newDrink(drink)
 
@@ -62,7 +65,8 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
         val drink: Drink = Drink(
             id = id,
             name = uiState.name,
-            ingredients = uiState._ingredients.filter { it.count!! > 0 }
+            ingredients = uiState._ingredients.filter { it.count!! > 0 },
+            image = DrinkImageRepository.addImageToFirebaseStorage(uiState.image!!).toString()
         )
         DrinksRepository.updateDrink(drink)
     }
