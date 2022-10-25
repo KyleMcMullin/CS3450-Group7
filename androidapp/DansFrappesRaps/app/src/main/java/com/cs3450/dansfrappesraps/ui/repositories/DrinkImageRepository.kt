@@ -16,13 +16,4 @@ object DrinkImageRepository {
             return Uri.EMPTY
         }
     }
-
-    suspend fun getImageFromFirestore(): Uri {
-        try {
-            val url = FirebaseStorage.getInstance("gs://dansfrappesraps").reference.child("images/").downloadUrl.await()
-            return url
-        } catch (_: Exception) {
-            return Uri.EMPTY
-        }
-    }
 }
