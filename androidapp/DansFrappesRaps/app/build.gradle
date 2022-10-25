@@ -47,12 +47,18 @@ android {
 }
 
 dependencies {
+
+    implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
+    implementation 'com.google.firebase:firebase-storage-ktx:20.0.2'
+
+    def activity_version = "1.6.0"
+
+    implementation("androidx.activity:activity-ktx:$activity_version")
     implementation "androidx.compose.material:material-icons-extended:1.2.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4"
     implementation platform('com.google.firebase:firebase-bom:30.3.1')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-firestore-ktx'
-    implementation 'com.google.firebase:firebase-analytics-ktx'
     def nav_version = "2.5.1"
 
     implementation "androidx.compose.material3:material3:1.0.0-beta03"
