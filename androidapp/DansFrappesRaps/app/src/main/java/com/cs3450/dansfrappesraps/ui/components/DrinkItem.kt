@@ -109,12 +109,6 @@ fun DrinkItem(
                             modifier = Modifier
                                 .fillMaxWidth()
                         )
-//                        Image(
-//                            modifier = Modifier
-//                                .fillMaxWidth(),
-//                            painter = painterResource(id = R.drawable.emptyimage),
-//                            contentDescription = "DEFAULT IMAGE",
-//                            contentScale = ContentScale.Fit)
 
                         Divider(modifier = Modifier.padding(4.dp))
 
