@@ -21,20 +21,29 @@ class CartScreenState{
     var arrivalTime by mutableStateOf("")
     var checkBalance by mutableStateOf(false)
     var checkCart by mutableStateOf(false)
+    var loading by mutableStateOf(false)
 
     fun addDrink(drink:Drink){
         _frappuccinos.add(drink)
+    }
+    fun addIngredients(ingredient: Ingredient){
+        _ingredients.add(ingredient)
     }
 }
 
 class CartScreenViewModel(application: Application): AndroidViewModel(application) {
     val uiState = CartScreenState()
 
-    fun getDrinks(){
-
+    suspend fun getDrinks(): List<Drink>{
+        return uiState.frappuccinos
     }
-    fun getIngredients(){
-
+    fun getIngredients(drink: Drink): List<Ingredient>{
+        for(ingredients in drink.ingredients!!){
+            if(!uiState.ingredients.contains(ingredients)) {
+                uiState.addIngredients(ingredients)
+            }
+        }
+        return uiState.ingredients
     }
     fun balanceCheck(){
         val userBalance = UserRepository.userBalance()
@@ -45,11 +54,22 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
             uiState.checkBalance = false
         }
     }
+    fun calculateBalance(): Double{
+        uiState.loading = true
+        for(ingredient in uiState.ingredients){
+            uiState.priceSum += ingredient.inventory!!.PPU!!
+        }
+        uiState.loading = false
+        return uiState.priceSum
+    }
     fun checkInventory(){
 
     }
     fun makeOrder(){
 
+    }
+    fun addDrinksToCart(drink: Drink){
+        uiState.addDrink(drink)
     }
 
 }
