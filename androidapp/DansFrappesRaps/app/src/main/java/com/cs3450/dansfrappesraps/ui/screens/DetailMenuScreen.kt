@@ -10,26 +10,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailMenuScreen(navController: NavController, id: String?) {
     var viewModel: DetailMenuViewModel = viewModel()
@@ -130,7 +124,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 items(state.types, key = { it }) {
                     var showDetail by remember { mutableStateOf(false) }
 
-
                     Surface(
                         modifier = Modifier
                             .border(
@@ -176,17 +169,14 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                                         expanded = showDetail,
                                                         onDismissRequest = { showDetail = false }) {
                                                         Log.e("ERROR", it)
+
                                                         state.customization.forEach { j ->
+                                                            var selected by remember { mutableStateOf(false) }
                                                             if (j.inventory?.type == it) {
-                                                                DropdownMenuItem(
-                                                                    text = {
-                                                                        j.inventory.name?.let { it1 ->
-                                                                            Text(
-                                                                                it1
-                                                                            )
-                                                                        }
-                                                                    },
-                                                                    onClick = {})
+                                                                FilterChip(
+                                                                    selected = selected,
+                                                                    onClick = { selected = !selected }, label = { j.inventory.name?.let { it1 -> Text(text = it1) } })
+//
                                                             }
 
                                                         }
@@ -205,3 +195,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
         }
     }
 }
+
+//fun FilterChip(selected: Any?, onClick: () -> Unit, interactionSource: () -> Unit) {
+//
+//}
