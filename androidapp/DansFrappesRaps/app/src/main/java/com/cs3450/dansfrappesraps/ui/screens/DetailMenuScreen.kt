@@ -1,27 +1,32 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
-import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
+import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailMenuScreen(navController: NavController, id: String?) {
-    var viewModel: EditMenuViewModel = viewModel()
+    var viewModel: DetailMenuViewModel = viewModel()
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
 
@@ -41,7 +46,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = "Drink name", style = MaterialTheme.typography.headlineLarge)
+            Text(text = state.drinkName, style = MaterialTheme.typography.headlineLarge)
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -110,25 +115,87 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 Divider()
 //                Text(text = "Quantity", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,)
             }
-
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(.9F)
-                    .padding(horizontal = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxHeight()
+                    .padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                items(state.ingredients, key = { it.inventory?.id!! }) { ingredient ->
-                    IngredientItem(
-                        ingredient = ingredient,
-                        onMinusPressed = {},
-                        onPlusPressed = {},
-                    )
+                items(state.types, key = { it }) {
+                    var showDetail by remember { mutableStateOf(false) }
+
+                    Surface(
+                        modifier = Modifier
+                            .border(
+                                width = 1.dp,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+                                shape = RoundedCornerShape(4.dp)
+                            )
+                            .clickable { showDetail = !showDetail },
+                        tonalElevation = 2.dp,
+                        shape = RoundedCornerShape(4.dp),
+                    ) {
+                        Column() {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Column() {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        modifier = Modifier.padding(4.dp)
+                                    ) {
+                                        Text(
+                                            text = it,
+                                            modifier = Modifier.padding(10.dp)
+                                        )
+                                    }
+                                    Column() {
+                                        AnimatedVisibility(
+                                            visible = showDetail,
+                                            enter = expandVertically(),
+                                            exit = shrinkVertically()
+                                        ) {
+                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                                                Divider(
+                                                    modifier = Modifier.padding(4.dp)
+                                                )
+                                                Row(
+                                                    horizontalArrangement = Arrangement.Center,
+                                                    modifier = Modifier.padding(8.dp)
+                                                ) {
+//                                                    DropdownMenu(
+//                                                        expanded = showDetail,
+//                                                        onDismissRequest = { showDetail = false }) {
+//                                                        Log.e("ERROR", it)
+
+                                                        state.customization.forEach { j ->
+                                                            var selected by remember { mutableStateOf(false) }
+                                                            if (j.inventory?.type == it) {
+                                                                FilterChip(
+                                                                    selected = selected,
+                                                                    onClick = { selected = !selected }, label = { j.inventory.name?.let { it1 -> Text(text = it1) } })
+//
+                                                            }
+
+                                                        }
+//                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
-
             }
-//            Button(modifier = Modifier.fillMaxWidth(), onClick = { /*TODO*/ }) {
         }
     }
 }
+
+//fun FilterChip(selected: Any?, onClick: () -> Unit, interactionSource: () -> Unit) {
+//
+//}
