@@ -76,6 +76,7 @@ object CartRepository {
                 .delete()
                 .await()
             cartCache = Cart()
+            allCartCache = mutableListOf()
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
