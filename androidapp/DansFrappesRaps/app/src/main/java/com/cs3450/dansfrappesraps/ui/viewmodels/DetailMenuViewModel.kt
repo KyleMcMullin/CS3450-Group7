@@ -7,7 +7,9 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
+import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
 import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
@@ -47,7 +49,11 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
+    suspend fun addToCart(id: String?){
+        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
+        CartRepository.addDrink(drink)
 
+    }
     private fun runChecks(): Boolean {
         uiState.nameError = false
         uiState.errorMessage = ""

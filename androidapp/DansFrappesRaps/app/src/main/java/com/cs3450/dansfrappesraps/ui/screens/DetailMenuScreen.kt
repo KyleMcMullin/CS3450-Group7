@@ -22,6 +22,7 @@ import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -190,9 +191,12 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
-        }
+            Button(onClick = {scope.launch{viewModel.addToCart(id)}}) {
+                Text(text = "Add to cart")
+            }
     }
 }
 
