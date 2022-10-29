@@ -12,15 +12,20 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.DrinkItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
+import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.CartScreenViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.roundToLong
 
 @Composable
 fun CartScreen(navHostController: NavHostController){
@@ -28,21 +33,8 @@ fun CartScreen(navHostController: NavHostController){
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
 
-    LaunchedEffect(state.checkCart){
-        state.checkCart = state.frappuccinos.isNotEmpty()
-    }
-    LaunchedEffect(true) {
-        if(state.checkCart) {
-            val calculatingBalance = async { viewModel.calculateBalance() }
-            delay(2000)
-            calculatingBalance.await()
-            state.loading = false
-        }
-    }
-    LaunchedEffect(true) {
-        val loadingDrinks = async { viewModel.getDrinks() }
-        delay(2000)
-        loadingDrinks.await()
+    LaunchedEffect(true){
+        scope.launch { viewModel.setupScreen() }
         state.loading = false
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
@@ -59,10 +51,32 @@ fun CartScreen(navHostController: NavHostController){
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
                     .padding(8.dp)
-            )
+                )
+            }
             Divider()
             Spacer(modifier = Modifier.size(16.dp))
-            if (state.checkCart) {
+            if (state.frappuccinos.isNotEmpty()) {
+                Button(onClick = {navHostController.navigate(Routes.app.route)}) {
+                    Text(text = "Return to menu")
+                }
+                Spacer(modifier = Modifier.size(24.dp))
+                Text(
+                    text = "Price:  $" + state.priceSum.roundToLong(),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                androidx.compose.material3.Text(
+                    text = state.errorMessage,
+                    style = TextStyle(color = MaterialTheme.colorScheme.error),
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Left
+                )
+                Row {
+                    //Check userBalance and compare to price
+                    Button(onClick = {scope.launch{viewModel.checkout()}}) {
+                        Text(text = "Checkout")
+                    }
+                }
                 LazyColumn(){
                     items(state.frappuccinos) { drink ->
                         DrinkItem(
@@ -70,17 +84,6 @@ fun CartScreen(navHostController: NavHostController){
                             onSelected = { navHostController.navigate("editMenu?id=${drink.id}") }
                         )
                         Spacer(modifier = Modifier.height(4.dp))
-                    }
-                }
-                Text(
-                    text = "Price:  $" + state.priceSum,
-                    style = MaterialTheme.typography.bodyMedium
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                Row {
-                    //Check userBalance and compare to price
-                    Button(onClick = {}) {
-                        Text(text = "Checkout")
                     }
                 }
             } else {
@@ -95,4 +98,3 @@ fun CartScreen(navHostController: NavHostController){
             }
         }
     }
-}

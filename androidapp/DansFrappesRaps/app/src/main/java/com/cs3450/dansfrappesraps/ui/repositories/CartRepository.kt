@@ -13,14 +13,6 @@ object CartRepository {
     private var allCartCache = mutableListOf<Cart>()
     suspend fun makeCart(drink:Drink){
         try {
-            val allCarts = getAllCarts()
-            for(cart in allCarts){
-                if(cart.userId == UserRepository.getCurrentUser().userId){
-                    cartCache = cart
-                    addDrink(drink)
-                    return
-                }
-            }
             val doc = Firebase.firestore.collection("cart").document()
             cartCache.id = doc.id
             cartCache.userId = UserRepository.getCurrentUser().userId
@@ -32,6 +24,7 @@ object CartRepository {
         }
     }
     suspend fun addDrink(drink: Drink){
+        getCart()
         if(cartCache.drinks == null) {
             makeCart(drink)
         }
@@ -40,6 +33,19 @@ object CartRepository {
             updateCart(cartCache)
         }
 
+    }
+    suspend fun removeDrink(drink:Drink){
+
+    }
+    suspend fun getCart(): Cart? {
+        val allCarts = getAllCarts()
+        for(cart in allCarts){
+            if(cart.userId == UserRepository.getCurrentUser().userId){
+                cartCache = cart
+                return cartCache
+            }
+        }
+        return null
     }
     suspend fun getAllCarts(): List<Cart>{
         try {
@@ -62,13 +68,14 @@ object CartRepository {
         } catch (_: Exception) {
         }
     }
-    suspend fun deleteCart(){
+    suspend fun deleteCart(cart:Cart){
         try {
             Firebase.firestore
                 .collection("cart")
-                .document(cartCache.id!!)
+                .document(cart.id!!)
                 .delete()
                 .await()
+            cartCache = Cart()
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
