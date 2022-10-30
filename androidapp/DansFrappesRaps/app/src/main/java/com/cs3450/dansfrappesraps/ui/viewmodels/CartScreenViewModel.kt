@@ -46,7 +46,7 @@ class CartScreenState{
 class CartScreenViewModel(application: Application): AndroidViewModel(application) {
     val uiState = CartScreenState()
 
-    fun deletingCart(){
+    fun deletingCart() {
         uiState.priceSum = 0.00
         uiState.clearDrinks()
         uiState.clearIngredients()
@@ -54,82 +54,94 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         uiState.checkCart = false
         uiState.errorMessage = ""
     }
-    suspend fun setupScreen(){
+
+    suspend fun setupScreen() {
         getCart()
         checkCart()
         val drinks = getDrinks()
-        for(drink in drinks){
+        for (drink in drinks) {
             getIngredients(drink)
         }
         calculateBalance()
     }
+
     suspend fun getCart(): Cart? {
-        if(CartRepository.getCart() != null) {
+        if (CartRepository.getCart() != null) {
             uiState.cart = CartRepository.getCart()!!
+        } else {
+            uiState.cart = Cart()
         }
-        else{uiState.cart = Cart()}
         return uiState.cart
     }
-    suspend fun getDrinks(): List<Drink>{
+
+    suspend fun getDrinks(): List<Drink> {
         var drinks = uiState.cart.drinks
         if (drinks != null) {
-            for(drink: Drink in drinks){
-                if(!uiState.frappuccinos.contains(drink)){
+            for (drink: Drink in drinks) {
+                if (!uiState.frappuccinos.contains(drink)) {
                     uiState.addDrink(drink)
                 }
             }
         }
         return uiState.frappuccinos
     }
-    fun getIngredients(drink: Drink): List<Ingredient>{
-        for(ingredients in drink.ingredients!!){
-            if(!uiState.ingredients.contains(ingredients)) {
+
+    fun getIngredients(drink: Drink): List<Ingredient> {
+        for (ingredients in drink.ingredients!!) {
+            if (!uiState.ingredients.contains(ingredients)) {
                 uiState.addIngredients(ingredients)
             }
         }
         return uiState.ingredients
     }
-    fun balanceCheck(): Boolean{
+
+    fun balanceCheck(): Boolean {
         val userBalance = UserRepository.userBalance()
         if (userBalance != null) {
             uiState.checkBalance = userBalance >= uiState.priceSum
             return uiState.checkBalance
-        }
-        else{
+        } else {
             uiState.checkBalance = false
             return uiState.checkBalance
         }
     }
-    fun calculateBalance(): Double{
+
+    fun calculateBalance(): Double {
         uiState.loading = true
-        for(ingredient in uiState.ingredients){
+        for (ingredient in uiState.ingredients) {
             uiState.priceSum += ingredient.inventory!!.PPU!!
         }
         uiState.loading = false
         return uiState.priceSum
     }
-    suspend fun checkCart(){
+
+    suspend fun checkCart() {
         getDrinks()
         uiState.checkCart = uiState.frappuccinos.isNotEmpty()
     }
-    fun checkInventory(){
+
+    fun checkInventory() {
 
     }
-    fun makeOrder(){
+
+    fun makeOrder() {
 
     }
-    suspend fun checkout(){
+
+    suspend fun checkout() {
         checkInventory()
-        if(balanceCheck()){
+        if (balanceCheck()) {
             makeOrder()
+            UserRepository.subtractUserBalance(uiState.priceSum)
             CartRepository.deleteCart(uiState.cart)
             deletingCart()
             uiState.cart = Cart()
             uiState.checkoutSuccess = true
             uiState.cartDeletion = true
-        }
-        else{
-            uiState.errorMessage = "There is not enough money in your account, please add money and try again."
+        } else {
+            uiState.errorMessage =
+                "There is not enough money in your account, please add money and try again."
         }
     }
 }
+

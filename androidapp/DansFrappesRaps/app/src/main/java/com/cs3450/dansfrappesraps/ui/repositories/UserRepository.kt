@@ -222,6 +222,19 @@ object UserRepository {
         } catch (_: Exception) {
         }
     }
+    suspend fun subtractUserBalance(subtractedBalance: Double){
+        try{
+            val user = userCache
+            user.balance = user.balance?.minus(subtractedBalance)
+            val db = Firebase.firestore
+            db.collection("users")
+                .document(userCache.id!!)
+                .set(user)
+                .await()
+            userCache = user
+        } catch(_: Exception){
+        }
+    }
 
     fun isUserEmployee(): Boolean {
         try {
