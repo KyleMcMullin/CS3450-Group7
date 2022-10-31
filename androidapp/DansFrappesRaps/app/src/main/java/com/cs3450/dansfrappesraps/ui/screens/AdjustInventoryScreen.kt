@@ -106,7 +106,7 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                 leadingIcon = { Icon(imageVector = Icons.Outlined.AttachMoney, contentDescription = "Dollar") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal)
             )
-            Box() {
+            Box {
                 LabelledTextInput(
                     value = state.type,
                     label = "Type",
