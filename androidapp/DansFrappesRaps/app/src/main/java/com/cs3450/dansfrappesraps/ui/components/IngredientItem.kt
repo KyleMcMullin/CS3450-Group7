@@ -24,7 +24,7 @@ fun IngredientItem(
     onMinusPressed: () -> Unit = {}
 ) {
     Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
-        Row() {
+        Row {
             Button(
                 onClick = onMinusPressed
             ) {

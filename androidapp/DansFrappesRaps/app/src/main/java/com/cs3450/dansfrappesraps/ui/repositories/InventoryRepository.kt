@@ -31,7 +31,7 @@ object InventoryRepository {
                     getInventory()
                 }
                 val distinctItems = InventoryCache.distinctBy { it.type }
-                distinctItems.forEach() {
+                distinctItems.forEach {
                     TypeCache.add(it.type!!)
                 }
             }

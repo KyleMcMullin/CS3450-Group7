@@ -9,7 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Inventory
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
 
-class ManageInventoryState() {
+class ManageInventoryState {
     val _inventoryItems = mutableStateListOf<Inventory>()
     val inventory: List<Inventory> get() = _inventoryItems
     var loading by mutableStateOf(false)

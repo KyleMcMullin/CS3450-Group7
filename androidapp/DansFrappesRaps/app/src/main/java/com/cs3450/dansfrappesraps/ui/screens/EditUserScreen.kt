@@ -88,7 +88,7 @@ fun EditUserScreen(navHostController: NavHostController, id: String?) {
                 placeholder = { Text("Email") },
                 error = state.emailError
             )
-            Box() {
+            Box {
                 OutlinedTextField(
                     value = state.userType,
                     onValueChange = {},

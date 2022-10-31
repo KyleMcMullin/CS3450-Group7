@@ -86,11 +86,12 @@ fun DrinkItem(
             elevation = CardDefaults.cardElevation(5.dp),
             shape = RoundedCornerShape(4.dp),
         ) {
-            Column() {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Column( verticalArrangement = Arrangement.Center) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
                             modifier = Modifier.padding(4.dp)
                         ) {
                             Text(
@@ -153,7 +154,7 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
             elevation = CardDefaults.cardElevation(5.dp),
             shape = RoundedCornerShape(4.dp),
         ) {
-            Column() {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Column( verticalArrangement = Arrangement.Center) {
                         Row(

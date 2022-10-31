@@ -1,6 +1,5 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -8,6 +7,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -16,9 +17,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstrainedLayoutReference
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.Loader
+import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -72,7 +76,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
-            Row() {
+            Row {
                 Column(modifier = Modifier.fillMaxWidth(.5F)) {
                     Button(modifier = Modifier
                         .fillMaxWidth()
@@ -122,7 +126,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                         .padding(3.dp), style = MaterialTheme.typography.headlineMedium
                 )
                 Divider()
-//                Text(text = "Quantity", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,)
             }
             LazyColumn(
                 modifier = Modifier
@@ -144,13 +147,13 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                         tonalElevation = 2.dp,
                         shape = RoundedCornerShape(4.dp),
                     ) {
-                        Column() {
+                        Column {
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Column() {
+                                Column {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically,
                                         modifier = Modifier.padding(4.dp)
@@ -160,7 +163,8 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                             modifier = Modifier.padding(10.dp)
                                         )
                                     }
-                                    Column() {
+                                    Column {
+                                        val custom:List<Ingredient> = state.customization
                                         AnimatedVisibility(
                                             visible = showDetail,
                                             enter = expandVertically(),
@@ -206,14 +210,9 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                 }
                             }
                         }
-                    }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
     }
 }
-
-//fun FilterChip(selected: Any?, onClick: () -> Unit, interactionSource: () -> Unit) {
-//
-//}

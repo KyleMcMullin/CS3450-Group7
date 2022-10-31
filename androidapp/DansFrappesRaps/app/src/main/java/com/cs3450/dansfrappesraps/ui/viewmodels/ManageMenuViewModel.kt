@@ -9,7 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 
-class ManageMenuState() {
+class ManageMenuState {
     var _drinks = mutableStateListOf<Drink>()
     val drinks: List<Drink> get() = _drinks
     var loading by mutableStateOf(false)
