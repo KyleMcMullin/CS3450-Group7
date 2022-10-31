@@ -13,7 +13,7 @@ import com.cs3450.dansfrappesraps.ui.repositories.DrinkImageRepository
 import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
 
-class EditMenuState() {
+class EditMenuState {
     var name by mutableStateOf("")
     var _ingredients = mutableStateListOf<Ingredient>()
     val ingredients: List<Ingredient> get() = _ingredients

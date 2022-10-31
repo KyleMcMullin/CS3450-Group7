@@ -14,7 +14,7 @@ import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
 
-class DetailMenuState(){
+class DetailMenuState {
     var drinkName by mutableStateOf("")
     var nameError by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())

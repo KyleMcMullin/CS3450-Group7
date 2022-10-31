@@ -14,7 +14,7 @@ import com.cs3450.dansfrappesraps.ui.models.Ingredient
 @Composable
 fun CustomizationMenuItem(ingredient: Ingredient){
     Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
-        Row() {
+        Row {
             TODO()
         }
     }
