@@ -61,7 +61,7 @@ fun CartScreen(navHostController: NavHostController){
                 }
                 Spacer(modifier = Modifier.size(24.dp))
                 Text(
-                    text = "Price:  $" + state.priceSum.roundToLong(),
+                    text = "Price:  $" + state.priceSum,
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.size(8.dp))
