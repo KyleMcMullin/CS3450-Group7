@@ -36,6 +36,11 @@ fun CartScreen(navHostController: NavHostController){
     LaunchedEffect(true){
         scope.launch { viewModel.setupScreen() }
         state.loading = false
+
+    }
+    LaunchedEffect(state.cart){
+        scope.launch { viewModel.setupScreen() }
+        state.loading = false
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -59,7 +64,10 @@ fun CartScreen(navHostController: NavHostController){
                 Button(onClick = {navHostController.navigate(Routes.app.route)}) {
                     Text(text = "Return to menu")
                 }
+                
                 Spacer(modifier = Modifier.size(24.dp))
+                Text(text = "Frappuccinos ordered: " + state.drinkCount)
+                Spacer(modifier = Modifier.size(8.dp))
                 Text(
                     text = "Price:  $" + state.priceSum,
                     style = MaterialTheme.typography.bodyMedium

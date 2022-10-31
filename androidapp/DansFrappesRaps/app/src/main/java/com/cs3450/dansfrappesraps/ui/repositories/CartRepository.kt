@@ -9,7 +9,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.tasks.await
 
 object CartRepository {
-    private var cartCache = Cart()
+    var cartCache = Cart()
     private var allCartCache = mutableListOf<Cart>()
     suspend fun makeCart(drink:Drink){
         try {
