@@ -8,13 +8,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
-<<<<<<< HEAD
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-=======
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
->>>>>>> e4ca66f (clean up all code and dynamic spacing for filterchips)
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -23,8 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstrainedLayoutReference
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.Loader
@@ -170,7 +164,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                         )
                                     }
                                     Column {
-
                                         AnimatedVisibility(
                                             visible = showDetail,
                                             enter = expandVertically(),
