@@ -6,8 +6,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
+import com.cs3450.dansfrappesraps.ui.models.Cart
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
+import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
 import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
 class CartScreenState{
@@ -21,35 +23,118 @@ class CartScreenState{
     var arrivalTime by mutableStateOf("")
     var checkBalance by mutableStateOf(false)
     var checkCart by mutableStateOf(false)
+    var loading by mutableStateOf(false)
+    var cart by mutableStateOf(CartRepository.cartCache)
+    var errorMessage by mutableStateOf("")
+    var checkoutSuccess by mutableStateOf(false)
+    var cartDeletion by mutableStateOf(false)
+    var drinkCount by mutableStateOf(0)
 
     fun addDrink(drink:Drink){
         _frappuccinos.add(drink)
+    }
+    fun addIngredients(ingredient: Ingredient){
+        _ingredients.add(ingredient)
+    }
+    fun clearDrinks(){
+        _frappuccinos.clear()
+    }
+    fun clearIngredients(){
+        _ingredients.clear()
     }
 }
 
 class CartScreenViewModel(application: Application): AndroidViewModel(application) {
     val uiState = CartScreenState()
 
-    fun getDrinks(){
-
+    fun deletingCart() {
+        uiState.priceSum = 0.00
+        uiState.clearDrinks()
+        uiState.clearIngredients()
+        uiState.checkBalance = false
+        uiState.checkCart = false
+        uiState.errorMessage = ""
     }
-    fun getIngredients(){
 
+    suspend fun setupScreen() {
+        if(uiState.cart == null){
+            uiState.cart = Cart()
+        }
+        checkCart()
+        val drinks = getDrinks()
+        for (drink in drinks) {
+            getIngredients(drink)
+        }
+        calculateBalance()
     }
-    fun balanceCheck(){
+    suspend fun getDrinks(): List<Drink> {
+        var drinks = uiState.cart.drinks
+        if (drinks != null) {
+            for (drink: Drink in drinks) {
+                if (!uiState.frappuccinos.contains(drink)) {
+                    uiState.addDrink(drink)
+                    uiState.drinkCount ++
+                }
+            }
+        }
+        return uiState.frappuccinos
+    }
+
+    fun getIngredients(drink: Drink): List<Ingredient> {
+        for (ingredients in drink.ingredients!!) {
+            if (!uiState.ingredients.contains(ingredients)) {
+                uiState.addIngredients(ingredients)
+            }
+        }
+        return uiState.ingredients
+    }
+
+    fun balanceCheck(): Boolean {
         val userBalance = UserRepository.userBalance()
         if (userBalance != null) {
             uiState.checkBalance = userBalance >= uiState.priceSum
-        }
-        else{
+            return uiState.checkBalance
+        } else {
             uiState.checkBalance = false
+            return uiState.checkBalance
         }
     }
-    fun checkInventory(){
+
+    fun calculateBalance(): Double {
+        uiState.loading = true
+        for (ingredient in uiState.ingredients) {
+            uiState.priceSum += ingredient.inventory!!.PPU!!
+        }
+        uiState.loading = false
+        return uiState.priceSum
+    }
+
+    suspend fun checkCart() {
+        uiState.checkCart = uiState.frappuccinos.isNotEmpty()
+    }
+
+    fun checkInventory() {
 
     }
-    fun makeOrder(){
+
+    fun makeOrder() {
 
     }
 
+    suspend fun checkout() {
+        checkInventory()
+        if (balanceCheck()) {
+            makeOrder()
+            UserRepository.subtractUserBalance(uiState.priceSum)
+            CartRepository.deleteCart(uiState.cart)
+            deletingCart()
+            uiState.cart = Cart()
+            uiState.checkoutSuccess = true
+            uiState.cartDeletion = true
+        } else {
+            uiState.errorMessage =
+                "There is not enough money in your account, please add money and try again."
+        }
+    }
 }
+
