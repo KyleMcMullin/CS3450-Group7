@@ -13,6 +13,9 @@ class ManageInventoryState() {
     val _inventoryItems = mutableStateListOf<Inventory>()
     val inventory: List<Inventory> get() = _inventoryItems
     var loading by mutableStateOf(false)
+    var types by mutableStateOf(listOf<String>())
+    var type by mutableStateOf("")
+    var dropdown by mutableStateOf(false)
 }
 
 class ManageInventoryViewModel(application: Application): AndroidViewModel(application) {
@@ -23,6 +26,7 @@ class ManageInventoryViewModel(application: Application): AndroidViewModel(appli
         uiState._inventoryItems.clear()
         uiState._inventoryItems.addAll(InventoryRepository.getInventory())
         uiState.loading = false
+        uiState.types = InventoryRepository.getTypes() + listOf("")
     }
 
     suspend fun deleteInventory(inventory: Inventory) {
