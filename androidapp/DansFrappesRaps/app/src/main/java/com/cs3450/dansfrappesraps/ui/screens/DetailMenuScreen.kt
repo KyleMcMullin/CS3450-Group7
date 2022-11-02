@@ -53,6 +53,14 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
+            ExtendedFloatingActionButton(onClick = { scope.launch { viewModel.addToCart(id) } }, modifier = Modifier.align(Alignment.End)) {
+                Text(text = "Add to Cart")
+            }
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp), thickness = 3.dp
+            )
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Size",
@@ -171,16 +179,25 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
 //                                                        onDismissRequest = { showDetail = false }) {
 //                                                        Log.e("ERROR", it)
 
-                                                        state.customization.forEach { j ->
-                                                            var selected by remember { mutableStateOf(false) }
-                                                            if (j.inventory?.type == it) {
-                                                                FilterChip(
-                                                                    selected = selected,
-                                                                    onClick = { selected = !selected }, label = { j.inventory.name?.let { it1 -> Text(text = it1) } })
-//
-                                                            }
-
+                                                    state.customization.forEach { j ->
+                                                        var selected by remember {
+                                                            mutableStateOf(
+                                                                false
+                                                            )
                                                         }
+                                                        if (j.inventory?.type == it) {
+                                                            FilterChip(
+                                                                selected = selected,
+                                                                onClick = { selected = !selected },
+                                                                label = {
+                                                                    j.inventory.name?.let { it1 ->
+                                                                        Text(text = it1)
+                                                                    }
+                                                                })
+//
+                                                        }
+
+                                                    }
 //                                                    }
                                                 }
                                             }
@@ -191,12 +208,9 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                         }
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    }
                 }
             }
-            Button(onClick = {scope.launch{viewModel.addToCart(id)}}) {
-                Text(text = "Add to cart")
-            }
+        }
     }
 }
 
