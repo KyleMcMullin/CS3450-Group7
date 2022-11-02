@@ -15,7 +15,7 @@ class ManageInventoryState() {
     var loading by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())
     var type by mutableStateOf("")
-    var dropdown by mutableStateOf(false)
+    var isAllType by mutableStateOf(true)
 }
 
 class ManageInventoryViewModel(application: Application): AndroidViewModel(application) {
