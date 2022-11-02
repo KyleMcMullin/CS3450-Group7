@@ -26,6 +26,7 @@ import com.cs3450.dansfrappesraps.ui.models.User
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.text.input.KeyboardType
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -37,6 +38,7 @@ fun ManagePayrollItem(
 ) {
     val swipeableState = rememberSwipeableState(initialValue = SwipeState.CLOSED)
     var showDetail by remember {mutableStateOf(false)}
+    var scope = rememberCoroutineScope()
     val anchors = mapOf(
         0f to SwipeState.CLOSED,
         -200f to SwipeState.OPEN
@@ -58,7 +60,10 @@ fun ManagePayrollItem(
             .fillMaxHeight(),
             horizontalArrangement = Arrangement.End) {
             Button(
-                onClick = onApprove,
+                onClick = {
+                    scope.launch {swipeableState.snapTo(SwipeState.CLOSED)}
+                    onApprove()
+                          },
                 modifier = Modifier
 //                    .fillMaxHeight()
                     .fillMaxWidth(.5f),
