@@ -47,7 +47,7 @@ fun ManageInventoryScreen(navHostController: NavHostController) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(.7F),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -56,32 +56,38 @@ fun ManageInventoryScreen(navHostController: NavHostController) {
                             style = MaterialTheme.typography.headlineMedium,
                             modifier = Modifier
                                 .padding(8.dp)
-                                .fillMaxWidth(.9F)
+                                .fillMaxWidth()
                         )
                     }
                     Column(modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Bottom,
                         horizontalAlignment = Alignment.CenterHorizontally) {
-                        var icon by remember { mutableStateOf(false) }
-                        var dropdown by remember { mutableStateOf(false) }
-                        Icon(imageVector = (if (icon) {
-                            Icons.Filled.FilterListOff
-                        } else {
-                            Icons.Filled.FilterList
-                        }), contentDescription = "Sort",
-                            modifier = Modifier.clickable {
-                                dropdown = !dropdown
-                                icon = !icon
-                                state.isAllType = !state.isAllType
-                            })
-                        DropdownMenu(
-                            expanded = dropdown,
-                            onDismissRequest = { dropdown = false }) {
-                            state.types.forEach {
-                                DropdownMenuItem(onClick = {
-                                    state.type = it
-                                    dropdown = false
-                                }, text = { Text(it) })
+                            var icon by remember { mutableStateOf(false) }
+                            var dropdown by remember { mutableStateOf(false) }
+                            Icon(imageVector = (if (icon) {
+                                Icons.Filled.FilterListOff
+                            } else {
+                                Icons.Filled.FilterList
+                            }), contentDescription = "Sort",
+                                modifier = Modifier.padding(top=20.dp).clickable {
+                                    if(icon){
+                                        dropdown=false
+                                        icon=false
+                                        state.isAllType = true
+                                    }else{
+                                        dropdown = !dropdown
+                                        state.isAllType = false
+                                    }
+                                })
+                            DropdownMenu(
+                                expanded = dropdown,
+                                onDismissRequest = { dropdown = false }) {
+                                state.types.forEach {
+                                    DropdownMenuItem(onClick = {
+                                        state.type = it
+                                        icon = !icon
+                                        dropdown = false
+                                    }, text = { Text(it) })
                             }
                         }
                     }
