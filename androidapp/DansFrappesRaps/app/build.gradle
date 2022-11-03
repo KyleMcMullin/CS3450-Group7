@@ -49,7 +49,7 @@ android {
 dependencies {
 
     implementation "com.github.bumptech.glide:compose:1.0.0-alpha.1"
-    implementation 'com.google.firebase:firebase-storage-ktx:20.0.2'
+    implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
 
     def activity_version = "1.6.0"
 
@@ -61,7 +61,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx'
     def nav_version = "2.5.1"
 
-    implementation "androidx.compose.material3:material3:1.0.0-beta03"
+    implementation "androidx.compose.material3:material3:1.1.0-alpha01"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4'
     implementation "androidx.compose.ui:ui:1.2.1"
     implementation "androidx.compose.material:material:1.2.1"
