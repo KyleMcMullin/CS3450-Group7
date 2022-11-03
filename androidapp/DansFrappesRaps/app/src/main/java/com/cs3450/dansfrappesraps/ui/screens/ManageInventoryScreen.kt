@@ -47,7 +47,7 @@ fun ManageInventoryScreen(navHostController: NavHostController) {
             Column(modifier = Modifier.fillMaxSize()) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     Column(
-                        modifier = Modifier.fillMaxWidth(.8F),
+                        modifier = Modifier.fillMaxWidth(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
