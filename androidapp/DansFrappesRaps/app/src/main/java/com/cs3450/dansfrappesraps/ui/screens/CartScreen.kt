@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.cs3450.dansfrappesraps.ui.components.CartDrinkItem
 import com.cs3450.dansfrappesraps.ui.components.DrinkItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
@@ -82,10 +83,10 @@ fun CartScreen(navHostController: NavHostController){
                 }
                 LazyColumn(){
                     items(state.frappuccinos) { drink ->
-                        DrinkItem(
+                        CartDrinkItem(
                             drink = drink,
-                            onSelected = { navHostController.navigate("editMenu?id=${drink.id}") }
-                        )
+                            onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
+                            quantity = state.quantity)
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }

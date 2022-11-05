@@ -29,6 +29,7 @@ class CartScreenState{
     var checkoutSuccess by mutableStateOf(false)
     var cartDeletion by mutableStateOf(false)
     var drinkCount by mutableStateOf(0)
+    var quantity by mutableStateOf(1)
 
     fun addDrink(drink:Drink){
         _frappuccinos.add(drink)
