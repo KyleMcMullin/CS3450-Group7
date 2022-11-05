@@ -61,11 +61,6 @@ fun CartScreen(navHostController: NavHostController){
             Divider()
             Spacer(modifier = Modifier.size(16.dp))
             if (state.frappuccinos.isNotEmpty()) {
-                Button(onClick = {navHostController.navigate(Routes.app.route)}) {
-                    Text(text = "Return to menu")
-                }
-                
-                Spacer(modifier = Modifier.size(24.dp))
                 Text(text = "Frappuccinos ordered: " + state.drinkCount)
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
