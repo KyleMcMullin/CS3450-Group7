@@ -7,10 +7,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.itemsIndexed
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
@@ -164,25 +161,24 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                         )
                                     }
                                     Column {
-                                        AnimatedVisibility(
-                                            visible = showDetail,
-                                            enter = expandVertically(),
-                                            exit = shrinkVertically()
-                                        ) {
+//                                        AnimatedVisibility(
+//                                            visible = showDetail,
+//                                            enter = expandVertically(),
+//                                            exit = shrinkVertically()
+//                                        ) {
                                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                                 Divider(
                                                     modifier = Modifier.padding(4.dp)
                                                 )
                                                 LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 5.dp), content = {
-                                                    for(chip in state.customization){
-                                                    item{
-                                                        var selected by remember { mutableStateOf(false) }
-                                                    if (chip.inventory?.type == it) {
-                                                        FilterChip(
-                                                            selected = selected,
-                                                            onClick = { selected = !selected }, label = { chip.inventory!!.name?.let { it1 -> Text(text = it1) } })
+                                                    items(state.customization) { j ->
+                                                        //var selected by remember { mutableStateOf(false) }
+                                                        if (j.inventory?.type == it) {
+                                                            FilterChip(
+                                                                selected=false,
+                                                                onClick = { }, label = { j.inventory.name?.let { it1 -> Text(text = it1) } })
+                                                        }
                                                     }
-                                                } }
                                                 })
                                                 }
                                             }
@@ -190,7 +186,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                     }
                                 }
                             }
-                        }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
