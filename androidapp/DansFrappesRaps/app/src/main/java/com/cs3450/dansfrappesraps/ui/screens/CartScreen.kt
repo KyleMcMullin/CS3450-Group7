@@ -64,7 +64,10 @@ fun CartScreen(navHostController: NavHostController){
                 Button(onClick = {navHostController.navigate(Routes.app.route)}) {
                     Text(text = "Return to menu")
                 }
-                
+                Button(onClick = {navHostController.navigate(Routes.tracker.route)}) {
+                    Text(text = "Track Orders")
+                }
+
                 Spacer(modifier = Modifier.size(24.dp))
                 Text(text = "Frappuccinos ordered: " + state.drinkCount)
                 Spacer(modifier = Modifier.size(8.dp))
@@ -102,6 +105,9 @@ fun CartScreen(navHostController: NavHostController){
                 )
                 Button(onClick = { navHostController.popBackStack() }) {
                     Text("Back to menu")
+                }
+                Button(onClick = {navHostController.navigate(Routes.tracker.route)}) {
+                    Text(text = "Track Orders")
                 }
             }
         }

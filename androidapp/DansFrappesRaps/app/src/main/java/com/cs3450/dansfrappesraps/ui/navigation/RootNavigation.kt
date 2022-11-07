@@ -176,20 +176,36 @@ fun RootNavigation() {
             }
             navigation(route = Routes.app.route, startDestination = Routes.menu.route) {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
-                composable(route = Routes.detailMenu.route,
+                composable(
+                    route = Routes.detailMenu.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
                 ) { navBackStackEntry ->
-                    DetailMenuScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                    DetailMenuScreen(
+                        navController,
+                        navBackStackEntry.arguments?.get("id").toString()
+                    )
                 }
             }
             //TODO make this default to profile screen
             navigation(route = Routes.sideBar.route, startDestination = Routes.manageMenu.route) {
                 composable(route = Routes.manageMenu.route) { ManageMenuScreen(navHostController = navController) }
                 composable(route = Routes.manageUsers.route) { ManageUsersScreen(navHostController = navController) }
-                composable(route = Routes.managePayroll.route) { ManagePayRollScreen(navHostController = navController) }
-                composable(route = Routes.employeePayroll.route) { EmployeePayrollScreen(navController = navController) }
+                composable(route = Routes.managePayroll.route) {
+                    ManagePayRollScreen(
+                        navHostController = navController
+                    )
+                }
+                composable(route = Routes.employeePayroll.route) {
+                    EmployeePayrollScreen(
+                        navController = navController
+                    )
+                }
                 composable(route = Routes.profile.route) { ProfileScreen(navHostController = navController) }
-                composable(route = Routes.editProfile.route) { EditUserProfileScreen(navHostController = navController) }
+                composable(route = Routes.editProfile.route) {
+                    EditUserProfileScreen(
+                        navHostController = navController
+                    )
+                }
                 composable(
                     route = Routes.editUser.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
@@ -205,7 +221,10 @@ fun RootNavigation() {
                     route = Routes.editInventory.route,
                     arguments = listOf(navArgument("id") { defaultValue = "new" })
                 ) { navBackStackEntry ->
-                    AdjustInventoryScreen(navController, navBackStackEntry.arguments?.get("id").toString())
+                    AdjustInventoryScreen(
+                        navController,
+                        navBackStackEntry.arguments?.get("id").toString()
+                    )
                 }
                 composable(
                     route = Routes.editMenu.route,
@@ -215,7 +234,7 @@ fun RootNavigation() {
                 }
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
-            composable(route = Routes.cart.route){ CartScreen(navHostController = navController )}
-        }
-    }
+            composable(route = Routes.cart.route) { CartScreen(navHostController = navController) }
+            composable(route = Routes.tracker.route) { TrackerScreen(navHostController = navController) }
+        }}
 }
