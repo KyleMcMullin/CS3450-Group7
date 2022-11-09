@@ -60,7 +60,8 @@ fun ManageMenuScreen(navHostController: NavHostController) {
                             onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
                             onDeletePressed = { scope.launch {
                                 viewModel.deleteDrink(drink)
-                            }})
+                            }},
+                        quantity = 1)
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
