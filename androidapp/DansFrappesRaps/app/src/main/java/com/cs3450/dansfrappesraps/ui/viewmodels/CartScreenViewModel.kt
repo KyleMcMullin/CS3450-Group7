@@ -16,17 +16,15 @@ import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
 class CartScreenState{
     var priceSum by mutableStateOf(0.00)
-    var userId by mutableStateOf("")
     var name by mutableStateOf("")
     var _ingredients = mutableStateListOf<Ingredient>()
     val ingredients: List<Ingredient> get() = _ingredients
     var _frappuccinos = mutableStateListOf<Drink>()
     val frappuccinos: List<Drink> get() = _frappuccinos
-    var arrivalTime by mutableStateOf("")
     var checkBalance by mutableStateOf(false)
     var checkCart by mutableStateOf(false)
     var loading by mutableStateOf(false)
-    var cart = CartRepository.cartCache
+    var cart by mutableStateOf(CartRepository.cartCache)
     var errorMessage by mutableStateOf("")
     var checkoutSuccess by mutableStateOf(false)
     var cartDeletion by mutableStateOf(false)
@@ -66,7 +64,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         uiState.clearIngredients()
     }
     fun getDrinks(): List<Drink> {
-        var drinks = uiState.cart.drinks
+        var drinks = CartRepository.cartCache.drinks
         if (drinks != null) {
             for (drink: Drink in drinks) {
                 if (!uiState.frappuccinos.contains(drink)) {
@@ -126,7 +124,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         if (balanceCheck()) {
             makeOrder()
             UserRepository.subtractUserBalance(uiState.priceSum)
-            CartRepository.deleteCart(uiState.cart)
+            CartRepository.deleteCart(CartRepository.cartCache)
             deletingCart()
             uiState.checkoutSuccess = true
             uiState.cartDeletion = true
