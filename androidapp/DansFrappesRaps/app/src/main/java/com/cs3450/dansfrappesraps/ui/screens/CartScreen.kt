@@ -84,7 +84,7 @@ fun CartScreen(navHostController: NavHostController){
                     items(state.frappuccinos) { drink ->
                         CartDrinkItem(
                             drink = drink,
-                            onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
+                            onSelected = { navHostController.navigate("detailMenu?id=${drink.id}") },
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                     }
