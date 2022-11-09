@@ -20,6 +20,7 @@ object CartRepository {
                 cartCache.drinks = mutableListOf(drink)
             }
             doc.set(cartCache).await()
+
         }catch(_: Exception){
         }
     }
@@ -32,7 +33,6 @@ object CartRepository {
             cartCache.drinks!!.add(drink)
             updateCart(cartCache)
         }
-
     }
     suspend fun removeDrink(drink:Drink){
 

@@ -37,11 +37,6 @@ fun CartScreen(navHostController: NavHostController){
     LaunchedEffect(true){
         scope.launch { viewModel.setupScreen() }
         state.loading = false
-
-    }
-    LaunchedEffect(state.cart){
-        scope.launch { viewModel.setupScreen() }
-        state.loading = false
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -65,7 +60,7 @@ fun CartScreen(navHostController: NavHostController){
                 Text(text = "Frappuccinos ordered: " + state.drinkCount)
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
-                    text = "Price:  $" + state.priceSum,
+                    text = "Price:  $" + state.priceSum.toFloat(),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.size(8.dp))
@@ -86,7 +81,7 @@ fun CartScreen(navHostController: NavHostController){
                         CartDrinkItem(
                             drink = drink,
                             onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
-                            quantity = state.quantity)
+                            quantity = drink.quantity!!)
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }

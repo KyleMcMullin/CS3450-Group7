@@ -24,12 +24,11 @@ class CartScreenState{
     var checkBalance by mutableStateOf(false)
     var checkCart by mutableStateOf(false)
     var loading by mutableStateOf(false)
-    var cart by mutableStateOf(CartRepository.cartCache)
+    var cart = CartRepository.cartCache
     var errorMessage by mutableStateOf("")
     var checkoutSuccess by mutableStateOf(false)
     var cartDeletion by mutableStateOf(false)
     var drinkCount by mutableStateOf(0)
-    var quantity by mutableStateOf(1)
 
     fun addDrink(drink:Drink){
         _frappuccinos.add(drink)
@@ -58,9 +57,6 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     suspend fun setupScreen() {
-        if(uiState.cart == null){
-            uiState.cart = Cart()
-        }
         checkCart()
         val drinks = getDrinks()
         for (drink in drinks) {
@@ -73,8 +69,10 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         if (drinks != null) {
             for (drink: Drink in drinks) {
                 if (!uiState.frappuccinos.contains(drink)) {
+                    drink.quantity = 1
                     uiState.addDrink(drink)
                     uiState.drinkCount ++
+
                 }
             }
         }
@@ -121,7 +119,6 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     fun makeOrder() {
 
     }
-
     suspend fun checkout() {
         checkInventory()
         if (balanceCheck()) {
@@ -129,7 +126,6 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
             UserRepository.subtractUserBalance(uiState.priceSum)
             CartRepository.deleteCart(uiState.cart)
             deletingCart()
-            uiState.cart = Cart()
             uiState.checkoutSuccess = true
             uiState.cartDeletion = true
         } else {
