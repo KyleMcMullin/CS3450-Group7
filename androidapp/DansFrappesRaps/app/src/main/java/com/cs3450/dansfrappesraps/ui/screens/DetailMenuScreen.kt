@@ -54,7 +54,10 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
-            ExtendedFloatingActionButton(onClick = { scope.launch { viewModel.addToCart(id) } }, modifier = Modifier.align(Alignment.End)) {
+            ExtendedFloatingActionButton(
+                onClick = { scope.launch { viewModel.addToCart(id) } },
+                modifier = Modifier.align(Alignment.End)
+            ) {
                 Text(text = "Add to Cart")
             }
             Divider(
@@ -140,8 +143,8 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
                                 shape = RoundedCornerShape(4.dp)
                             )
-                            .clickable { showDetail = !showDetail },
-                        tonalElevation = 2.dp,
+//                            .clickable { showDetail = !showDetail },
+                            ,tonalElevation = 2.dp,
                         shape = RoundedCornerShape(4.dp),
                     ) {
                         Column {
@@ -170,25 +173,33 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                                 Divider(
                                                     modifier = Modifier.padding(4.dp)
                                                 )
-                                                LazyVerticalGrid(columns = GridCells.Adaptive(minSize = 5.dp), content = {
-                                                    items(state.customization) { j ->
-                                                        //var selected by remember { mutableStateOf(false) }
-                                                        if (j.inventory?.type == it) {
-                                                            FilterChip(
-                                                                selected=false,
-                                                                onClick = { }, label = { j.inventory.name?.let { it1 -> Text(text = it1) } })
+                                                LazyVerticalGrid(
+                                                    modifier = Modifier.height(300.dp).fillMaxWidth(),
+                                                    columns = GridCells.Adaptive(minSize = 100.dp),
+                                                    content = {
+                                                        items(state.customization) { j ->
+                                                            //var selected by remember { mutableStateOf(false) }
+                                                            if (j.inventory?.type == it) {
+                                                                FilterChip(
+                                                                    selected = false,
+                                                                    onClick = { },
+                                                                    label = {
+                                                                        j.inventory.name?.let { it1 ->
+                                                                            Text(text = it1)
+                                                                        }
+                                                                    })
+                                                            }
                                                         }
-                                                    }
-                                                })
-                                                }
+                                                    })
                                             }
                                         }
                                     }
                                 }
                             }
-                    Spacer(modifier = Modifier.height(8.dp))
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
             }
         }
     }
-}
