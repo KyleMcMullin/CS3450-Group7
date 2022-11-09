@@ -134,72 +134,56 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 items(state.types, key = { it }) {
-                    var showDetail by remember { mutableStateOf(false) }
 
-                    Surface(
-                        modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-                                shape = RoundedCornerShape(4.dp)
-                            )
-//                            .clickable { showDetail = !showDetail },
-                            ,tonalElevation = 2.dp,
-                        shape = RoundedCornerShape(4.dp),
-                    ) {
-                        Column {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        modifier = Modifier.padding(4.dp)
-                                    ) {
+//                    Surface(
+//                        modifier = Modifier
+//                            .border(
+//                                width = 1.dp,
+//                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+//                                shape = RoundedCornerShape(4.dp)
+//                            )
+////                            .clickable { showDetail = !showDetail },
+//                            ,tonalElevation = 2.dp,
+//                        shape = RoundedCornerShape(4.dp),
+//                    ) {
+//                        Column {
+//                            Row(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                verticalAlignment = Alignment.CenterVertically,
+//                                horizontalArrangement = Arrangement.SpaceBetween
+//                            ) {
+//                                Column {
+//                                    Row(
+//                                        verticalAlignment = Alignment.CenterVertically,
+//                                        modifier = Modifier.padding(4.dp)
+//                                    ) {
                                         Text(
                                             text = it,
                                             modifier = Modifier.padding(10.dp)
                                         )
-                                    }
-                                    Column {
-//                                        AnimatedVisibility(
-//                                            visible = showDetail,
-//                                            enter = expandVertically(),
-//                                            exit = shrinkVertically()
-//                                        ) {
-                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                                Divider(
-                                                    modifier = Modifier.padding(4.dp)
-                                                )
-                                                LazyVerticalGrid(
-                                                    modifier = Modifier.height(300.dp).fillMaxWidth(),
-                                                    columns = GridCells.Adaptive(minSize = 100.dp),
-                                                    content = {
-                                                        items(state.customization) { j ->
-                                                            //var selected by remember { mutableStateOf(false) }
-                                                            if (j.inventory?.type == it) {
-                                                                FilterChip(
-                                                                    selected = false,
-                                                                    onClick = { },
-                                                                    label = {
-                                                                        j.inventory.name?.let { it1 ->
-                                                                            Text(text = it1)
-                                                                        }
-                                                                    })
+                                        Divider(modifier = Modifier.padding(4.dp))
+                                    LazyVerticalGrid(
+                                        modifier = Modifier
+                                            .height(100.dp)
+                                            .fillMaxWidth(),
+                                        columns = GridCells.Adaptive(minSize = 80.dp),
+                                        content = {
+                                            items(viewModel.getMatchType(type = it)) { j ->
+                                                //var selected by remember { mutableStateOf(false) }
+                                                    FilterChip(
+
+                                                        selected = false,
+                                                        onClick = { },
+                                                        label = {
+                                                            j.inventory?.name?.let { it1 ->
+                                                                Text(text = it1)
                                                             }
-                                                        }
-                                                    })
+                                                        })
                                             }
-                                        }
-                                    }
+                                        })
+                            }
+                        }
                                 }
                             }
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                }
-            }
-        }
-    }
+//                        Spacer(modifier = Modifier.height(8.dp))

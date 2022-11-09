@@ -54,6 +54,16 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         CartRepository.addDrink(drink)
 
     }
+
+    fun getMatchType(type: String): ArrayList<Ingredient> {
+        val typeCustom:ArrayList<Ingredient> = ArrayList()
+        for(inven in uiState._customization){
+            if(inven.inventory?.type == type){
+                typeCustom.add(inven)
+            }
+        }
+        return typeCustom
+    }
     private fun runChecks(): Boolean {
         uiState.nameError = false
         uiState.errorMessage = ""
