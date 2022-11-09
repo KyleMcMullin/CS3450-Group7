@@ -9,7 +9,9 @@ import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Cart
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
+import com.cs3450.dansfrappesraps.ui.models.Inventory
 import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
+import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
 import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
 class CartScreenState{
@@ -29,6 +31,7 @@ class CartScreenState{
     var checkoutSuccess by mutableStateOf(false)
     var cartDeletion by mutableStateOf(false)
     var drinkCount by mutableStateOf(0)
+    var inventoryCheck by mutableStateOf(true)
 
     fun addDrink(drink:Drink){
         _frappuccinos.add(drink)
@@ -111,7 +114,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         uiState.priceSum = coffeePrice
         return uiState.priceSum
     }
-    fun checkInventory() {
+    suspend fun checkInventory() {
 
     }
 

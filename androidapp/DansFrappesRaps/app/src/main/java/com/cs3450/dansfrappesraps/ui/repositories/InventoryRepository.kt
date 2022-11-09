@@ -23,7 +23,6 @@ object InventoryRepository {
             return mutableListOf()
         }
     }
-
     suspend fun getTypes(): MutableList<String> {
         try {
             if (TypeCache.isEmpty()) {

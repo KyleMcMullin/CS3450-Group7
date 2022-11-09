@@ -208,7 +208,7 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
 //Cart Drink Item
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun CartDrinkItem(drink: Drink, onSelected: () -> Unit, quantity: Int){
+fun CartDrinkItem(drink: Drink, onSelected: () -> Unit){
     Card(
         modifier = Modifier
             .border(
@@ -263,15 +263,6 @@ fun CartDrinkItem(drink: Drink, onSelected: () -> Unit, quantity: Int){
                         Text(
                             text = appendString,
                             modifier = Modifier.padding(10.dp)
-                        )
-                    }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(4.dp).fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ){
-                        Text(
-                            "Quantity: $quantity"
                         )
                     }
                 }

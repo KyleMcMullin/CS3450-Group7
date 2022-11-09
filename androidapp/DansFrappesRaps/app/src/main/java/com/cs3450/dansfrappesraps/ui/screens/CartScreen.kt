@@ -56,7 +56,6 @@ fun CartScreen(navHostController: NavHostController){
                 modifier = Modifier
                     .padding(8.dp)
             )
-
             Divider()
             Spacer(modifier = Modifier.size(16.dp))
             if (state.frappuccinos.isNotEmpty()) {
@@ -73,7 +72,9 @@ fun CartScreen(navHostController: NavHostController){
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Left
                 )
-                Row {
+                Row(
+                    horizontalArrangement = Arrangement.End
+                ) {
                     //Check userBalance and compare to price
                     Button(onClick = { scope.launch { viewModel.checkout() } }) {
                         Text(text = "Checkout")
@@ -81,7 +82,7 @@ fun CartScreen(navHostController: NavHostController){
                 }
                 LazyColumn() {
                     items(state.frappuccinos) { drink ->
-                        DrinkItem(
+                        CartDrinkItem(
                             drink = drink,
                             onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
                         )
