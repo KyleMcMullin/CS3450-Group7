@@ -35,7 +35,10 @@ fun CartScreen(navHostController: NavHostController){
     var state = viewModel.uiState
 
     LaunchedEffect(true){
-        scope.launch { viewModel.setupScreen() }
+        state.loading = true
+        val setup = async {viewModel.setupScreen()}
+        delay(2000)
+        setup.await()
         state.loading = false
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,8 +55,8 @@ fun CartScreen(navHostController: NavHostController){
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
                     .padding(8.dp)
-                )
-            }
+            )
+
             Divider()
             Spacer(modifier = Modifier.size(16.dp))
             if (state.frappuccinos.isNotEmpty()) {
@@ -72,28 +75,26 @@ fun CartScreen(navHostController: NavHostController){
                 )
                 Row {
                     //Check userBalance and compare to price
-                    Button(onClick = {scope.launch{viewModel.checkout()}}) {
+                    Button(onClick = { scope.launch { viewModel.checkout() } }) {
                         Text(text = "Checkout")
                     }
                 }
-                LazyColumn(){
+                LazyColumn() {
                     items(state.frappuccinos) { drink ->
-                        CartDrinkItem(
+                        DrinkItem(
                             drink = drink,
                             onSelected = { navHostController.navigate("editMenu?id=${drink.id}") },
-                            quantity = drink.quantity!!)
+                        )
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
-            } else {
+            } else{
                 Text(
                     text =
-                    "\tYour cart is empty! Please check out our menu for more coffee",
+                    "\tYour cart is empty! Please check out our menu for more coffee.",
                     style = MaterialTheme.typography.headlineSmall
                 )
-                Button(onClick = { navHostController.popBackStack() }) {
-                    Text("Back to menu")
-                }
             }
         }
     }
+}

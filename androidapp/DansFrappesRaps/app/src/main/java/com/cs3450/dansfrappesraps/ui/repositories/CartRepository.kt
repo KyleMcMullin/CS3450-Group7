@@ -35,7 +35,8 @@ object CartRepository {
         }
     }
     suspend fun removeDrink(drink:Drink){
-
+        cartCache.drinks!!.remove(drink)
+        updateCart(cartCache)
     }
     suspend fun getCart(): Cart? {
         val allCarts = getAllCarts()

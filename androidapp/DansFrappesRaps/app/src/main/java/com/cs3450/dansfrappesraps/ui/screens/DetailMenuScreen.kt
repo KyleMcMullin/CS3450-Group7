@@ -53,7 +53,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
-            ExtendedFloatingActionButton(onClick = { scope.launch { viewModel.addToCart(id) } }, modifier = Modifier.align(Alignment.End)) {
+            ExtendedFloatingActionButton(onClick = { scope.launch { viewModel.addToCart(id) }  }, modifier = Modifier.align(Alignment.End)) {
                 Text(text = "Add to Cart")
             }
             Divider(

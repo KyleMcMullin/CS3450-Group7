@@ -57,33 +57,36 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
 
     suspend fun setupScreen() {
-        checkCart()
-        val drinks = getDrinks()
-        for (drink in drinks) {
-            getIngredients(drink)
-        }
+        getCart()
+        getDrinks()
         calculateBalance()
+        uiState.clearIngredients()
     }
-    suspend fun getDrinks(): List<Drink> {
+    fun getDrinks(): List<Drink> {
         var drinks = uiState.cart.drinks
         if (drinks != null) {
             for (drink: Drink in drinks) {
                 if (!uiState.frappuccinos.contains(drink)) {
-                    drink.quantity = 1
                     uiState.addDrink(drink)
                     uiState.drinkCount ++
-
                 }
+                else{
+                    uiState.addDrink(drink)
+                    uiState.drinkCount ++
+                }
+            }
+            for(drink in drinks){
+                getIngredients(drink)
             }
         }
         return uiState.frappuccinos
     }
-
+    suspend fun getCart(){
+        CartRepository.getCart()
+    }
     fun getIngredients(drink: Drink): List<Ingredient> {
         for (ingredients in drink.ingredients!!) {
-            if (!uiState.ingredients.contains(ingredients)) {
-                uiState.addIngredients(ingredients)
-            }
+            uiState.addIngredients(ingredients)
         }
         return uiState.ingredients
     }
@@ -101,17 +104,13 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
 
     fun calculateBalance(): Double {
         uiState.loading = true
+        var coffeePrice = 0.00
         for (ingredient in uiState.ingredients) {
-            uiState.priceSum += ingredient.inventory!!.PPU!!
+            coffeePrice += ingredient.inventory!!.PPU!!
         }
-        uiState.loading = false
+        uiState.priceSum = coffeePrice
         return uiState.priceSum
     }
-
-    suspend fun checkCart() {
-        uiState.checkCart = uiState.frappuccinos.isNotEmpty()
-    }
-
     fun checkInventory() {
 
     }
@@ -129,8 +128,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
             uiState.checkoutSuccess = true
             uiState.cartDeletion = true
         } else {
-            uiState.errorMessage =
-                "There is not enough money in your account, please add money and try again."
+            uiState.errorMessage = "There is not enough money in your account, please add money and try again."
         }
     }
 }

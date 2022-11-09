@@ -205,7 +205,7 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
         }
     }
 
-//Cart
+//Cart Drink Item
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun CartDrinkItem(drink: Drink, onSelected: () -> Unit, quantity: Int){
