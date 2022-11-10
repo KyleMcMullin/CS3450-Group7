@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.cs3450.dansfrappesraps.ui.components.CartDrinkItem
 import com.cs3450.dansfrappesraps.ui.components.DrinkItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
@@ -30,12 +31,10 @@ fun CartScreen(navHostController: NavHostController){
     var state = viewModel.uiState
 
     LaunchedEffect(true){
-        scope.launch { viewModel.setupScreen() }
-        state.loading = false
-
-    }
-    LaunchedEffect(state.cart){
-        scope.launch { viewModel.setupScreen() }
+        state.loading = true
+        val setup = async {viewModel.setupScreen()}
+        delay(2000)
+        setup.await()
         state.loading = false
     }
     Column(horizontalAlignment = Alignment.CenterHorizontally,
@@ -52,20 +51,14 @@ fun CartScreen(navHostController: NavHostController){
                 style = MaterialTheme.typography.headlineMedium,
                 modifier = Modifier
                     .padding(8.dp)
-                )
-            }
+            )
             Divider()
             Spacer(modifier = Modifier.size(16.dp))
             if (state.frappuccinos.isNotEmpty()) {
-                Button(onClick = {navHostController.navigate(Routes.app.route)}) {
-                    Text(text = "Return to menu")
-                }
-                
-                Spacer(modifier = Modifier.size(24.dp))
                 Text(text = "Frappuccinos ordered: " + state.drinkCount)
                 Spacer(modifier = Modifier.size(8.dp))
                 Text(
-                    text = "Price:  $" + state.priceSum,
+                    text = "Price:  $" + state.priceSum.toFloat(),
                     style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.size(8.dp))
@@ -75,30 +68,30 @@ fun CartScreen(navHostController: NavHostController){
                     modifier = Modifier.fillMaxWidth(),
                     textAlign = TextAlign.Left
                 )
-                Row {
+                Row(
+                    horizontalArrangement = Arrangement.End
+                ) {
                     //Check userBalance and compare to price
-                    Button(onClick = {scope.launch{viewModel.checkout()}}) {
+                    Button(onClick = { scope.launch { viewModel.checkout() } }) {
                         Text(text = "Checkout")
                     }
                 }
-                LazyColumn(){
+                LazyColumn() {
                     items(state.frappuccinos) { drink ->
-                        DrinkItem(
+                        CartDrinkItem(
                             drink = drink,
-                            onSelected = { navHostController.navigate("editMenu?id=${drink.id}") }
+                            onSelected = { navHostController.navigate("detailMenu?id=${drink.id}") },
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                     }
                 }
-            } else {
+            } else{
                 Text(
                     text =
-                    "\tYour cart is empty! Please check out our menu for more coffee",
+                    "\tYour cart is empty! Please check out our menu for more coffee.",
                     style = MaterialTheme.typography.headlineSmall
                 )
-                Button(onClick = { navHostController.popBackStack() }) {
-                    Text("Back to menu")
-                }
             }
         }
     }
+}

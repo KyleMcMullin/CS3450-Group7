@@ -24,6 +24,7 @@ class DetailMenuState {
     var type by mutableStateOf("")
 //    Need these?
     var errorMessage by mutableStateOf("")
+    var newDrink by mutableStateOf(Drink())
 }
 
 
@@ -40,7 +41,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         uiState.types = InventoryRepository.getTypes() + listOf("")
     }
-
     suspend fun getIngredients() {
         uiState.loading = true
         var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
