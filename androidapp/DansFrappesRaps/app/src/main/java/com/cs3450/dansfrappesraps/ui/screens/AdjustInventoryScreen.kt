@@ -1,13 +1,12 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
+import androidx.compose.material3.Checkbox
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.outlined.ArrowDropDown
 import androidx.compose.material.icons.outlined.AttachMoney
-import androidx.compose.material.icons.outlined.Money
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -106,30 +105,41 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                 leadingIcon = { Icon(imageVector = Icons.Outlined.AttachMoney, contentDescription = "Dollar") },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal)
             )
-            Box {
-                LabelledTextInput(
-                    value = state.type,
-                    label = "Type",
-                    onValueChange = { state.type = it },
-                    placeholder = { Text("Item Type") },
-                    error = state.typeError,
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Outlined.ArrowDropDown,
-                            contentDescription = "Dropdown",
-                            modifier = Modifier.clickable {
-                                state.dropDownExpanded = true
-                            }
-                        ) },
-                )
-                DropdownMenu(expanded = state.dropDownExpanded, onDismissRequest = {state.dropDownExpanded = false}) {
-                    state.types.forEach {
-                        DropdownMenuItem(onClick = {
-                            state.type = it
-                            state.dropDownExpanded = false
-                        }, text = { Text(it) })
+            Row(modifier = Modifier.weight(1f)) {
+                Box() {
+                    LabelledTextInput(
+                        value = state.type,
+                        label = "Type",
+                        onValueChange = { state.type = it },
+                        placeholder = { Text("Item Type") },
+                        error = state.typeError,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Outlined.ArrowDropDown,
+                                contentDescription = "Dropdown",
+                                modifier = Modifier.clickable {
+                                    state.dropDownExpanded = true
+                                }
+                            )
+                        },
+                    )
+                    DropdownMenu(
+                        expanded = state.dropDownExpanded,
+                        onDismissRequest = { state.dropDownExpanded = false }) {
+                        state.types.forEach {
+                            DropdownMenuItem(onClick = {
+                                state.type = it
+                                state.dropDownExpanded = false
+                            }, text = { Text(it) })
+                        }
                     }
                 }
+                Spacer(modifier = Modifier.padding(10.dp))
+                Checkbox(
+                    checked = state.isCountable,
+                    onCheckedChange = { state.isCountable = it },
+                    modifier = Modifier.align(Alignment.CenterVertically)
+                )
             }
         }
         Spacer(modifier = Modifier.padding(6.dp))

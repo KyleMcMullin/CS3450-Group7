@@ -41,7 +41,7 @@ object InventoryRepository {
         }
     }
 
-    suspend fun addInventory(name: String, quantity: Int, PPU: Double, type: String) {
+    suspend fun addInventory(name: String, quantity: Int, PPU: Double, type: String, isCountable: Boolean) {
         try {
 
             val doc = Firebase.firestore.collection("inventory").document()
@@ -51,7 +51,8 @@ object InventoryRepository {
                     PPU = PPU,
                     quantity = quantity,
                     id = doc.id,
-                    type = type
+                    type = type,
+                    isCountable = isCountable
                 )
             ).await()
             InventoryCache.add(
@@ -60,7 +61,8 @@ object InventoryRepository {
                     PPU = PPU,
                     quantity = quantity,
                     id = doc.id,
-                    type = type
+                    type = type,
+                    isCountable = isCountable
                 )
             )
             IngredientsRepository.refresh()
@@ -68,7 +70,7 @@ object InventoryRepository {
         }
     }
 
-    suspend fun editInventory(id: String, name: String, quantity: Int, PPU: Double, type: String) {
+    suspend fun editInventory(id: String, name: String, quantity: Int, PPU: Double, type: String, isCountable: Boolean) {
         try {
             val doc = Firebase.firestore.collection("inventory").document(id)
             doc.set(
@@ -77,7 +79,8 @@ object InventoryRepository {
                     PPU = PPU,
                     quantity = quantity,
                     id = id,
-                    type = type
+                    type = type,
+                    isCountable = isCountable
                 )
             ).await()
             InventoryCache.removeIf { it.id == id }
@@ -87,7 +90,8 @@ object InventoryRepository {
                     PPU = PPU,
                     quantity = quantity,
                     id = id,
-                    type = type
+                    type = type,
+                    isCountable = isCountable
                 )
             )
         } catch (_: Exception) {
