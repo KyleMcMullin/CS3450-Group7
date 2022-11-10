@@ -54,12 +54,6 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
-
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp), thickness = 3.dp
-            )
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = "Size",
@@ -158,17 +152,19 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                         )
                                         Divider(modifier = Modifier.padding(4.dp))
                                     LazyVerticalGrid(
+                                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp),
                                         modifier = Modifier
                                             .height(100.dp)
                                             .fillMaxWidth(),
-                                        columns = GridCells.Adaptive(minSize = 80.dp),
+                                        columns = GridCells.Adaptive(minSize = 90.dp),
                                         content = {
                                             items(viewModel.getMatchType(type = it)) { j ->
-                                                //var selected by remember { mutableStateOf(false) }
+                                                var selected by remember { mutableStateOf(false) }
                                                     FilterChip(
-
-                                                        selected = false,
-                                                        onClick = { },
+                                                        selected = selected,
+                                                        onClick = { selected=!selected},
                                                         label = {
                                                             j.inventory?.name?.let { it1 ->
                                                                 Text(text = it1)
