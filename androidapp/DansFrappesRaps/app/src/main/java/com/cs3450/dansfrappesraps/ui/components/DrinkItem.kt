@@ -41,7 +41,8 @@ fun DrinkItem(
         0f to SwipeState.CLOSED,
         -200f to SwipeState.OPEN
     )
-    Box(
+    Card(
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
             .swipeable(

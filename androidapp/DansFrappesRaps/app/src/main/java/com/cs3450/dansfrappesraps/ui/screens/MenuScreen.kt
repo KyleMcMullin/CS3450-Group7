@@ -2,6 +2,9 @@ package com.cs3450.dansfrappesraps.ui.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -52,7 +55,7 @@ fun MenuScreen(navHostController: NavHostController) {
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                LazyColumn {
+                LazyVerticalGrid(columns = GridCells.Fixed(2),verticalArrangement = Arrangement.spacedBy(6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     items(state.drinks) { drink ->
                         DrinkItem(
                             drink = drink,

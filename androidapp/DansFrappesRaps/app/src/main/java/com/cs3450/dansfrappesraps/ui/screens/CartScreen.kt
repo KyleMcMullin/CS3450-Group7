@@ -22,6 +22,8 @@ import com.cs3450.dansfrappesraps.ui.components.DrinkItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.CartScreenViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
