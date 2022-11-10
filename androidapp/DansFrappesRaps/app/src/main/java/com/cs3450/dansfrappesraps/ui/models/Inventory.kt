@@ -5,5 +5,6 @@ data class Inventory (
     var name: String? = null,
     var PPU: Double? = 0.00,
     var quantity: Int? = 0,
-    var type: String? = null
+    var type: String? = null,
+    var isCountable: Boolean? = true
 )
