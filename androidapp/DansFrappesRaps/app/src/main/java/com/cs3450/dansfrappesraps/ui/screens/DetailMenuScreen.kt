@@ -18,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -46,51 +47,67 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
         Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Surface(tonalElevation = 2.dp) {
+                Text(
+                    modifier = Modifier.padding(10.dp),
+                    text = state.drinkName,
+                    style = MaterialTheme.typography.headlineLarge,
+                    textAlign = TextAlign.Center
+                )
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 5.dp),
+                text = "Size",
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Left
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp), thickness = 3.dp
+            )
+            val radioOptions = listOf("Small", "Medium", "Large")
+            val openDialog = remember { mutableStateOf(false) }
+            val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = state.drinkName, style = MaterialTheme.typography.headlineLarge)
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp), thickness = 3.dp
-                )
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Size",
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Left
-                )
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp), thickness = 3.dp
-                )
-                val radioOptions = listOf("Small","Medium","Large")
-                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
-                Column(modifier = Modifier
                     .fillMaxWidth()
-                    .selectableGroup(), horizontalAlignment = Alignment.Start) {
-                    radioOptions.forEach{ text ->
-                        Row(verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.selectable(selected = (text ==selectedOption), onClick = {onOptionSelected(text)},
-                            role = Role.RadioButton)) {
-                            RadioButton(selected = (text == selectedOption),
-                                modifier = Modifier
-                                    .padding(3.dp), onClick = null)
-                            Text(
-                                modifier = Modifier,
-                                text = text,
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.bodyLarge
+                    .selectableGroup(), horizontalAlignment = Alignment.Start
+            ) {
+                radioOptions.forEach { text ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(start = 5.dp)
+                            .selectable(
+                                selected = (text == selectedOption),
+                                onClick = { onOptionSelected(text) },
+                                role = Role.RadioButton
                             )
-                        }
+                    ) {
+                        RadioButton(
+                            selected = (text == selectedOption),
+                            modifier = Modifier
+                                .padding(3.dp), onClick = null
+                        )
+                        Text(
+                            modifier = Modifier,
+                            text = text,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     }
-
                 }
-                Column(modifier = Modifier.fillMaxSize()) {
+
+            }
+            Column(modifier = Modifier.fillMaxSize()) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -101,70 +118,84 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                             .fillMaxWidth()
                             .padding(3.dp), style = MaterialTheme.typography.headlineMedium
                     )
-                    Divider()
+//                    Divider()
                 }
+                Surface(
+//                    modifier = Modifier
+//                        .border(
+//                            width = 1.dp,
+//                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+//                            shape = RoundedCornerShape(20.dp)
+//                        ),
+                    tonalElevation = 1.dp,
+                    shape = RoundedCornerShape(20.dp),
+                ) {
+                    LazyVerticalGrid(
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxSize(),
+                        columns = GridCells.Adaptive(minSize = 90.dp)
+                    ) {
+                        for (type in state.types) {
+                            if (viewModel.hasIngredient(type = type)) {
+                                item(span = {
+                                    GridItemSpan(maxLineSpan)
+                                }) {
+                                    Text(
+                                        text = type,
+                                    )
+                                    Divider()
+                                }
+                            }
 
+                            items(viewModel.getMatchType(type)) { j ->
+                                var selected by remember { mutableStateOf(false) }
+                                FilterChip(
+                                    selected = selected,
+                                    onClick = {
+                                        selected = !selected
+                                        openDialog.value = true
+                                    },
+                                    label = {
+                                        j.inventory?.name?.let { it1 ->
+                                            Text(
+                                                text = it1,
+                                                modifier = Modifier.fillMaxWidth(),
+                                                textAlign = TextAlign.Center
+                                            )
+                                        }
+                                    })
 
-                                    LazyVerticalGrid(
-                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(6.dp),
-                    horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(16.dp), columns = GridCells.Adaptive(minSize = 90.dp)
-            ) {
-                for (type in state.types) {
-                    if (viewModel.hasIngredient(type = type)) {
-                        item(span = {
-                            GridItemSpan(maxLineSpan)
-                        }) {
-                            Text(
-                                text = type,
-                                modifier = Modifier.padding(10.dp)
-                            )
-                            Divider()
-                        }
-                    }
-
-                        items(viewModel.getMatchType(type)) { j->
-                                    var selected by remember { mutableStateOf(false) }
-                                    FilterChip(
-                                        selected = selected,
-                                        onClick = { selected = !selected },
-                                        label = {
-                                            j.inventory?.name?.let { it1 ->
-                                                Text(text = it1)
+                                if (openDialog.value) {
+                                    AlertDialog(onDismissRequest = { openDialog.value = false },
+                                        title = { Text(text = "hello") }, dismissButton = {
+                                            TextButton(
+                                                onClick = {
+                                                    openDialog.value = false
+                                                }
+                                            ) {
+                                                Text("Dismiss")
+                                            }
+                                        }, confirmButton = {
+                                            TextButton(
+                                                onClick = {
+                                                    openDialog.value = false
+                                                }
+                                            ) {
+                                                Text("Confirm")
                                             }
                                         })
+                                }
                             }
+                        }
+
+
                     }
                 }
-
-
             }
-
-//                        LazyVerticalGrid(
-//                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-//                            verticalArrangement = Arrangement.spacedBy(6.dp),
-//                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-//                            modifier = Modifier
-//                                .height(100.dp)
-//                                .fillMaxWidth(),
-//                            columns = GridCells.Adaptive(minSize = 90.dp),
-//                            content = {
-//                                items(viewModel.getMatchType(type = it)) { j ->
-//                                    var selected by remember { mutableStateOf(false) }
-//                                    FilterChip(
-//                                        selected = selected,
-//                                        onClick = { selected = !selected },
-//                                        label = {
-//                                            j.inventory?.name?.let { it1 ->
-//                                                Text(text = it1)
-//                                            }
-//                                        })
-//                                }
-//                            })
-                    }
-                }
+        }
     }
-//                        Spacer(modifier = Modifier.height(8.dp))
+}

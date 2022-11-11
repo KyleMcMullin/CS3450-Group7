@@ -147,14 +147,10 @@ fun DrinkItem(
 fun DrinkItem(drink: Drink, onSelected: () -> Unit){
         Card(
             modifier = Modifier
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onPrimary,
-                    shape = RoundedCornerShape(4.dp)
-                )
                 .clickable { onSelected() },
             elevation = CardDefaults.cardElevation(5.dp),
-            shape = RoundedCornerShape(4.dp),
+            shape = RoundedCornerShape(20.dp),
+
         ) {
             Column {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
