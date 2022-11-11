@@ -9,7 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.User
 import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
-enum class SortState() {
+enum class SortState {
     ALL,
     CUSTOMER,
     EMPLOYEE,

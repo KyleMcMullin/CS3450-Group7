@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.*
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.*
 import androidx.compose.runtime.Composable
@@ -145,6 +147,17 @@ fun RootNavigation() {
                     contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary
                 ) {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
+                }
+            }
+            if(currentDestination?.route == Routes.detailMenu.route){
+                ExtendedFloatingActionButton(
+                    onClick = {
+                             navController.navigate(Routes.menu.route)
+                    },
+
+                    contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary){
+                    Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
+                    androidx.compose.material3.Text(text = "Add to Cart")
                 }
             }
             if (currentDestination?.route == Routes.manageUsers.route || currentDestination?.route == Routes.manageInventory.route || currentDestination?.route == Routes.manageMenu.route) {

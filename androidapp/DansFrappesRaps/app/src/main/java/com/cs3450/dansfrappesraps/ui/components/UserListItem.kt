@@ -76,9 +76,9 @@ fun UserListItem(
             elevation = 2.dp,
             shape = RoundedCornerShape(4.dp),
         ) {
-            Column() {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                    Column() {
+                    Column {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                             modifier = Modifier.padding(4.dp)
