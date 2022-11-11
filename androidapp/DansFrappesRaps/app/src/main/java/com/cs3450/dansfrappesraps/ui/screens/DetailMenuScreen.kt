@@ -1,14 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -18,16 +11,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -52,7 +44,8 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(tonalElevation = 2.dp) {
+            Surface(tonalElevation = 2.dp,
+                shape = RoundedCornerShape(20.dp),) {
                 Text(
                     modifier = Modifier.padding(10.dp),
                     text = state.drinkName,
@@ -75,6 +68,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
             )
             val radioOptions = listOf("Small", "Medium", "Large")
             val openDialog = remember { mutableStateOf(false) }
+            var ingredient by remember{ mutableStateOf(Ingredient()) }
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
             Column(
                 modifier = Modifier
@@ -116,17 +110,10 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     Text(
                         text = "Customization", modifier = Modifier
                             .fillMaxWidth()
-                            .padding(3.dp), style = MaterialTheme.typography.headlineMedium
+                            .padding(3.dp), style = MaterialTheme.typography.headlineSmall
                     )
-//                    Divider()
                 }
                 Surface(
-//                    modifier = Modifier
-//                        .border(
-//                            width = 1.dp,
-//                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-//                            shape = RoundedCornerShape(20.dp)
-//                        ),
                     tonalElevation = 1.dp,
                     shape = RoundedCornerShape(20.dp),
                 ) {
@@ -146,6 +133,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                 }) {
                                     Text(
                                         text = type,
+                                        style = MaterialTheme.typography.bodyLarge
                                     )
                                     Divider()
                                 }
@@ -157,7 +145,10 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                     selected = selected,
                                     onClick = {
                                         selected = !selected
-                                        openDialog.value = true
+                                        if(j.inventory?.isCountable == true){
+                                            openDialog.value = true
+                                            ingredient = j
+                                        }
                                     },
                                     label = {
                                         j.inventory?.name?.let { it1 ->
@@ -170,8 +161,13 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                     })
 
                                 if (openDialog.value) {
-                                    AlertDialog(onDismissRequest = { openDialog.value = false },
-                                        title = { Text(text = "hello") }, dismissButton = {
+                                    AlertDialog(onDismissRequest = { openDialog.value = false
+                                        selected=false },
+                                        title = { IngredientItem(
+                                            ingredient = ingredient,
+                                            onMinusPressed = {  },
+                                            onPlusPressed = {  },
+                                        ) }, dismissButton = {
                                             TextButton(
                                                 onClick = {
                                                     openDialog.value = false

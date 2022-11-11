@@ -1,9 +1,6 @@
 package com.cs3450.dansfrappesraps.ui.components
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material.icons.Icons
@@ -31,7 +28,7 @@ fun IngredientItem(
                 Icon(imageVector = Icons.Default.Remove, contentDescription = "Minus")
             }
             Spacer(modifier = Modifier.width(4.dp))
-            Text(
+            Text(modifier = Modifier.padding(horizontal = 3.dp),
                 text = "${ingredient.count}",
                 style = MaterialTheme.typography.headlineMedium,
             )
