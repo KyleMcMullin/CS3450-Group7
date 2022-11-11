@@ -55,6 +55,12 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     }
 
+    fun hasIngredient(type: String): Boolean{
+        if(getMatchType(type).size==0){
+            return false
+        }
+        return true
+    }
     fun getMatchType(type: String): ArrayList<Ingredient> {
         val typeCustom:ArrayList<Ingredient> = ArrayList()
         for(inven in uiState._customization){

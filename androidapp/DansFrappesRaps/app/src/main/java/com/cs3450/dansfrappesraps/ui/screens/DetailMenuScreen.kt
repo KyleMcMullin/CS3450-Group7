@@ -1,14 +1,7 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.*
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,12 +14,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,51 +39,69 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
         Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
+        Column(
+            modifier = Modifier
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Surface(tonalElevation = 2.dp,
+                shape = RoundedCornerShape(20.dp),) {
+                Text(
+                    modifier = Modifier.padding(10.dp),
+                    text = state.drinkName,
+                    style = MaterialTheme.typography.headlineLarge,
+                    textAlign = TextAlign.Center
+                )
+            }
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 5.dp),
+                text = "Size",
+                style = MaterialTheme.typography.headlineSmall,
+                textAlign = TextAlign.Left
+            )
+            Divider(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(5.dp), thickness = 3.dp
+            )
+            val radioOptions = listOf("Small", "Medium", "Large")
+            val openDialog = remember { mutableStateOf(false) }
+            var ingredient by remember{ mutableStateOf(Ingredient()) }
+            val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
             Column(
                 modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(text = state.drinkName, style = MaterialTheme.typography.headlineLarge)
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp), thickness = 3.dp
-                )
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = "Size",
-                    style = MaterialTheme.typography.headlineSmall,
-                    textAlign = TextAlign.Left
-                )
-                Divider(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp), thickness = 3.dp
-                )
-                val radioOptions = listOf("Small","Medium","Large")
-                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
-                Column(modifier = Modifier
                     .fillMaxWidth()
-                    .selectableGroup(), horizontalAlignment = Alignment.Start) {
-                    radioOptions.forEach{ text ->
-                        Row(verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.selectable(selected = (text ==selectedOption), onClick = {onOptionSelected(text)},
-                            role = Role.RadioButton)) {
-                            RadioButton(selected = (text == selectedOption),
-                                modifier = Modifier
-                                    .padding(3.dp), onClick = null)
-                            Text(
-                                modifier = Modifier,
-                                text = text,
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.bodyLarge
+                    .selectableGroup(), horizontalAlignment = Alignment.Start
+            ) {
+                radioOptions.forEach { text ->
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .padding(start = 5.dp)
+                            .selectable(
+                                selected = (text == selectedOption),
+                                onClick = { onOptionSelected(text) },
+                                role = Role.RadioButton
                             )
-                        }
+                    ) {
+                        RadioButton(
+                            selected = (text == selectedOption),
+                            modifier = Modifier
+                                .padding(3.dp), onClick = null
+                        )
+                        Text(
+                            modifier = Modifier,
+                            text = text,
+                            textAlign = TextAlign.Center,
+                            style = MaterialTheme.typography.bodyLarge
+                        )
                     }
-
                 }
-                Column(modifier = Modifier.fillMaxSize()) {
+
+            }
+            Column(modifier = Modifier.fillMaxSize()) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -99,70 +110,88 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     Text(
                         text = "Customization", modifier = Modifier
                             .fillMaxWidth()
-                            .padding(3.dp), style = MaterialTheme.typography.headlineMedium
+                            .padding(3.dp), style = MaterialTheme.typography.headlineSmall
                     )
-                    Divider()
                 }
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
+                Surface(
+                    tonalElevation = 1.dp,
+                    shape = RoundedCornerShape(20.dp),
                 ) {
-                    items(state.types, key = { it }) {
+                    LazyVerticalGrid(
+                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier
+                            .padding(5.dp)
+                            .fillMaxSize(),
+                        columns = GridCells.Adaptive(minSize = 90.dp)
+                    ) {
+                        for (type in state.types) {
+                            if (viewModel.hasIngredient(type = type)) {
+                                item(span = {
+                                    GridItemSpan(maxLineSpan)
+                                }) {
+                                    Text(
+                                        text = type,
+                                        style = MaterialTheme.typography.bodyLarge
+                                    )
+                                    Divider()
+                                }
+                            }
 
-//                    Surface(
-//                        modifier = Modifier
-//                            .border(
-//                                width = 1.dp,
-//                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-//                                shape = RoundedCornerShape(4.dp)
-//                            )
-////                            .clickable { showDetail = !showDetail },
-//                            ,tonalElevation = 2.dp,
-//                        shape = RoundedCornerShape(4.dp),
-//                    ) {
-//                        Column {
-//                            Row(
-//                                modifier = Modifier.fillMaxWidth(),
-//                                verticalAlignment = Alignment.CenterVertically,
-//                                horizontalArrangement = Arrangement.SpaceBetween
-//                            ) {
-//                                Column {
-//                                    Row(
-//                                        verticalAlignment = Alignment.CenterVertically,
-//                                        modifier = Modifier.padding(4.dp)
-//                                    ) {
-                        Text(
-                            text = it,
-                            modifier = Modifier.padding(10.dp)
-                        )
-                        Divider(modifier = Modifier.padding(4.dp))
-                        LazyVerticalGrid(
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            modifier = Modifier
-                                .height(100.dp)
-                                .fillMaxWidth(),
-                            columns = GridCells.Adaptive(minSize = 90.dp),
-                            content = {
-                                items(viewModel.getMatchType(type = it)) { j ->
-                                    var selected by remember { mutableStateOf(false) }
-                                    FilterChip(
-                                        selected = selected,
-                                        onClick = { selected = !selected },
-                                        label = {
-                                            j.inventory?.name?.let { it1 ->
-                                                Text(text = it1)
+                            items(viewModel.getMatchType(type)) { j ->
+                                var selected by remember { mutableStateOf(false) }
+                                FilterChip(
+                                    selected = selected,
+                                    onClick = {
+                                        selected = !selected
+                                        if(j.inventory?.isCountable == true){
+                                            openDialog.value = true
+                                            ingredient = j
+                                        }
+                                    },
+                                    label = {
+                                        j.inventory?.name?.let { it1 ->
+                                            Text(
+                                                text = it1,
+                                                modifier = Modifier.fillMaxWidth(),
+                                                textAlign = TextAlign.Center
+                                            )
+                                        }
+                                    })
+
+                                if (openDialog.value) {
+                                    AlertDialog(onDismissRequest = { openDialog.value = false
+                                        selected=false },
+                                        title = { IngredientItem(
+                                            ingredient = ingredient,
+                                            onMinusPressed = {  },
+                                            onPlusPressed = {  },
+                                        ) }, dismissButton = {
+                                            TextButton(
+                                                onClick = {
+                                                    openDialog.value = false
+                                                }
+                                            ) {
+                                                Text("Dismiss")
+                                            }
+                                        }, confirmButton = {
+                                            TextButton(
+                                                onClick = {
+                                                    openDialog.value = false
+                                                }
+                                            ) {
+                                                Text("Confirm")
                                             }
                                         })
                                 }
-                            })
+                            }
+                        }
+
+
                     }
                 }
             }
         }
     }
 }
-//                        Spacer(modifier = Modifier.height(8.dp))
