@@ -55,7 +55,7 @@ fun MenuScreen(navHostController: NavHostController) {
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                LazyVerticalGrid(columns = GridCells.Fixed(2),verticalArrangement = Arrangement.spacedBy(6.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                LazyVerticalGrid(columns = GridCells.Fixed(2),verticalArrangement = Arrangement.spacedBy(9.dp), horizontalArrangement = Arrangement.spacedBy(9.dp)) {
                     items(state.drinks) { drink ->
                         DrinkItem(
                             drink = drink,
