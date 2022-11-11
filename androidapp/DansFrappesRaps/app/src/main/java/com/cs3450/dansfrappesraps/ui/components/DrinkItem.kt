@@ -33,14 +33,16 @@ import com.cs3450.dansfrappesraps.ui.models.Drink
 fun DrinkItem(
     drink: Drink,
     onSelected: () -> Unit,
-    onDeletePressed: () -> Unit
+    onDeletePressed: () -> Unit,
+    quantity: Int,
 ){
     val swipeableState = rememberSwipeableState(initialValue = SwipeState.CLOSED)
     val anchors = mapOf(
         0f to SwipeState.CLOSED,
         -200f to SwipeState.OPEN
     )
-    Box(
+    Card(
+        shape = RoundedCornerShape(20.dp),
         modifier = Modifier
             .fillMaxWidth()
             .swipeable(
@@ -86,11 +88,12 @@ fun DrinkItem(
             elevation = CardDefaults.cardElevation(5.dp),
             shape = RoundedCornerShape(4.dp),
         ) {
-            Column() {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Column( verticalArrangement = Arrangement.Center) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.Center,
                             modifier = Modifier.padding(4.dp)
                         ) {
                             Text(
@@ -153,7 +156,7 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
             elevation = CardDefaults.cardElevation(5.dp),
             shape = RoundedCornerShape(4.dp),
         ) {
-            Column() {
+            Column {
                 Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
                     Column( verticalArrangement = Arrangement.Center) {
                         Row(
@@ -203,3 +206,69 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
             }
         }
     }
+
+//Cart Drink Item
+@OptIn(ExperimentalGlideComposeApi::class)
+@Composable
+fun CartDrinkItem(drink: Drink, onSelected: () -> Unit){
+    Card(
+        modifier = Modifier
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.onPrimary,
+                shape = RoundedCornerShape(4.dp)
+            )
+            .clickable { onSelected() },
+        elevation = CardDefaults.cardElevation(5.dp),
+        shape = RoundedCornerShape(4.dp),
+    ) {
+        Column() {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
+                Column( verticalArrangement = Arrangement.Center) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(4.dp)
+                    ) {
+                        Text(
+                            text = drink.name ?: "",
+                            modifier = Modifier.padding(10.dp),
+                            fontWeight = FontWeight.Bold
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                    }
+                    Divider(modifier = Modifier.padding(4.dp))
+
+                    GlideImage(
+                        model = Uri.parse(drink.image ?: ""),
+                        contentDescription = "Drink Image",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+
+                    Divider(modifier = Modifier.padding(4.dp))
+
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.padding(4.dp).fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                    ) {
+                        var appendString = ""
+                        for (ingredient in drink.ingredients!!) {
+                            appendString += ingredient.inventory?.name
+                            appendString += if (drink.ingredients.lastIndex == drink.ingredients.indexOf(ingredient)) {
+                                "."
+                            } else {
+                                ", "
+                            }
+                        }
+                        Text(
+                            text = appendString,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}

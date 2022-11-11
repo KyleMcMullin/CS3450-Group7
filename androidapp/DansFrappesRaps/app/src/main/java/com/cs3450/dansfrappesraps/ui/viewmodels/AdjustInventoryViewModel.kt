@@ -20,6 +20,7 @@ class AdjustInventoryState{
     var typeError by mutableStateOf(false)
     var dropDownExpanded by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())
+    var isCountable by mutableStateOf(true)
 }
 
 class AdjustInventoryViewModel(application: Application): AndroidViewModel(application) {
@@ -27,14 +28,14 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
 
     suspend fun adjustInventory(id: String?) {
         if (runChecks()) {
-            InventoryRepository.editInventory(id!!, uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble(),uiState.type)
+            InventoryRepository.editInventory(id!!, uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble(),uiState.type, uiState.isCountable)
             uiState.adjustSuccess = true
         }
     }
 
     suspend fun addInventory() {
         if (runChecks()) {
-            InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble(), uiState.type)
+            InventoryRepository.addInventory(uiState.name, uiState.quantity.toInt(), uiState.PPU.toDouble(), uiState.type, uiState.isCountable)
             uiState.adjustSuccess = true
         }
     }

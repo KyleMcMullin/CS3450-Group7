@@ -14,7 +14,7 @@ import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
 import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
 
-class DetailMenuState(){
+class DetailMenuState {
     var drinkName by mutableStateOf("")
     var nameError by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())
@@ -24,6 +24,7 @@ class DetailMenuState(){
     var type by mutableStateOf("")
 //    Need these?
     var errorMessage by mutableStateOf("")
+    var newDrink by mutableStateOf(Drink())
 }
 
 
@@ -40,7 +41,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         uiState.types = InventoryRepository.getTypes() + listOf("")
     }
-
     suspend fun getIngredients() {
         uiState.loading = true
         var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
@@ -53,6 +53,16 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
         CartRepository.addDrink(drink)
 
+    }
+
+    fun getMatchType(type: String): ArrayList<Ingredient> {
+        val typeCustom:ArrayList<Ingredient> = ArrayList()
+        for(inven in uiState._customization){
+            if(inven.inventory?.type == type){
+                typeCustom.add(inven)
+            }
+        }
+        return typeCustom
     }
     private fun runChecks(): Boolean {
         uiState.nameError = false

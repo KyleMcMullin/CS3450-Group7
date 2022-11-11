@@ -1,6 +1,5 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
@@ -8,17 +7,22 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.Loader
+import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -42,178 +46,123 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
         Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
-        Column(
-            modifier = Modifier
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(text = state.drinkName, style = MaterialTheme.typography.headlineLarge)
-            Divider(
+            Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp), thickness = 3.dp
-            )
-            ExtendedFloatingActionButton(onClick = { scope.launch { viewModel.addToCart(id) } }, modifier = Modifier.align(Alignment.End)) {
-                Text(text = "Add to Cart")
-            }
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp), thickness = 3.dp
-            )
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = "Size",
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Left
-            )
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp), thickness = 3.dp
-            )
-            Row() {
-                Column(modifier = Modifier.fillMaxWidth(.5F)) {
-                    Button(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(3.dp), onClick = {}) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "Small",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-                    }
-                }
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Button(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(3.dp), onClick = {}) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            text = "Medium",
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-                    }
-
-                }
-            }
-            Column(modifier = Modifier.fillMaxWidth()) {
-                Button(modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(3.dp), onClick = {}) {
-                    Text(
-                        modifier = Modifier.fillMaxWidth(),
-                        text = "Large",
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.headlineSmall
-                    )
-                }
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 20.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = "Customization", modifier = Modifier
+                Text(text = state.drinkName, style = MaterialTheme.typography.headlineLarge)
+                Divider(
+                    modifier = Modifier
                         .fillMaxWidth()
-                        .padding(3.dp), style = MaterialTheme.typography.headlineMedium
+                        .padding(5.dp), thickness = 3.dp
                 )
-                Divider()
-//                Text(text = "Quantity", modifier = Modifier.fillMaxWidth(), style = MaterialTheme.typography.titleMedium,)
-            }
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                items(state.types, key = { it }) {
-                    var showDetail by remember { mutableStateOf(false) }
-
-                    Surface(
-                        modifier = Modifier
-                            .border(
-                                width = 1.dp,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-                                shape = RoundedCornerShape(4.dp)
+                Text(
+                    modifier = Modifier.fillMaxWidth(),
+                    text = "Size",
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Left
+                )
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp), thickness = 3.dp
+                )
+                val radioOptions = listOf("Small","Medium","Large")
+                val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
+                Column(modifier = Modifier
+                    .fillMaxWidth()
+                    .selectableGroup(), horizontalAlignment = Alignment.Start) {
+                    radioOptions.forEach{ text ->
+                        Row(verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.selectable(selected = (text ==selectedOption), onClick = {onOptionSelected(text)},
+                            role = Role.RadioButton)) {
+                            RadioButton(selected = (text == selectedOption),
+                                modifier = Modifier
+                                    .padding(3.dp), onClick = null)
+                            Text(
+                                modifier = Modifier,
+                                text = text,
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.bodyLarge
                             )
-                            .clickable { showDetail = !showDetail },
-                        tonalElevation = 2.dp,
-                        shape = RoundedCornerShape(4.dp),
-                    ) {
-                        Column() {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column() {
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        modifier = Modifier.padding(4.dp)
-                                    ) {
-                                        Text(
-                                            text = it,
-                                            modifier = Modifier.padding(10.dp)
-                                        )
-                                    }
-                                    Column() {
-                                        AnimatedVisibility(
-                                            visible = showDetail,
-                                            enter = expandVertically(),
-                                            exit = shrinkVertically()
-                                        ) {
-                                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                                Divider(
-                                                    modifier = Modifier.padding(4.dp)
-                                                )
-                                                Row(
-                                                    horizontalArrangement = Arrangement.Center,
-                                                    modifier = Modifier.padding(8.dp)
-                                                ) {
-//                                                    DropdownMenu(
-//                                                        expanded = showDetail,
-//                                                        onDismissRequest = { showDetail = false }) {
-//                                                        Log.e("ERROR", it)
-
-                                                    state.customization.forEach { j ->
-                                                        var selected by remember {
-                                                            mutableStateOf(
-                                                                false
-                                                            )
-                                                        }
-                                                        if (j.inventory?.type == it) {
-                                                            FilterChip(
-                                                                selected = selected,
-                                                                onClick = { selected = !selected },
-                                                                label = {
-                                                                    j.inventory.name?.let { it1 ->
-                                                                        Text(text = it1)
-                                                                    }
-                                                                })
-//
-                                                        }
-
-                                                    }
-//                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
+
+                }
+                Column(modifier = Modifier.fillMaxSize()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp)
+                ) {
+                    Text(
+                        text = "Customization", modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(3.dp), style = MaterialTheme.typography.headlineMedium
+                    )
+                    Divider()
+                }
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxHeight()
+                        .padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    items(state.types, key = { it }) {
+
+//                    Surface(
+//                        modifier = Modifier
+//                            .border(
+//                                width = 1.dp,
+//                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+//                                shape = RoundedCornerShape(4.dp)
+//                            )
+////                            .clickable { showDetail = !showDetail },
+//                            ,tonalElevation = 2.dp,
+//                        shape = RoundedCornerShape(4.dp),
+//                    ) {
+//                        Column {
+//                            Row(
+//                                modifier = Modifier.fillMaxWidth(),
+//                                verticalAlignment = Alignment.CenterVertically,
+//                                horizontalArrangement = Arrangement.SpaceBetween
+//                            ) {
+//                                Column {
+//                                    Row(
+//                                        verticalAlignment = Alignment.CenterVertically,
+//                                        modifier = Modifier.padding(4.dp)
+//                                    ) {
+                        Text(
+                            text = it,
+                            modifier = Modifier.padding(10.dp)
+                        )
+                        Divider(modifier = Modifier.padding(4.dp))
+                        LazyVerticalGrid(
+                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            modifier = Modifier
+                                .height(100.dp)
+                                .fillMaxWidth(),
+                            columns = GridCells.Adaptive(minSize = 90.dp),
+                            content = {
+                                items(viewModel.getMatchType(type = it)) { j ->
+                                    var selected by remember { mutableStateOf(false) }
+                                    FilterChip(
+                                        selected = selected,
+                                        onClick = { selected = !selected },
+                                        label = {
+                                            j.inventory?.name?.let { it1 ->
+                                                Text(text = it1)
+                                            }
+                                        })
+                                }
+                            })
+                    }
                 }
             }
         }
     }
 }
-
-//fun FilterChip(selected: Any?, onClick: () -> Unit, interactionSource: () -> Unit) {
-//
-//}
+//                        Spacer(modifier = Modifier.height(8.dp))
