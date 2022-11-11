@@ -17,39 +17,4 @@ class TrackerEmployeeScreenState {
 
 class TrackerEmployeeViewModel(application: Application): AndroidViewModel(application) {
     val uiState = TrackerEmployeeScreenState()
-
-    suspend fun getUsers() {
-        uiState.loading = true
-        uiState._users.clear()
-        uiState._users.addAll(UserRepository.getAllUsers())
-        uiState._users.removeIf { user -> user.employee == false }
-    }
-
-    suspend fun approveAll() {
-        uiState._users.forEach { user ->
-            user.balance = user.balance?.plus((user.payRate?.times(user.hours.toDouble())!!))
-            user.hours = 0
-            UserRepository.updateUser(user)
-        }
-        uiState._users.clear()
-        uiState._users.addAll(UserRepository.getAllUsers())
-        uiState._users.removeIf { user -> user.employee == false }
-    }
-
-    suspend fun approveUser(user: User) {
-        user.balance = user.balance?.plus((user.payRate?.times(user.hours.toDouble())!!))
-        user.hours = 0
-        uiState._users.remove(user)
-        uiState._users.add(user)
-        UserRepository.updateUser(user)
-
-    }
-
-    suspend fun saveHours(user: User) {
-        UserRepository.updateUser(user)
-        val index = uiState._users.indexOf(user)
-        uiState._users.remove(user)
-        uiState._users.add(index, user)
-    }
-
 }

@@ -3,6 +3,7 @@ package com.cs3450.dansfrappesraps.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.components.ManagePayrollItem
+import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.TrackerEmployeeViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -27,9 +29,7 @@ fun TrackerEmployeeScreen(navHostController: NavHostController) {
     val scope = rememberCoroutineScope()
 
     LaunchedEffect(true) {
-        val loadingUsers = async { viewModel.getUsers() }
         delay(2000)
-        loadingUsers.await()
         state.loading = false
     }
     Column {
@@ -55,34 +55,35 @@ fun TrackerEmployeeScreen(navHostController: NavHostController) {
                     )
                 }
                 Spacer(modifier = Modifier.height(16.dp))
-                Button(onClick = { scope.launch { viewModel.approveAll() } }) {
-                    androidx.compose.material3.Text(text = "Mark All Ingredients")
-                }
-                Spacer(modifier = Modifier.height(16.dp))
-                LazyColumn(
+                Column(
                     modifier = Modifier
                         .fillMaxHeight()
                         .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    items(state.users, key = { it.id!! }) { user ->
-                        ManagePayrollItem(
-                            user = user,
-                            onApprove = {
-                                scope.launch {
-                                    viewModel.approveUser(user)
-                                }
-                            },
-                            onSaveHours = {
-                                scope.launch {
-                                    viewModel.saveHours(user)
-                                }
-                            },
-                            onEditRate = {
-                                navHostController.navigate("editUser?id=${user.id}")
+                                    ) {
+                    Row{
+                                                Column{
+                            androidx.compose.material.Button(onClick = {
+                                navHostController.navigate(
+                                    Routes.trackerEmployee.route
+                                )
+                            }) {
+                                Text("View Order 1")
                             }
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
+                            androidx.compose.material.Button(onClick = {
+                                navHostController.navigate(
+                                    Routes.trackerEmployee.route
+                                )
+                            }) {
+                                Text("View Order 2")
+                            }
+                            androidx.compose.material.Button(onClick = {
+                                navHostController.navigate(
+                                    Routes.trackerEmployee.route
+                                )
+                            }) {
+                                Text("View Order 3")
+                            }
+                        }
                     }
                 }
             }

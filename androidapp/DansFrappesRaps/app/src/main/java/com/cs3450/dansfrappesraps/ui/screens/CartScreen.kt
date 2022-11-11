@@ -93,6 +93,10 @@ fun CartScreen(navHostController: NavHostController){
                     "\tYour cart is empty! Please check out our menu for more coffee.",
                     style = MaterialTheme.typography.headlineSmall
                 )
+                androidx.compose.material.Button(onClick = { navHostController.navigate(Routes.tracker.route)
+                }) {
+                    androidx.compose.material.Text("Track Order")
+                    }
             }
         }
     }
