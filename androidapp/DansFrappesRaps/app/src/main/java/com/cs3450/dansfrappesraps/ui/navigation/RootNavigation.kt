@@ -106,6 +106,14 @@ fun RootNavigation() {
                         Text(text = "Manage Inventory")
                     }
                     DropdownMenuItem(onClick = {
+                        navController.navigate(Routes.trackerEmployee.route)
+                        scope.launch { scaffoldState.drawerState.close() }
+                    }) {
+                        Icon(Icons.Outlined.ShoppingCart, "Order Tracker")
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Text(text = "Track Orders")
+                    }
+                    DropdownMenuItem(onClick = {
                         navController.navigate(Routes.manageMenu.route)
                         scope.launch { scaffoldState.drawerState.close() }
                     }) {
@@ -235,6 +243,7 @@ fun RootNavigation() {
             }
             composable(route = Routes.splashScreen.route) { SplashScreen(navHostController = navController) }
             composable(route = Routes.cart.route) { CartScreen(navHostController = navController) }
-            composable(route = Routes.tracker.route) { TrackerScreen(navHostController = navController) }
+            composable(route = Routes.tracker.route) { TrackerScreen(navHostController = navController)}
+            composable(route = Routes.trackerEmployee.route) { TrackerEmployeeScreen(navHostController = navController)}
         }}
 }
