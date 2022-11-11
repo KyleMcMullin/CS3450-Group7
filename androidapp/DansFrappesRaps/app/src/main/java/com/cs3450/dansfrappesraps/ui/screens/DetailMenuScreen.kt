@@ -103,51 +103,30 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                     )
                     Divider()
                 }
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    items(state.types, key = { it }) {
 
-//                    Surface(
-//                        modifier = Modifier
-//                            .border(
-//                                width = 1.dp,
-//                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-//                                shape = RoundedCornerShape(4.dp)
-//                            )
-////                            .clickable { showDetail = !showDetail },
-//                            ,tonalElevation = 2.dp,
-//                        shape = RoundedCornerShape(4.dp),
-//                    ) {
-//                        Column {
-//                            Row(
-//                                modifier = Modifier.fillMaxWidth(),
-//                                verticalAlignment = Alignment.CenterVertically,
-//                                horizontalArrangement = Arrangement.SpaceBetween
-//                            ) {
-//                                Column {
-//                                    Row(
-//                                        verticalAlignment = Alignment.CenterVertically,
-//                                        modifier = Modifier.padding(4.dp)
-//                                    ) {
-                        Text(
-                            text = it,
-                            modifier = Modifier.padding(10.dp)
-                        )
-                        Divider(modifier = Modifier.padding(4.dp))
-                        LazyVerticalGrid(
-                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp),
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            modifier = Modifier
-                                .height(100.dp)
-                                .fillMaxWidth(),
-                            columns = GridCells.Adaptive(minSize = 90.dp),
-                            content = {
-                                items(viewModel.getMatchType(type = it)) { j ->
+
+                                    LazyVerticalGrid(
+                    contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+                    verticalArrangement = Arrangement.spacedBy(6.dp),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(16.dp), columns = GridCells.Adaptive(minSize = 90.dp)
+            ) {
+                for (type in state.types) {
+                    if (viewModel.hasIngredient(type = type)) {
+                        item(span = {
+                            GridItemSpan(maxLineSpan)
+                        }) {
+                            Text(
+                                text = type,
+                                modifier = Modifier.padding(10.dp)
+                            )
+                            Divider()
+                        }
+                    }
+
+                        items(viewModel.getMatchType(type)) { j->
                                     var selected by remember { mutableStateOf(false) }
                                     FilterChip(
                                         selected = selected,
@@ -157,12 +136,35 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
                                                 Text(text = it1)
                                             }
                                         })
-                                }
-                            })
+                            }
                     }
                 }
+
+
             }
-        }
+
+//                        LazyVerticalGrid(
+//                            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
+//                            verticalArrangement = Arrangement.spacedBy(6.dp),
+//                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+//                            modifier = Modifier
+//                                .height(100.dp)
+//                                .fillMaxWidth(),
+//                            columns = GridCells.Adaptive(minSize = 90.dp),
+//                            content = {
+//                                items(viewModel.getMatchType(type = it)) { j ->
+//                                    var selected by remember { mutableStateOf(false) }
+//                                    FilterChip(
+//                                        selected = selected,
+//                                        onClick = { selected = !selected },
+//                                        label = {
+//                                            j.inventory?.name?.let { it1 ->
+//                                                Text(text = it1)
+//                                            }
+//                                        })
+//                                }
+//                            })
+                    }
+                }
     }
-}
 //                        Spacer(modifier = Modifier.height(8.dp))
