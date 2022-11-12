@@ -3,7 +3,7 @@ package com.cs3450.dansfrappesraps.ui.screens
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Text
+import androidx.compose.material3.Text
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -62,21 +62,21 @@ fun TrackerEmployeeScreen(navHostController: NavHostController) {
                                     ) {
                     Row{
                                                 Column{
-                            androidx.compose.material.Button(onClick = {
+                            Button(onClick = {
                                 navHostController.navigate(
                                     Routes.trackerEmployee.route
                                 )
                             }) {
                                 Text("View Order 1")
                             }
-                            androidx.compose.material.Button(onClick = {
+                            Button(onClick = {
                                 navHostController.navigate(
                                     Routes.trackerEmployee.route
                                 )
                             }) {
                                 Text("View Order 2")
                             }
-                            androidx.compose.material.Button(onClick = {
+                            Button(onClick = {
                                 navHostController.navigate(
                                     Routes.trackerEmployee.route
                                 )
