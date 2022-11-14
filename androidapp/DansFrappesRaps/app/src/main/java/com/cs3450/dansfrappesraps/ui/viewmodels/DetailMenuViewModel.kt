@@ -9,10 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
-import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
-import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
-import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
-import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
+import com.cs3450.dansfrappesraps.ui.repositories.*
 
 class DetailMenuState {
     var drinkName by mutableStateOf("")
@@ -41,6 +38,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         uiState.types = InventoryRepository.getTypes() + listOf("")
     }
+
     suspend fun getIngredients() {
         uiState.loading = true
         var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
@@ -49,9 +47,12 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
-    suspend fun addToCart(id: String?){
-        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
-        CartRepository.addDrink(drink)
+
+    fun addToCart(id: String?){
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization/*, quantity=uiState.quantity*/)
+        OrdersRepository.addDrinkToOrder(drink)
+//        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
+//        CartRepository.addDrink(drink)
 
     }
 
@@ -61,6 +62,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         return true
     }
+
     fun getMatchType(type: String): ArrayList<Ingredient> {
         val typeCustom:ArrayList<Ingredient> = ArrayList()
         for(inven in uiState._customization){

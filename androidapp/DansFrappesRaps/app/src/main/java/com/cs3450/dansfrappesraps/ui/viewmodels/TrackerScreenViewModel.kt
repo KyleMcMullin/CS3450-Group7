@@ -9,7 +9,7 @@ import com.cs3450.dansfrappesraps.ui.models.Order
 import com.cs3450.dansfrappesraps.ui.repositories.OrdersRepository
 
 class TrackerScreenState{
-    var order by mutableStateOf(OrdersRepository.ordersCache)
+    var order by mutableStateOf(OrdersRepository.orderCache)
     }
 
 class TrackerScreenViewModel(application: Application): AndroidViewModel(application) {
