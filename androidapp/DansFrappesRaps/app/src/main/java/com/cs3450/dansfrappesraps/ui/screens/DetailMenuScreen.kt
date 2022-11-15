@@ -155,7 +155,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                             items(viewModel.getMatchType(type)) { j ->
                                 var selected by remember { mutableStateOf(false) }
                                 FilterChip(
-                                    selected = selected,
+                                    selected = selected.xor(viewModel.isSelected(j)),
                                     onClick = {
                                         selected = !selected
                                         if(j.inventory?.isCountable == true){
