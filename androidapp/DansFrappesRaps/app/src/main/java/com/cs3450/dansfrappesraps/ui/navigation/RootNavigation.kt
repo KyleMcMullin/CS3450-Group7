@@ -48,11 +48,20 @@ fun RootNavigation() {
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
-                if (currentDestination?.route == Routes.signUp.route || currentDestination?.route == Routes.detailMenu.route || currentDestination?.route == Routes.cart.route) {
+                if (currentDestination?.route == Routes.signUp.route || currentDestination?.route == Routes.detailMenu.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
+                } else if (currentDestination?.route == Routes.cart.route) {
+                    IconButton(onClick = {
+                        navController.navigate(Routes.menu.route) {
+                            popUpTo(Routes.menu.route) { inclusive = true }
+                        }
+                    }) {
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                    }
+                }
+                else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
                     IconButton(onClick = {
                         navController.popBackStack()
                         if (currentDestination.route != Routes.editUser.route && currentDestination.route != Routes.editInventory.route && currentDestination.route != Routes.editMenu.route) {
