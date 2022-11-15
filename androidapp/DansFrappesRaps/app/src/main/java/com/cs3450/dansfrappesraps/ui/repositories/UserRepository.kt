@@ -192,6 +192,7 @@ object UserRepository {
         try {
             userCache = User()
             Firebase.auth.signOut()
+            OrdersRepository.clearCurrentOrder()
         } catch (_: Exception){}
     }
 

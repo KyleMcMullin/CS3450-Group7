@@ -41,15 +41,16 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     suspend fun getIngredients() {
         uiState.loading = true
-        var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
-        for(i in ingredients){
-                runChecks()
-        }
+//        var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
+//      Dont think we need this
+//        for(i in ingredients){
+//                runChecks()
+//        }
         uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
 
     fun addToCart(id: String?){
-        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization/*, quantity=uiState.quantity*/)
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}/*, quantity=uiState.quantity*/)
         OrdersRepository.addDrinkToOrder(drink)
 //        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
 //        CartRepository.addDrink(drink)
