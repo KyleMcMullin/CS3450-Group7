@@ -61,6 +61,10 @@ object OrdersRepository {
         orderCache!!.drinks!!.add(drink)
     }
 
+    fun clearCurrentOrder() {
+        orderCache = null
+    }
+
     suspend fun placeOrder() {
         try {
             val doc = Firebase.firestore.collection("orders").document()

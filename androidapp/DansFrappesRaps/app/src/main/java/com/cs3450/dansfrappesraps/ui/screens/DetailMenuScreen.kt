@@ -23,7 +23,7 @@ import kotlinx.coroutines.delay
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailMenuScreen(navController: NavController, id: String?) {
+fun DetailMenuScreen(navController: NavController, id: String, index: String) {
     var viewModel: DetailMenuViewModel = viewModel()
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
@@ -32,7 +32,7 @@ fun DetailMenuScreen(navController: NavController, id: String?) {
         val loadingIngredients = async { viewModel.getIngredients() }
         delay(2000)
         loadingIngredients.await()
-        viewModel.setUpInitialState(id)
+        viewModel.setUpInitialState(id, index)
         state.loading = false
     }
     if (state.loading) {

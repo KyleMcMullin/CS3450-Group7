@@ -28,10 +28,14 @@ class DetailMenuState {
 class DetailMenuViewModel (application: Application): AndroidViewModel(application){
     var uiState = DetailMenuState()
 
-    suspend fun setUpInitialState(id: String?) {
-        if (id == null) return
-
-        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
+    suspend fun setUpInitialState(id: String, index: String) {
+        val drink = if (id == "null") {
+            if (index == "null") return
+            OrdersRepository.getUnplacedOrder().drinks?.get(index.toInt()) ?: return
+        } else {
+            DrinksRepository.getDrinks().find {
+                it.id == id } ?: return
+        }
         uiState.drinkName = drink.name.toString()
         for (ingredient in drink.ingredients!!) {
             uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }

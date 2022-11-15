@@ -199,11 +199,12 @@ fun RootNavigation() {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
                 composable(
                     route = Routes.detailMenu.route,
-                    arguments = listOf(navArgument("id") { defaultValue = "new" })
+                    arguments = listOf(navArgument("id") { defaultValue = "null" }, navArgument("index") { defaultValue = "null" })
                 ) { navBackStackEntry ->
                     DetailMenuScreen(
                         navController,
-                        navBackStackEntry.arguments?.get("id").toString()
+                        navBackStackEntry.arguments?.get("id").toString(),
+                        navBackStackEntry.arguments?.get("index").toString(),
                     )
                 }
             }

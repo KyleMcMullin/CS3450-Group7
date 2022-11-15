@@ -12,6 +12,7 @@ import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.models.Inventory
 import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
 import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
+import com.cs3450.dansfrappesraps.ui.repositories.OrdersRepository
 import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
 
 class CartScreenState{
@@ -24,7 +25,7 @@ class CartScreenState{
     var checkBalance by mutableStateOf(false)
     var checkCart by mutableStateOf(false)
     var loading by mutableStateOf(false)
-    var cart by mutableStateOf(CartRepository.cartCache)
+    var cart by mutableStateOf(OrdersRepository.getUnplacedOrder())
     var errorMessage by mutableStateOf("")
     var checkoutSuccess by mutableStateOf(false)
     var cartDeletion by mutableStateOf(false)
@@ -82,8 +83,9 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         }
         return uiState.frappuccinos
     }
-    suspend fun getCart(){
-        CartRepository.getCart()
+
+    fun getCart(){
+        uiState.cart = OrdersRepository.getUnplacedOrder()
     }
     fun getIngredients(drink: Drink): List<Ingredient> {
         for (ingredients in drink.ingredients!!) {
@@ -112,20 +114,21 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         uiState.priceSum = coffeePrice
         return uiState.priceSum
     }
+
     suspend fun checkInventory() {
 
     }
 
-    fun makeOrder() {
-
+    suspend fun submitOrder() {
+        OrdersRepository.placeOrder()
     }
+
     suspend fun checkout() {
         checkInventory()
         if (balanceCheck()) {
-            makeOrder()
+            submitOrder()
             UserRepository.subtractUserBalance(uiState.priceSum)
-            CartRepository.deleteCart(CartRepository.cartCache)
-            deletingCart()
+//            deletingCart()
             uiState.checkoutSuccess = true
             uiState.cartDeletion = true
         } else {
