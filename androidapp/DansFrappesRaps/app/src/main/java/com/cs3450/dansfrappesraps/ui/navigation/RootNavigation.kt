@@ -166,17 +166,6 @@ fun RootNavigation() {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
-            if(currentDestination?.route == Routes.detailMenu.route){
-                ExtendedFloatingActionButton(
-                    onClick = {
-                             navController.navigate(Routes.menu.route)
-                    },
-
-                    contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary){
-                    Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
-                    androidx.compose.material3.Text(text = "Add to Cart")
-                }
-            }
             if (currentDestination?.route == Routes.manageUsers.route || currentDestination?.route == Routes.manageInventory.route || currentDestination?.route == Routes.manageMenu.route) {
                 FloatingActionButton(
                     onClick = {
@@ -210,6 +199,7 @@ fun RootNavigation() {
                     route = Routes.detailMenu.route,
                     arguments = listOf(navArgument("id") { defaultValue = "null" }, navArgument("index") { defaultValue = "null" })
                 ) { navBackStackEntry ->
+//                    var index = navBackStackEntry.arguments?.getString("index").toString()
                     DetailMenuScreen(
                         navController,
                         navBackStackEntry.arguments?.get("id").toString(),

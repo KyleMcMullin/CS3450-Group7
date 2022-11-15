@@ -62,17 +62,13 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         getCart()
         getDrinks()
         calculateBalance()
-        uiState.clearIngredients()
+//        uiState.clearIngredients()
     }
     fun getDrinks(): List<Drink> {
-        var drinks = CartRepository.cartCache.drinks
+        var drinks = OrdersRepository.getUnplacedOrder().drinks
         if (drinks != null) {
             for (drink: Drink in drinks) {
                 if (!uiState.frappuccinos.contains(drink)) {
-                    uiState.addDrink(drink)
-                    uiState.drinkCount ++
-                }
-                else{
                     uiState.addDrink(drink)
                     uiState.drinkCount ++
                 }

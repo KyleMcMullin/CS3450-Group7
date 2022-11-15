@@ -5,6 +5,8 @@ import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -17,6 +19,7 @@ import androidx.navigation.NavController
 import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
+import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -39,6 +42,16 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
         Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
+        Scaffold(floatingActionButton = {ExtendedFloatingActionButton(
+            onClick = {
+                viewModel.addToCart(null)
+                navController.navigate(Routes.cart.route)
+            },
+
+            contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary){
+            Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
+            androidx.compose.material3.Text(text = "Add to Cart")
+        }}, content = { padding->
         Column(
             modifier = Modifier
                 .fillMaxSize(),
@@ -161,16 +174,23 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                     })
 
                                 if (openDialog.value) {
+                                    val tempCount = ingredient.count
                                     AlertDialog(onDismissRequest = { openDialog.value = false
                                         selected=false },
                                         title = { IngredientItem(
                                             ingredient = ingredient,
-                                            onMinusPressed = {  },
-                                            onPlusPressed = {  },
+                                            onMinusPressed = {
+                                                 viewModel.decrementIngredient(ingredient)
+                                            },
+                                            onPlusPressed = {
+                                                viewModel.incrementIngredient(ingredient)
+                                            },
+                                            isForToast = true
                                         ) }, dismissButton = {
                                             TextButton(
                                                 onClick = {
                                                     openDialog.value = false
+                                                    ingredient.count = tempCount
                                                 }
                                             ) {
                                                 Text("Dismiss")
@@ -187,11 +207,10 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                 }
                             }
                         }
-
-
                     }
                 }
             }
         }
+    })
     }
 }

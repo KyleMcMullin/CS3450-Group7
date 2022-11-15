@@ -40,6 +40,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         for (ingredient in drink.ingredients!!) {
             uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
         }
+        uiState._customization.addAll(drink.ingredients)
         uiState.types = InventoryRepository.getTypes() + listOf("")
     }
 
@@ -86,5 +87,20 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
             return false
         }
         return true
+    }
+
+    fun incrementIngredient(ingredient: Ingredient) {
+        var index = uiState._customization.indexOf(ingredient)
+        ingredient.apply {
+            count = count?.plus(1)
+        }
+        uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient//ingredient.copy(count = ingredient.count?.plus(1))
+
+    }
+
+    fun decrementIngredient(ingredient: Ingredient) {
+        if (uiState._customization.find(ingredient::equals)?.count!! > 0) {
+            uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient.copy(count = ingredient.count?.minus(1))
+        }
     }
 }
