@@ -40,6 +40,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         for (ingredient in drink.ingredients!!) {
             uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
         }
+        uiState._customization.forEach { it.count = 0 }
         uiState._customization.addAll(drink.ingredients)
         uiState.types = InventoryRepository.getTypes() + listOf("")
     }
