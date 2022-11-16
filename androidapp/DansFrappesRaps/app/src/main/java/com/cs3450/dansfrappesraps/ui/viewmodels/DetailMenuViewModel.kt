@@ -18,6 +18,7 @@ class DetailMenuState {
     val customization: List<Ingredient> get() = _customization
     var loading by mutableStateOf(false)
     var type by mutableStateOf("")
+    var drink by mutableStateOf(Drink())
 
 //    Need these?
     var errorMessage by mutableStateOf("")
@@ -27,22 +28,32 @@ class DetailMenuState {
 
 class DetailMenuViewModel (application: Application): AndroidViewModel(application){
     var uiState = DetailMenuState()
-    var drink by mutableStateOf(Drink())
     suspend fun setUpInitialState(id: String, index: String) {
-        drink = if (id == "null") {
+        var drink = if (id == "null") {
             if (index == "null") return
             OrdersRepository.getUnplacedOrder().drinks?.get(index.toInt()) ?: return
         } else {
             DrinksRepository.getDrinks().find {
                 it.id == id } ?: return
         }
+        uiState.drink = drink
         uiState.drinkName = drink.name.toString()
 //        for (ingredient in drink.ingredients!!) {
 //            uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
 //        }
+
         uiState._customization.forEach { it.count = 0 }
         drink.ingredients?.let { uiState._customization.addAll(it) }
         uiState.types = InventoryRepository.getTypes() + listOf("")
+        var customizationCopy: MutableList<Ingredient> = mutableListOf()
+        customizationCopy.addAll(uiState._customization)
+        uiState._customization.forEach { ingredient ->
+            if (ingredient.count!! > 0) {
+                customizationCopy.removeIf {it.count == 0 && it.inventory?.id == ingredient.inventory?.id}
+            }
+        }
+        uiState._customization.clear()
+        uiState._customization.addAll(customizationCopy)
     }
 
 
@@ -72,7 +83,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun isSelected(ingredient: Ingredient):Boolean{
-        for(i in drink.ingredients!!){
+        for(i in uiState.drink.ingredients!!){
             if(ingredient.inventory?.name == i.inventory?.name){
                 return true
             }
@@ -110,8 +121,12 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun decrementIngredient(ingredient: Ingredient) {
+        var index = uiState._customization.indexOf(ingredient)
         if (uiState._customization.find(ingredient::equals)?.count!! > 0) {
-            uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient.copy(count = ingredient.count?.minus(1))
+            ingredient.apply {
+                count = count?.minus(1)
+            }
+            uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient
         }
     }
 }
