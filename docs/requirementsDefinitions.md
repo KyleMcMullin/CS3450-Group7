@@ -71,6 +71,7 @@
 		Manager logs on app
 	Exit conditions:
 		Manager pays employees
+		Employees do not need to be paid yet
 	Event flow:
 		1. Manager updates wages for employees
 		2. Manager views hours
