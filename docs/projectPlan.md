@@ -7,11 +7,15 @@ The app will allow customers to place orders and add money to their account. The
 This app will be written in Kotlin while using Jetpack Compose and using Firebase’s database. 
 
 -------- Team Organization --------
-Project Manager: (may change through course of project)
+Project Managers: 
+Milestone 1: Kyle McMullin
+Milestone 2: Abigail Allen
+Milestone 3: Andrew Wilkinson
+Milestone 4: Hamilton Hardy
 Designers and Developers: Abigail Allen, Andrew Wilkinson, Hamilton Hardy, and Kyle McMullin
 
 -------- Software Development Process --------
-The development will be broken up into five phases. Each phase will be a little like a Sprint in an Agile method and a little like an iteration in a Spiral process. Specifically, each phase will be like a Sprint, in that work to be done will be organized into small tasks, placed into a “backlog”, and prioritized. Then, using on time-box scheduling, the team will decide which tasks the phase (Sprint) will address. The team will use a Scrum Board to keep track of tasks in the backlog, those that will be part of the current Sprint, those in progress, and those that are done.
+The development will be broken up into four phases. Each phase will be a little like a Sprint in an Agile method and a little like an iteration in a Spiral process. Specifically, each phase will be like a Sprint, in that work to be done will be organized into small tasks, placed into a “backlog”, and prioritized. Then, using on time-box scheduling, the team will decide which tasks the phase (Sprint) will address. The team will use a Scrum Board to keep track of tasks in the backlog, those that will be part of the current Sprint, those in progress, and those that are done.
 Each phase will also be a little like an iteration in a Spiral process, in that each phase will include some risk analysis and that any development activity (requirements capture, analysis, design, implementation, etc.) can be done during any phase. Early phases will focus on understanding (requirements capture and analysis) and subsequent phases will focus on design and implementation. Each phase will include a retrospective.
 
 Phase: Iteration

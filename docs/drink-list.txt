@@ -12,8 +12,7 @@ Drink Format Defaults
 	Flavors - 
 		Pumpkin Sauce
 	Toppings - 
-		Pumpkin Spice Topping
-		Whipped Cream
+		Pumpkin Spice
 
 3. Post Mocha
 	Flavors - 
@@ -27,7 +26,7 @@ Drink Format Defaults
 		Whipped Cream
 	Tea - 
 		Chai
-	Add-ins - 
+	Add-In -
 		Ice
 
 5. Doja Caramel
@@ -44,5 +43,5 @@ Drink Format Defaults
 		Whipped Cream
 	Sweeteners - 
 		Classic Syrup
-	Add-ins - 
+	Add-In -
 		Ice
