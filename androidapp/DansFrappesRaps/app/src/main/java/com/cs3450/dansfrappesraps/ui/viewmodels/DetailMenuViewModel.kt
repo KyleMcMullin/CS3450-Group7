@@ -9,19 +9,17 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
-import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
-import com.cs3450.dansfrappesraps.ui.repositories.DrinksRepository
-import com.cs3450.dansfrappesraps.ui.repositories.IngredientsRepository
-import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
+import com.cs3450.dansfrappesraps.ui.repositories.*
 
 class DetailMenuState {
     var drinkName by mutableStateOf("")
-    var nameError by mutableStateOf(false)
     var types by mutableStateOf(listOf<String>())
     var _customization = mutableStateListOf<Ingredient>()
     val customization: List<Ingredient> get() = _customization
     var loading by mutableStateOf(false)
     var type by mutableStateOf("")
+    var drink by mutableStateOf(Drink())
+
 //    Need these?
     var errorMessage by mutableStateOf("")
     var newDrink by mutableStateOf(Drink())
@@ -30,28 +28,50 @@ class DetailMenuState {
 
 class DetailMenuViewModel (application: Application): AndroidViewModel(application){
     var uiState = DetailMenuState()
-
-    suspend fun setUpInitialState(id: String?) {
-        if (id == null) return
-
-        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
-        uiState.drinkName = drink.name.toString()
-        for (ingredient in drink.ingredients!!) {
-            uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
+    suspend fun setUpInitialState(id: String, index: String) {
+        var drink = if (id == "null") {
+            if (index == "null") return
+            OrdersRepository.getUnplacedOrder().drinks?.get(index.toInt()) ?: return
+        } else {
+            DrinksRepository.getDrinks().find {
+                it.id == id } ?: return
         }
+        uiState.drink = drink
+        uiState.drinkName = drink.name.toString()
+//        for (ingredient in drink.ingredients!!) {
+//            uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
+//        }
+
+        uiState._customization.forEach { it.count = 0 }
+        drink.ingredients?.let { uiState._customization.addAll(it) }
         uiState.types = InventoryRepository.getTypes() + listOf("")
+        var customizationCopy: MutableList<Ingredient> = mutableListOf()
+        customizationCopy.addAll(uiState._customization)
+        uiState._customization.forEach { ingredient ->
+            if (ingredient.count!! > 0) {
+                customizationCopy.removeIf {it.count == 0 && it.inventory?.id == ingredient.inventory?.id}
+            }
+        }
+        uiState._customization.clear()
+        uiState._customization.addAll(customizationCopy)
     }
+
+
     suspend fun getIngredients() {
         uiState.loading = true
-        var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
-        for(i in ingredients){
-                runChecks()
-        }
+//        var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
+//      Dont think we need this
+//        for(i in ingredients){
+//                runChecks()
+//        }
         uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
-    suspend fun addToCart(id: String?){
-        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
-        CartRepository.addDrink(drink)
+
+    fun addToCart(id: String?){
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}/*, quantity=uiState.quantity*/)
+        OrdersRepository.addDrinkToOrder(drink)
+//        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
+//        CartRepository.addDrink(drink)
 
     }
 
@@ -61,23 +81,52 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         return true
     }
+
+    fun isSelected(ingredient: Ingredient):Boolean{
+        for(i in uiState.drink.ingredients!!){
+            if(ingredient.inventory?.name == i.inventory?.name){
+                return true
+            }
+        }
+        return false
+    }
+
     fun getMatchType(type: String): ArrayList<Ingredient> {
         val typeCustom:ArrayList<Ingredient> = ArrayList()
         for(inven in uiState._customization){
-            if(inven.inventory?.type == type){
+            if(inven.inventory?.type == type) {
                 typeCustom.add(inven)
             }
         }
         return typeCustom
     }
-    private fun runChecks(): Boolean {
-        uiState.nameError = false
-        uiState.errorMessage = ""
-        if (uiState.drinkName == "") {
-            uiState.nameError = true
-            uiState.errorMessage = "Name is invalid."
-            return false
+//    private fun runChecks(): Boolean {
+//        uiState.nameError = false
+//        uiState.errorMessage = ""
+//        if (uiState.drinkName == "") {
+//            uiState.nameError = true
+//            uiState.errorMessage = "Name is invalid."
+//            return false
+//        }
+//        return true
+//    }
+
+    fun incrementIngredient(ingredient: Ingredient) {
+        var index = uiState._customization.indexOf(ingredient)
+        ingredient.apply {
+            count = count?.plus(1)
         }
-        return true
+        uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient//ingredient.copy(count = ingredient.count?.plus(1))
+
+    }
+
+    fun decrementIngredient(ingredient: Ingredient) {
+        var index = uiState._customization.indexOf(ingredient)
+        if (uiState._customization.find(ingredient::equals)?.count!! > 0) {
+            ingredient.apply {
+                count = count?.minus(1)
+            }
+            uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient
+        }
     }
 }

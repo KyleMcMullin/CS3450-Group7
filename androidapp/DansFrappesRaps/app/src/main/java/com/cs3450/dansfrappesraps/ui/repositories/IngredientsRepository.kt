@@ -25,4 +25,14 @@ object IngredientsRepository {
             setIngredients()
         }
     }
+
+    suspend fun getSizes(): MutableList<Ingredient> {
+        var returnList: MutableList<Ingredient> = mutableListOf()
+        for (inventory in InventoryRepository.getInventory()) {
+            if (inventory.type == "Drink") {
+                returnList.add(Ingredient(inventory = inventory, count = 0))
+            }
+        }
+        return returnList
+    }
 }

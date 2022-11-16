@@ -21,7 +21,7 @@ class ManageMenuViewModel(application: Application) : AndroidViewModel(applicati
     suspend fun getDrinks() {
         uiState.loading = true
         uiState._drinks.clear()
-        uiState._drinks.addAll(DrinksRepository.getAllDrinks())
+        uiState._drinks.addAll(DrinksRepository.getDrinks())
     }
 
     suspend fun deleteDrink(drink: Drink) {

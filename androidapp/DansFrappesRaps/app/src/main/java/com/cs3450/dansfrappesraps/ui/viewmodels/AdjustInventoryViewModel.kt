@@ -41,9 +41,9 @@ class AdjustInventoryViewModel(application: Application): AndroidViewModel(appli
     }
 
     suspend fun setUpInitialState(id: String?) {
+        uiState.types = InventoryRepository.getTypes() + listOf("")
         if (id == null || id == "new") return
         val inventory = InventoryRepository.getInventory().find { it.id == id } ?: return
-        uiState.types = InventoryRepository.getTypes() + listOf("")
         uiState.name = inventory.name ?: ""
         uiState.quantity = inventory.quantity.toString()
         uiState.PPU = inventory.PPU.toString()

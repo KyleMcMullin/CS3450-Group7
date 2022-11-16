@@ -96,75 +96,77 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                 error = state.quantityError,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
+            Checkbox(
+                checked = state.isCountable,
+                onCheckedChange = { state.isCountable = it }
+            )
             LabelledTextInput(
                 value = state.PPU,
                 label = "PPU",
                 onValueChange = { state.PPU = it },
                 placeholder = { Text("Price Per Unit") },
                 error = state.PPUError,
-                leadingIcon = { Icon(imageVector = Icons.Outlined.AttachMoney, contentDescription = "Dollar") },
+                leadingIcon = {
+                    Icon(
+                        imageVector = Icons.Outlined.AttachMoney,
+                        contentDescription = "Dollar"
+                    )
+                },
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Decimal)
             )
-            Row(modifier = Modifier.weight(1f)) {
-                Box() {
-                    LabelledTextInput(
-                        value = state.type,
-                        label = "Type",
-                        onValueChange = { state.type = it },
-                        placeholder = { Text("Item Type") },
-                        error = state.typeError,
-                        leadingIcon = {
-                            Icon(
-                                imageVector = Icons.Outlined.ArrowDropDown,
-                                contentDescription = "Dropdown",
-                                modifier = Modifier.clickable {
-                                    state.dropDownExpanded = true
-                                }
-                            )
-                        },
-                    )
-                    DropdownMenu(
-                        expanded = state.dropDownExpanded,
-                        onDismissRequest = { state.dropDownExpanded = false }) {
-                        state.types.forEach {
-                            DropdownMenuItem(onClick = {
-                                state.type = it
-                                state.dropDownExpanded = false
-                            }, text = { Text(it) })
-                        }
+            Box() {
+                LabelledTextInput(
+                    value = state.type,
+                    label = "Type",
+                    onValueChange = { state.type = it },
+                    placeholder = { Text("Item Type") },
+                    error = state.typeError,
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Outlined.ArrowDropDown,
+                            contentDescription = "Dropdown",
+                            modifier = Modifier.clickable {
+                                state.dropDownExpanded = true
+                            }
+                        )
+                    },
+                )
+
+                DropdownMenu(
+                    expanded = state.dropDownExpanded,
+                    onDismissRequest = { state.dropDownExpanded = false }) {
+                    state.types.forEach {
+                        DropdownMenuItem(onClick = {
+                            state.type = it
+                            state.dropDownExpanded = false
+                        }, text = { Text(it) })
                     }
                 }
-                Spacer(modifier = Modifier.padding(10.dp))
-                Checkbox(
-                    checked = state.isCountable,
-                    onCheckedChange = { state.isCountable = it },
-                    modifier = Modifier.align(Alignment.CenterVertically)
-                )
             }
-        }
-        Spacer(modifier = Modifier.padding(6.dp))
-        Row(
-            horizontalArrangement = Arrangement.End,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            if (id == null || id == "new") {
-                SignButton(
-                    text = "Create Item",
-                    onClick = {
-                        scope.launch {
-                            viewModel.addInventory()
+            Spacer(modifier = Modifier.padding(6.dp))
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                if (id == null || id == "new") {
+                    SignButton(
+                        text = "Create Item",
+                        onClick = {
+                            scope.launch {
+                                viewModel.addInventory()
+                            }
                         }
-                    }
-                )
-            } else {
-                SignButton(
-                    text = "Save Item",
-                    onClick = {
-                        scope.launch {
-                            viewModel.adjustInventory(id)
+                    )
+                } else {
+                    SignButton(
+                        text = "Save Item",
+                        onClick = {
+                            scope.launch {
+                                viewModel.adjustInventory(id)
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
     }
