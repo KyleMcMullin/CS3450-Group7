@@ -53,21 +53,37 @@ class EditMenuViewModel(application: Application): AndroidViewModel(application)
     }
 
     suspend fun addDrink() {
+        var image: String
+        if (uiState.image == null) {
+            image = ""
+        } else {
+            image = DrinkImageRepository.addImageToFirebaseStorage(uiState.image!!).toString()
+        }
         val drink: Drink = Drink(
             name = uiState.name,
             ingredients = uiState._ingredients.filter { it.count!! > 0 },
-            image = DrinkImageRepository.addImageToFirebaseStorage(uiState.image!!).toString()
+            image = image
         )
         DrinksRepository.newDrink(drink)
 
     }
     suspend fun updateDrink(id: String) {
-        val drink: Drink = Drink(
-            id = id,
-            name = uiState.name,
-            ingredients = uiState._ingredients.filter { it.count!! > 0 },
-            image = DrinkImageRepository.addImageToFirebaseStorage(uiState.image!!).toString()
-        )
+        var drink: Drink
+        if (uiState.image == null) {
+            drink = Drink(
+                id = id,
+                name = uiState.name,
+                ingredients = uiState._ingredients.filter { it.count!! > 0 },
+                image = DrinksRepository.getDrinks().first { it.id == id }.image
+            )
+        } else {
+            drink = Drink(
+                id = id,
+                name = uiState.name,
+                ingredients = uiState._ingredients.filter { it.count!! > 0 },
+                image = DrinkImageRepository.addImageToFirebaseStorage(uiState.image!!).toString()
+            )
+        }
         DrinksRepository.updateDrink(drink)
     }
     }
