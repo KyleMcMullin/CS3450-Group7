@@ -48,11 +48,20 @@ fun RootNavigation() {
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
-                if (currentDestination?.route == Routes.signUp.route || currentDestination?.route == Routes.detailMenu.route || currentDestination?.route == Routes.cart.route) {
+                if (currentDestination?.route == Routes.signUp.route || currentDestination?.route == Routes.detailMenu.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
+                } else if (currentDestination?.route == Routes.cart.route) {
+                    IconButton(onClick = {
+                        navController.navigate(Routes.menu.route) {
+                            popUpTo(Routes.menu.route) { inclusive = true }
+                        }
+                    }) {
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                    }
+                }
+                else if (currentDestination?.hierarchy?.none { it.route == Routes.sideBar.route } == false) {
                     IconButton(onClick = {
                         navController.popBackStack()
                         if (currentDestination.route != Routes.editUser.route && currentDestination.route != Routes.editInventory.route && currentDestination.route != Routes.editMenu.route) {
@@ -157,17 +166,6 @@ fun RootNavigation() {
                     Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
                 }
             }
-            if(currentDestination?.route == Routes.detailMenu.route){
-                ExtendedFloatingActionButton(
-                    onClick = {
-                             navController.navigate(Routes.menu.route)
-                    },
-
-                    contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary){
-                    Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
-                    androidx.compose.material3.Text(text = "Add to Cart")
-                }
-            }
             if (currentDestination?.route == Routes.manageUsers.route || currentDestination?.route == Routes.manageInventory.route || currentDestination?.route == Routes.manageMenu.route) {
                 FloatingActionButton(
                     onClick = {
@@ -199,11 +197,13 @@ fun RootNavigation() {
                 composable(route = Routes.menu.route) { MenuScreen(navHostController = navController) }
                 composable(
                     route = Routes.detailMenu.route,
-                    arguments = listOf(navArgument("id") { defaultValue = "new" })
+                    arguments = listOf(navArgument("id") { defaultValue = "null" }, navArgument("index") { defaultValue = "null" })
                 ) { navBackStackEntry ->
+//                    var index = navBackStackEntry.arguments?.getString("index").toString()
                     DetailMenuScreen(
                         navController,
-                        navBackStackEntry.arguments?.get("id").toString()
+                        navBackStackEntry.arguments?.get("id").toString(),
+                        navBackStackEntry.arguments?.get("index").toString(),
                     )
                 }
             }

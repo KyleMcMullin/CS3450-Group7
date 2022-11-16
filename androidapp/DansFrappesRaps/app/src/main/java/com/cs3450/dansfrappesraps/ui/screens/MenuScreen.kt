@@ -59,7 +59,7 @@ fun MenuScreen(navHostController: NavHostController) {
                     items(state.drinks) { drink ->
                         DrinkItem(
                             drink = drink,
-                            onSelected = { navHostController.navigate("detailMenu?id=${drink.id}") },
+                            onSelected = { navHostController.navigate("detailMenu?id=${drink.id}&index=${null}") },
                             )
                         Spacer(modifier = Modifier.height(4.dp))
                     }
