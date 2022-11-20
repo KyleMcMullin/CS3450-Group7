@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -96,10 +97,7 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                 error = state.quantityError,
                 keyboardOptions = KeyboardOptions.Default.copy(keyboardType = KeyboardType.Number)
             )
-            Checkbox(
-                checked = state.isCountable,
-                onCheckedChange = { state.isCountable = it }
-            )
+
             LabelledTextInput(
                 value = state.PPU,
                 label = "PPU",
@@ -142,6 +140,26 @@ fun AdjustInventoryScreen(navHostController: NavHostController, id: String?) {
                         }, text = { Text(it) })
                     }
                 }
+            }
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.fillMaxWidth(.5F)) {
+                    Text( text = "Countable", color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+                }
+                Row(modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.End) {
+                    Switch(
+                        checked = state.isCountable,
+                        onCheckedChange = { state.isCountable = it })
+                }
+//                RadioButton(selected = state.isCountable, onClick = {state.isCountable = !state.isCountable })
+//                Checkbox(
+//                    checked = state.isCountable,
+//                    onCheckedChange = { state.isCountable = it }
+//                )
             }
             Spacer(modifier = Modifier.padding(6.dp))
             Row(
