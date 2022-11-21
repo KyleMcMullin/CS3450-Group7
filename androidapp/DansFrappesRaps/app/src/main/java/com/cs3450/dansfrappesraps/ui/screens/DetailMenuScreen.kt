@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.cs3450.dansfrappesraps.ui.components.DrinkQuantity
 import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
@@ -48,24 +49,23 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                 navController.navigate(Routes.cart.route)
             },
 
-            contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary){
+            contentColor = MaterialTheme.colorScheme.primary){
             Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
-            androidx.compose.material3.Text(text = "Add to Cart")
+            Text(text = "Add to Cart")
         }}, content = { padding->
         Column(
             modifier = Modifier
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(tonalElevation = 2.dp,
-                shape = RoundedCornerShape(20.dp),) {
                 Text(
                     modifier = Modifier.padding(10.dp),
                     text = state.drinkName,
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center
                 )
-            }
+            DrinkQuantity(drink = state.drink, { state.drink.quantity = state.drink.quantity?.plus(1) }, {state.drink.quantity = state.drink.quantity?.minus(1)})
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -189,8 +189,8 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                         ) }, dismissButton = {
                                             TextButton(
                                                 onClick = {
+                                                    selected=false
                                                     openDialog.value = false
-                                                    ingredient.count = tempCount
                                                 }
                                             ) {
                                                 Text("Dismiss")
@@ -198,6 +198,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                         }, confirmButton = {
                                             TextButton(
                                                 onClick = {
+                                                    ingredient.count = tempCount
                                                     openDialog.value = false
                                                 }
                                             ) {
