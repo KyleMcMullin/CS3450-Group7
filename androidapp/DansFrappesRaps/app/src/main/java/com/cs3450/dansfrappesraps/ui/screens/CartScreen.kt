@@ -12,6 +12,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,75 +50,89 @@ fun CartScreen(navHostController: NavHostController) {
             Spacer(modifier = Modifier.height(16.dp))
             Loader()
         } else {
-            Scaffold(floatingActionButton = {
-                ExtendedFloatingActionButton(
-                    onClick = { scope.launch { viewModel.checkout() } } ,
-                    contentColor = MaterialTheme.colorScheme.primary
-                ) {
-                    Icon(Icons.Outlined.ShoppingCartCheckout, contentDescription = "Cart Checkout")
-                    Text(text = "Checkout")
-                }
-            }, content = { padding ->
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth()
                 ) {
-                    Text(
-                        text = "My Cart",
-                        style = MaterialTheme.typography.headlineMedium,
-                        modifier = Modifier
-                            .padding(8.dp)
-                    )
-                    Divider()
-                    Spacer(modifier = Modifier.size(16.dp))
+                Text(
+                    text = "My Cart",
+                    style = MaterialTheme.typography.headlineMedium,
+                    modifier = Modifier
+                        .padding(8.dp)
+                )
+                Divider()
+                Spacer(modifier = Modifier.size(16.dp))
+                }
                     if (state.frappuccinos.isNotEmpty()) {
-                        Text(text = "Frappuccinos ordered: " + state.drinkCount)
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text(
-                            text = "Price:  $" + state.priceSum.toFloat(),
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Spacer(modifier = Modifier.size(8.dp))
-                        Text(
-                            text = state.errorMessage,
-                            style = TextStyle(color = MaterialTheme.colorScheme.error),
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Left
-                        )
-                            LazyColumn() {
-                                items(state.frappuccinos) { drink ->
-                                    CartDrinkItem(
-                                        drink = drink,
-                                        onSelected = {
-                                            var index = state.frappuccinos.indexOf(drink)
-                                            navHostController.navigate(
-                                                "detailMenu?id=${null}&index=${
-                                                    state.frappuccinos.indexOf(
-                                                        drink
-                                                    )
-                                                }"
-                                            )
-                                        },
+                        Scaffold(floatingActionButton = {
+                            ExtendedFloatingActionButton(
+                                onClick = { scope.launch { viewModel.checkout() } } ,
+                                contentColor = MaterialTheme.colorScheme.primary
+                            ) {
+                                Icon(Icons.Outlined.ShoppingCartCheckout, contentDescription = "Cart Checkout")
+                                Text(text = "Checkout")
+                            }
+                        }, content = { padding ->
+                            Column(modifier= Modifier
+                                .fillMaxSize()
+                                .padding(padding)) {
+                                Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                                    Text(text = "Frappuccinos ordered: " + state.drinkCount)
+                                    Spacer(modifier = Modifier.size(8.dp))
+                                    Text(
+                                        text = "Price:  $" + state.priceSum.toFloat(),
+                                        style = MaterialTheme.typography.bodyMedium
                                     )
-                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Spacer(modifier = Modifier.size(8.dp))
+                                    Text(
+                                        text = state.errorMessage,
+                                        style = TextStyle(color = MaterialTheme.colorScheme.error),
+                                        modifier = Modifier.fillMaxWidth(),
+                                        textAlign = TextAlign.Left
+                                    )
+                                    LazyColumn() {
+                                        items(state.frappuccinos) { drink ->
+                                            CartDrinkItem(
+                                                drink = drink,
+                                                onSelected = {
+                                                    var index = state.frappuccinos.indexOf(drink)
+                                                    navHostController.navigate(
+                                                        "detailMenu?id=${null}&index=${
+                                                            state.frappuccinos.indexOf(
+                                                                drink
+                                                            )
+                                                        }"
+                                                    )
+                                                },
+                                            )
+                                            Spacer(modifier = Modifier.height(4.dp))
+                                        }
+                                    }
                                 }
                             }
+                        })
                         } else {
-                            Text(
-                                text =
-                                "\tYour cart is empty! Please check out our menu for more coffee.",
-                                style = MaterialTheme.typography.headlineSmall
-                            )
-                            Button(onClick = {
-                                navHostController.navigate(Routes.tracker.route)
-                            }) {
-                                Text("Track Order")
+                            Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+                                Text(
+                                    text =
+                                    "\tYour cart is empty! Please check out our menu for more coffee.",
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+                                Button(onClick = {
+                                    navHostController.navigate(Routes.tracker.route)
+                                }) {
+                                    Text("Track Order")
+                                }
                             }
                         }
-                    }
-            })
         }
+    }
     }
 }

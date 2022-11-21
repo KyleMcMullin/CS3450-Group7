@@ -189,8 +189,8 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                         ) }, dismissButton = {
                                             TextButton(
                                                 onClick = {
+                                                    selected=false
                                                     openDialog.value = false
-                                                    ingredient.count = tempCount
                                                 }
                                             ) {
                                                 Text("Dismiss")
@@ -198,6 +198,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                         }, confirmButton = {
                                             TextButton(
                                                 onClick = {
+                                                    ingredient.count = tempCount
                                                     openDialog.value = false
                                                 }
                                             ) {

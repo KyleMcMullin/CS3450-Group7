@@ -204,64 +204,114 @@ fun DrinkItem(drink: Drink, onSelected: () -> Unit){
     }
 
 //Cart Drink Item
-@OptIn(ExperimentalGlideComposeApi::class)
+@OptIn(ExperimentalGlideComposeApi::class, ExperimentalMaterialApi::class)
 @Composable
-fun CartDrinkItem(drink: Drink, onSelected: () -> Unit){
-    Card(
+fun CartDrinkItem(drink: Drink, onSelected: () -> Unit,
+                  onDeletePressed: () -> Unit = {}) {
+    val swipeableState = rememberSwipeableState(initialValue = SwipeState.CLOSED)
+    val anchors = mapOf(
+        0f to SwipeState.CLOSED,
+        -200f to SwipeState.OPEN
+    )
+    Box(
         modifier = Modifier
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.onPrimary,
-                shape = RoundedCornerShape(4.dp)
+            .fillMaxWidth()
+            .swipeable(
+                state = swipeableState,
+                anchors = anchors,
+                orientation = Orientation.Horizontal
             )
-            .clickable { onSelected() },
-        elevation = CardDefaults.cardElevation(5.dp),
-        shape = RoundedCornerShape(4.dp),
     ) {
-        Column() {
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween) {
-                Column( verticalArrangement = Arrangement.Center) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(4.dp)
-                    ) {
-                        Text(
-                            text = drink.name ?: "",
-                            modifier = Modifier.padding(10.dp),
-                            fontWeight = FontWeight.Bold
-                        )
-                        Spacer(modifier = Modifier.width(10.dp))
-                    }
-                    Divider(modifier = Modifier.padding(4.dp))
-
-                    GlideImage(
-                        model = Uri.parse(drink.image ?: ""),
-                        contentDescription = "Drink Image",
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .fillMaxWidth()
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            horizontalArrangement = Arrangement.End
+        ) {
+            Button(
+                onClick = onDeletePressed,
+                modifier = Modifier
+                    .fillMaxWidth(.5f),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error)
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "Delete"
                     )
-
-                    Divider(modifier = Modifier.padding(4.dp))
-
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.padding(4.dp).fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        var appendString = ""
-                        for (ingredient in drink.ingredients!!) {
-                            appendString += ingredient.inventory?.name
-                            appendString += if (drink.ingredients.lastIndex == drink.ingredients.indexOf(ingredient)) {
-                                "."
-                            } else {
-                                ", "
-                            }
+                }
+            }
+        }
+        Surface(
+            modifier = Modifier
+                .offset { IntOffset(swipeableState.offset.value.toInt(), 0) }
+                .border(
+                    width = 1.dp,
+                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+                    shape = RoundedCornerShape(4.dp)
+                )
+                .clickable { onSelected() },
+            tonalElevation = 5.dp,
+            shape = RoundedCornerShape(20.dp),
+        ) {
+            Column() {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Column(verticalArrangement = Arrangement.Center) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(4.dp)
+                        ) {
+                            Text(
+                                text = drink.name ?: "",
+                                modifier = Modifier.padding(10.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
                         }
-                        Text(
-                            text = appendString,
-                            modifier = Modifier.padding(10.dp)
+                        Divider(modifier = Modifier.padding(4.dp))
+
+                        GlideImage(
+                            model = Uri.parse(drink.image ?: ""),
+                            contentDescription = "Drink Image",
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
+
+                        Divider(modifier = Modifier.padding(4.dp))
+
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(4.dp).fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            var appendString = ""
+                            for (ingredient in drink.ingredients!!) {
+                                appendString += ingredient.inventory?.name
+                                appendString += if (drink.ingredients.lastIndex == drink.ingredients.indexOf(
+                                        ingredient
+                                    )
+                                ) {
+                                    "."
+                                } else {
+                                    ", "
+                                }
+                            }
+                            Text(
+                                text = appendString,
+                                modifier = Modifier.padding(10.dp)
+                            )
+                        }
                     }
                 }
             }
