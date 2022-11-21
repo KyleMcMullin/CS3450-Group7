@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.cs3450.dansfrappesraps.ui.components.DrinkQuantity
 import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
@@ -39,7 +40,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
         state.loading = false
     }
     if (state.loading) {
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
         Scaffold(floatingActionButton = {ExtendedFloatingActionButton(
@@ -57,15 +58,14 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Surface(tonalElevation = 2.dp,
-                shape = RoundedCornerShape(20.dp),) {
                 Text(
                     modifier = Modifier.padding(10.dp),
                     text = state.drinkName,
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center
                 )
-            }
+            DrinkQuantity(drink = state.drink, { state.drink.quantity = state.drink.quantity?.plus(1) }, {state.drink.quantity = state.drink.quantity?.minus(1)})
+
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
