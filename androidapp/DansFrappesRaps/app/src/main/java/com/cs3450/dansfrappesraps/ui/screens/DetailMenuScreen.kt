@@ -48,9 +48,9 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                 navController.navigate(Routes.cart.route)
             },
 
-            contentColor = androidx.compose.material3.MaterialTheme.colorScheme.primary){
+            contentColor = MaterialTheme.colorScheme.primary){
             Icon(Icons.Outlined.ShoppingCart, contentDescription = "Cart")
-            androidx.compose.material3.Text(text = "Add to Cart")
+            Text(text = "Add to Cart")
         }}, content = { padding->
         Column(
             modifier = Modifier
