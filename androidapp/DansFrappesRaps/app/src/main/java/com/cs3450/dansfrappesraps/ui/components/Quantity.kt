@@ -71,9 +71,24 @@ fun CustomerIngredientQuantity(
 ) {
     var displayNumb by remember { mutableStateOf(ingredient.count ?: 0) }
     Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
-        QuantityItem(count = displayNumb, onPlusPressed = { onPlusPressed()
-        displayNumb = ingredient.count?: 0}
-        , onMinusPressed = {onMinusPressed()
-        displayNumb = ingredient.count?: 0})
+        Row(modifier = Modifier.fillMaxWidth()) {
+            Column(modifier = Modifier.fillMaxWidth(.5F)) {
+                QuantityItem(count = displayNumb, onPlusPressed = {
+                    onPlusPressed()
+                    displayNumb = ingredient.count ?: 0
+                }, onMinusPressed = {
+                    onMinusPressed()
+                    displayNumb = ingredient.count ?: 0
+                })
+            }
+            Column(modifier = Modifier.fillMaxWidth()) {
+                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically){
+                    Text(
+                        text = ingredient.inventory?.name ?: "",
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                    )
+                }
+            }
+        }
     }
 }
