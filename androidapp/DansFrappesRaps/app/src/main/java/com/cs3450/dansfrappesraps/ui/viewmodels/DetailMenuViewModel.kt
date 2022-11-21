@@ -117,7 +117,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
             count = count?.plus(1)
         }
         uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient//ingredient.copy(count = ingredient.count?.plus(1))
-
+        Log.e("Error:" , uiState._customization[index].count.toString())
     }
 
     fun decrementIngredient(ingredient: Ingredient) {
@@ -128,5 +128,16 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
             }
             uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient
         }
+        Log.e("Error:" , uiState._customization[index].count.toString())
+    }
+
+    fun incrementQuantity(){
+        uiState.drink.quantity = uiState.drink.quantity?.plus(1)
+        Log.e("Error:" , uiState.drink.quantity.toString())
+    }
+
+    fun decrementQuantity(){
+        uiState.drink.quantity = uiState.drink.quantity?.minus(1)
+        Log.e("Error:" , uiState.drink.quantity.toString())
     }
 }

@@ -6,5 +6,5 @@ data class Drink(
     val ingredients: List<Ingredient>? = null,
     val image: String? = null,
     // for cart
-    var quantity: Int? = null
+    var quantity: Int? = 0
     )
