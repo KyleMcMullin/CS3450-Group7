@@ -39,7 +39,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
         state.loading = false
     }
     if (state.loading) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         Loader()
     } else {
         Scaffold(floatingActionButton = {ExtendedFloatingActionButton(
