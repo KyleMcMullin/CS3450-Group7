@@ -62,7 +62,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         getCart()
         getDrinks()
         calculateBalance()
-//        uiState.clearIngredients()
+        uiState.clearIngredients()
     }
     fun getDrinks(): List<Drink> {
         var drinks = OrdersRepository.getUnplacedOrder().drinks
@@ -80,7 +80,8 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         return uiState.frappuccinos
     }
 
-    fun getCart(){
+    suspend fun getCart(){
+        OrdersRepository.getOrder()
         uiState.cart = OrdersRepository.getUnplacedOrder()
     }
     fun getIngredients(drink: Drink): List<Ingredient> {
@@ -124,7 +125,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         if (balanceCheck()) {
             submitOrder()
             UserRepository.subtractUserBalance(uiState.priceSum)
-//            deletingCart()
+            deletingCart()
             uiState.checkoutSuccess = true
             uiState.cartDeletion = true
         } else {

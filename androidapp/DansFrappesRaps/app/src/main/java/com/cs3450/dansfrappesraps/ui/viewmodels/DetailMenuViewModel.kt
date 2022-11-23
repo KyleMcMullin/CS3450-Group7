@@ -70,8 +70,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     fun addToCart(id: String?){
         val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}/*, quantity=uiState.quantity*/)
         OrdersRepository.addDrinkToOrder(drink)
-//        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
-//        CartRepository.addDrink(drink)
 
     }
 
