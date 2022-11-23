@@ -112,8 +112,23 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         return uiState.priceSum
     }
 
-    suspend fun checkInventory() {
-
+    fun checkInventory(){
+        for(ingredient in uiState.ingredients){
+            if(ingredient.count!! > ingredient.inventory!!.quantity!!){
+                uiState.inventoryCheck = false
+            }
+        }
+    }
+    suspend fun removeIngredientFromInventory(ingredient: Ingredient){
+        var inInventory = ingredient.inventory!!
+        InventoryRepository.editInventory(
+            id = inInventory.id!!,
+            name = inInventory.name!!,
+            quantity = (inInventory.quantity!! - ingredient.count!!),
+            PPU = inInventory.PPU!!,
+            type = inInventory.type!!,
+            isCountable = inInventory.isCountable!!
+        )
     }
 
     suspend fun submitOrder() {
@@ -123,11 +138,19 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     suspend fun checkout() {
         checkInventory()
         if (balanceCheck()) {
-            submitOrder()
-            UserRepository.subtractUserBalance(uiState.priceSum)
-            deletingCart()
-            uiState.checkoutSuccess = true
-            uiState.cartDeletion = true
+            if(uiState.inventoryCheck) {
+                submitOrder()
+                for(ingredient in uiState.ingredients){
+                    removeIngredientFromInventory(ingredient)
+                }
+                UserRepository.subtractUserBalance(uiState.priceSum)
+                deletingCart()
+                uiState.checkoutSuccess = true
+                uiState.cartDeletion = true
+            }
+            else{
+                uiState.errorMessage = "There is not enough ingredients in inventory for your drink"
+            }
         } else {
             uiState.errorMessage = "There is not enough money in your account, please add money and try again."
         }
