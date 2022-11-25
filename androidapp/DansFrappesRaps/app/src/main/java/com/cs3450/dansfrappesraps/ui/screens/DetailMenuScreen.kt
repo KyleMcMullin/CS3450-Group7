@@ -16,8 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.cs3450.dansfrappesraps.ui.components.CustomerIngredientQuantity
 import com.cs3450.dansfrappesraps.ui.components.DrinkQuantity
-import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.Loader
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
@@ -64,7 +64,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center
                 )
-            DrinkQuantity(drink = state.drink, { state.drink.quantity = state.drink.quantity?.plus(1) }, {state.drink.quantity = state.drink.quantity?.minus(1)})
+            DrinkQuantity(drink = state.drink, onPlusPressed = {viewModel.incrementQuantity()}, onMinusPressed = {viewModel.decrementQuantity()})
 
             Text(
                 modifier = Modifier
@@ -177,15 +177,15 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                     val tempCount = ingredient.count
                                     AlertDialog(onDismissRequest = { openDialog.value = false
                                         selected=false },
-                                        title = { IngredientItem(
+                                        title = { CustomerIngredientQuantity(
                                             ingredient = ingredient,
                                             onMinusPressed = {
                                                  viewModel.decrementIngredient(ingredient)
+
                                             },
                                             onPlusPressed = {
                                                 viewModel.incrementIngredient(ingredient)
                                             },
-                                            isForToast = true
                                         ) }, dismissButton = {
                                             TextButton(
                                                 onClick = {

@@ -27,9 +27,9 @@ import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.cs3450.dansfrappesraps.R
-import com.cs3450.dansfrappesraps.ui.components.IngredientItem
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.components.Loader
+import com.cs3450.dansfrappesraps.ui.components.ManagerIngredientQuantity
 import com.cs3450.dansfrappesraps.ui.viewmodels.EditMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
@@ -105,7 +105,7 @@ fun EditMenuScreen(navController: NavController, id: String?) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 items(state.ingredients, key = { it.inventory?.id!! }) { ingredient ->
-                    IngredientItem(
+                    ManagerIngredientQuantity(
                         ingredient = ingredient,
                         onMinusPressed = {viewModel.decrementIngredient(ingredient)},
                         onPlusPressed = { viewModel.incrementIngredient(ingredient) },
