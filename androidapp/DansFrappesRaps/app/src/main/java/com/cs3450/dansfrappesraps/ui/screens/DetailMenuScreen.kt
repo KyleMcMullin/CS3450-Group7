@@ -90,16 +90,18 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                 ) {
                     var checked by remember { mutableStateOf(false) }
                     IconToggleButton(checked = checked, onCheckedChange = {
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                "Drink added to favorites."
-                            )
-                        }
                         checked = !checked
+                        if(checked) {
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    "Drink added to favorites."
+                                )
+                            }
+
+                        }
                     }){
-                        if (checked) {
-                            Icon(Icons.Outlined.Favorite, contentDescription = "Favorite drink")
-                        } else {
+                        if (checked) Icon(Icons.Outlined.Favorite, contentDescription = "Favorite drink")
+                        else {
                             Icon(
                                 Icons.Outlined.FavoriteBorder,
                                 contentDescription = "Remove drink from favorites"
