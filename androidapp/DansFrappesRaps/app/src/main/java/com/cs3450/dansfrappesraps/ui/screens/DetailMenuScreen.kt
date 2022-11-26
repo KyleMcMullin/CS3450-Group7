@@ -30,6 +30,7 @@ import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,6 +38,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
     var viewModel: DetailMenuViewModel = viewModel()
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState()}
 
     LaunchedEffect(true) {
         val loadingIngredients = async { viewModel.getIngredients() }
@@ -49,7 +51,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
         Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
-        Scaffold(snackbarHost = , floatingActionButton = {ExtendedFloatingActionButton(
+        Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, floatingActionButton = {ExtendedFloatingActionButton(
             onClick = {
                 viewModel.addToCart(null)
                 navController.navigate(Routes.cart.route)
@@ -72,26 +74,35 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                 )
 
             Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-                Row(modifier = Modifier.fillMaxWidth(.8F), horizontalArrangement = Arrangement.Center) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(.8F),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     DrinkQuantity(
                         drink = state.drink,
                         onPlusPressed = { viewModel.incrementQuantity() },
                         onMinusPressed = { viewModel.decrementQuantity() })
                 }
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-
-                }
-                var icon by remember { mutableStateOf(false) }
-                Icon(imageVector = (if (icon) {
-                    Icons.Outlined.Favorite
-                } else {
-                    Icons.Outlined.FavoriteBorder
-                }
-                        ), contentDescription = "Favorite",
-                    modifier = Modifier.clickable {
-                        icon = !icon
+                Row(modifier = Modifier.fillMaxWidth()) {
+                    var icon by remember { mutableStateOf(false) }
+                    Icon(imageVector = (if (icon) {
+                        Icons.Outlined.Favorite
+                    } else {
+                        Icons.Outlined.FavoriteBorder
                     }
-                )
+                            ), contentDescription = "Favorite",
+                        modifier = Modifier.clickable {
+                            icon = !icon
+                            if (icon) {
+                                scope.launch {
+                                    snackbarHostState.showSnackbar(
+                                        "Drink added to favorites."
+                                    )
+                                }
+                            }
+                        }
+                    )
+                }
             }
 
             Text(
