@@ -62,7 +62,6 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         getCart()
         getDrinks()
         calculateBalance()
-        uiState.clearIngredients()
     }
     fun getDrinks(): List<Drink> {
         var drinks = OrdersRepository.getUnplacedOrder().drinks
@@ -120,13 +119,13 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         }
     }
     suspend fun removeIngredientFromInventory(ingredient: Ingredient){
-        var inInventory = ingredient.inventory!!
+        val inInventory = ingredient.inventory!!
         InventoryRepository.editInventory(
             id = inInventory.id!!,
             name = inInventory.name!!,
             quantity = (inInventory.quantity!! - ingredient.count!!),
             PPU = inInventory.PPU!!,
-            type = inInventory.type!!,
+            type = inInventory.type?: "",
             isCountable = inInventory.isCountable!!
         )
     }
@@ -139,10 +138,11 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         checkInventory()
         if (balanceCheck()) {
             if(uiState.inventoryCheck) {
-                submitOrder()
+                println(uiState.ingredients.size)
                 for(ingredient in uiState.ingredients){
                     removeIngredientFromInventory(ingredient)
                 }
+                submitOrder()
                 UserRepository.subtractUserBalance(uiState.priceSum)
                 deletingCart()
                 uiState.checkoutSuccess = true

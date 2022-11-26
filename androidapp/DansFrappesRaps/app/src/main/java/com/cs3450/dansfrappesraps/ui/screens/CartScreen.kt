@@ -99,10 +99,9 @@ fun CartScreen(navHostController: NavHostController) {
                                     )
                                     LazyColumn() {
                                         items(state.frappuccinos) { drink ->
-                                            CartDrinkItem(
+                                            DrinkItem(
                                                 drink = drink,
                                                 onSelected = {
-                                                    var index = state.frappuccinos.indexOf(drink)
                                                     navHostController.navigate(
                                                         "detailMenu?id=${null}&index=${
                                                             state.frappuccinos.indexOf(
