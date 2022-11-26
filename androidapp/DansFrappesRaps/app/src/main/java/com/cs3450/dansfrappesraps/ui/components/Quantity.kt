@@ -10,9 +10,6 @@ import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 
 
-/*
-TODO : Clean up this file into seperate files. Rename IngredientItem to IngredientQuantity
- */
 
 @Composable
 fun ManagerIngredientQuantity(
@@ -22,7 +19,7 @@ fun ManagerIngredientQuantity(
     onPlusPressed: () -> Unit = {},
     onMinusPressed: () -> Unit = {}
 ) {
-    Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
+//    Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.fillMaxWidth(.5F)) {
                 ingredient.count?.let { QuantityItem(count = it, onPlusPressed, onMinusPressed) }
@@ -38,7 +35,7 @@ fun ManagerIngredientQuantity(
         }
 
     }
-}
+//}
 
 @Composable
 fun DrinkQuantity(
@@ -48,7 +45,7 @@ fun DrinkQuantity(
 ) {
 //    ) {
     var displayNum by remember { mutableStateOf(drink.quantity ?: 0) }
-    Card(elevation = CardDefaults.cardElevation(4.dp)) {
+//    Card(elevation = CardDefaults.cardElevation(4.dp)) {
         QuantityItem(displayNum , {
             onPlusPressed()
             displayNum = drink.quantity ?: 0
@@ -57,7 +54,7 @@ fun DrinkQuantity(
             displayNum = drink.quantity ?: 0
         }
     }
-}
+//}
 
 
 
@@ -70,7 +67,7 @@ fun CustomerIngredientQuantity(
     onMinusPressed: () -> Unit = {},
 ) {
     var displayNumb by remember { mutableStateOf(ingredient.count ?: 0) }
-    Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
+//    Card(modifier = Modifier.fillMaxWidth(), elevation = CardDefaults.cardElevation(4.dp)) {
         Row(modifier = Modifier.fillMaxWidth()) {
             Column(modifier = Modifier.fillMaxWidth(.5F)) {
                 QuantityItem(count = displayNumb, onPlusPressed = {
@@ -91,4 +88,4 @@ fun CustomerIngredientQuantity(
             }
         }
     }
-}
+//}

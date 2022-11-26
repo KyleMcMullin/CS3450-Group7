@@ -73,37 +73,40 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                     textAlign = TextAlign.Center
                 )
 
-            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Box(modifier = Modifier.fillMaxWidth()) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(.8F),
-                    horizontalArrangement = Arrangement.Center
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     DrinkQuantity(
                         drink = state.drink,
                         onPlusPressed = { viewModel.incrementQuantity() },
                         onMinusPressed = { viewModel.decrementQuantity() })
                 }
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    var icon by remember { mutableStateOf(false) }
-                    Icon(imageVector = (if (icon) {
-                        Icons.Outlined.Favorite
-                    } else {
-                        Icons.Outlined.FavoriteBorder
-                    }
-                            ), contentDescription = "Favorite",
-                        modifier = Modifier.clickable {
-                            icon = !icon
-                            if (icon) {
-                                scope.launch {
-                                    snackbarHostState.showSnackbar(
-                                        "Drink added to favorites."
-                                    )
-                                }
-                            }
+                Row(modifier = Modifier.fillMaxWidth().padding(end=10.dp),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var checked by remember { mutableStateOf(false) }
+                    IconToggleButton(checked = checked, onCheckedChange = {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                "Drink added to favorites."
+                            )
                         }
-                    )
-                }
-            }
+                        checked = !checked
+                    }){
+                        if (checked) {
+                            Icon(Icons.Outlined.Favorite, contentDescription = "Favorite drink")
+                        } else {
+                            Icon(
+                                Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Remove drink from favorites"
+                            )
+                        }}
+                    }
+                        }
 
             Text(
                 modifier = Modifier
