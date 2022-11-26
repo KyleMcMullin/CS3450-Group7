@@ -251,11 +251,11 @@ fun CartDrinkItem(drink: Drink, onSelected: () -> Unit,
         Surface(
             modifier = Modifier
                 .offset { IntOffset(swipeableState.offset.value.toInt(), 0) }
-                .border(
-                    width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
-                    shape = RoundedCornerShape(4.dp)
-                )
+//                .border(
+//                    width = 1.dp,
+//                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f),
+//                    shape = RoundedCornerShape(4.dp)
+//                )
                 .clickable { onSelected() },
             tonalElevation = 5.dp,
             shape = RoundedCornerShape(20.dp),

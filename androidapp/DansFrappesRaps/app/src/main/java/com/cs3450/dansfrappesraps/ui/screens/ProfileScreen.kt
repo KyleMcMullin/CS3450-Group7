@@ -19,6 +19,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.cs3450.dansfrappesraps.ui.components.DrinkItem
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.ProfileScreenViewModel
@@ -157,5 +158,12 @@ fun ProfileScreen(navHostController: NavHostController) {
 
                 }
             }
+        state.favorites.forEach{
+            DrinkItem(
+            drink = it,
+            onSelected = { navHostController.navigate("detailMenu?id=${it.id}&index=${null}") },
+        )
+        }
+
     }
 }
