@@ -68,7 +68,7 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         if (drinks != null) {
             for (drink: Drink in drinks) {
                 uiState.addDrink(drink)
-                uiState.drinkCount ++
+                uiState.drinkCount += drink.quantity!!
             }
             for(drink in drinks){
                 getIngredients(drink)

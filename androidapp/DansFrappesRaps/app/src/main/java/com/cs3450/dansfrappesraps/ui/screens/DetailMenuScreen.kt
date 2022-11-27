@@ -64,7 +64,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center
                 )
-            DrinkQuantity(drink = state.drink, onPlusPressed = {viewModel.incrementQuantity()}, onMinusPressed = {viewModel.decrementQuantity()})
+            DrinkQuantity(quantity = state.quantity, onPlusPressed = {viewModel.incrementQuantity()}, onMinusPressed = {viewModel.decrementQuantity()})
 
             Text(
                 modifier = Modifier
