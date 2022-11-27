@@ -67,10 +67,8 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         var drinks = OrdersRepository.getUnplacedOrder().drinks
         if (drinks != null) {
             for (drink: Drink in drinks) {
-                if (!uiState.frappuccinos.contains(drink)) {
-                    uiState.addDrink(drink)
-                    uiState.drinkCount ++
-                }
+                uiState.addDrink(drink)
+                uiState.drinkCount ++
             }
             for(drink in drinks){
                 getIngredients(drink)
