@@ -93,6 +93,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                         checked = !checked
                         if(checked) {
                             scope.launch {
+//                                viewModel.addFavorite()
                                 snackbarHostState.showSnackbar(
                                     "Drink added to favorites."
                                 )

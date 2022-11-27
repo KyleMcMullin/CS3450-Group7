@@ -59,11 +59,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     suspend fun getIngredients() {
         uiState.loading = true
-//        var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
-//      Dont think we need this
-//        for(i in ingredients){
-//                runChecks()
-//        }
         uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
 
@@ -75,6 +70,10 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     }
 
+//    suspend fun addFavorite(){
+//        UserRepository.addFavorite(uiState.drink)
+//
+//    }
     fun hasIngredient(type: String): Boolean{
         if(getMatchType(type).size==0){
             return false
@@ -100,16 +99,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         return typeCustom
     }
-//    private fun runChecks(): Boolean {
-//        uiState.nameError = false
-//        uiState.errorMessage = ""
-//        if (uiState.drinkName == "") {
-//            uiState.nameError = true
-//            uiState.errorMessage = "Name is invalid."
-//            return false
-//        }
-//        return true
-//    }
 
     fun incrementIngredient(ingredient: Ingredient) {
         var index = uiState._customization.indexOf(ingredient)

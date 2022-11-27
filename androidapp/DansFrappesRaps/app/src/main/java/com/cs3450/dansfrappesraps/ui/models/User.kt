@@ -7,7 +7,7 @@ data class User(
     var email: String? = null,
     var employee: Boolean? = false,
     var manager: Boolean? = false,
-    val favorites: List<String>? = null,
+    var favorites: MutableList<Drink>? = null,
     var balance: Double? = 0.00,
     var payRate: Double? = 0.00,
     var hours: Int = 0
