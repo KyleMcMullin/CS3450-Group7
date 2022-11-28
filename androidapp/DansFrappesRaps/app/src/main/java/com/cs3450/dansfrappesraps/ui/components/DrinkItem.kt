@@ -314,6 +314,7 @@ fun CartDrinkItem(drink: Drink, onSelected: () -> Unit,
                         }
                     }
                 }
+                Text(text = "   Quantity: ${drink.quantity}")
             }
         }
     }

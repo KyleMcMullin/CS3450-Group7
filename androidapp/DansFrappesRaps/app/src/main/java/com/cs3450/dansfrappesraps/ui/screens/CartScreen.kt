@@ -99,7 +99,7 @@ fun CartScreen(navHostController: NavHostController) {
                                     )
                                     LazyColumn() {
                                         items(state.frappuccinos) { drink ->
-                                            DrinkItem(
+                                            CartDrinkItem(
                                                 drink = drink,
                                                 onSelected = {
                                                     navHostController.navigate(
