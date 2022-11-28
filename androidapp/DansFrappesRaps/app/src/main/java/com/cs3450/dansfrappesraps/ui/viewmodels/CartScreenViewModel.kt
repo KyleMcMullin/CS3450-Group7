@@ -70,8 +70,10 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
                 uiState.addDrink(drink)
                 uiState.drinkCount += drink.quantity!!
             }
-            for(drink in drinks){
-                getIngredients(drink)
+            for(drink in drinks) {
+                for (i in 0..drink.quantity!!) {
+                    getIngredients(drink)
+                }
             }
         }
         return uiState.frappuccinos
