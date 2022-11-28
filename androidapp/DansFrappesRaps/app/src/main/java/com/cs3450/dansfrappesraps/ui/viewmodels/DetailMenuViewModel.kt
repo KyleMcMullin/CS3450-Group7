@@ -70,10 +70,14 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     }
 
-//    suspend fun addFavorite(){
-//        UserRepository.addFavorite(uiState.drink)
-//
-//    }
+    suspend fun addFavorite(){
+        var bool = true
+        for (fav in UserRepository.getCurrentUser().favorites!!) {
+            if(uiState.drink==fav) bool = false
+        }
+        if (bool) UserRepository.addFavorite(uiState.drink)
+
+    }
     fun hasIngredient(type: String): Boolean{
         if(getMatchType(type).size==0){
             return false

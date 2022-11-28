@@ -150,28 +150,26 @@ object UserRepository {
         }
     }
 
-//    suspend fun removeFavorite(drink: Drink){
-//        userCache.favorites?.remove(drink)
-//        updateFavorite(userCache)
-//    }
-//    suspend fun addFavorite(drink: Drink){
-//        if(userCache.favorites == null) {
-//            userCache.favorites = mutableListOf(drink)
-//        }
-//        else{
-//            userCache.favorites?.add(drink)
-//            Log.e("Error", userCache.favorites.toString())
-//            updateFavorite(userCache)
-//        }
-//    }
-//
-//    suspend fun updateFavorite(user: User){
-//        try {
-//            val doc = Firebase.firestore.collection("users").document(user.id!!)
-//            doc.set(user).await()
-//        } catch (_: Exception) {
-//        }
-//    }
+    suspend fun removeFavorite(drink: Drink){
+        userCache.favorites?.remove(drink)
+        updateFavorite(userCache)
+    }
+    suspend fun addFavorite(drink: Drink){
+        if(userCache.favorites == null) {
+            userCache.favorites = mutableListOf(drink)
+        }
+        userCache.favorites?.add(drink)
+        Log.e("Error", userCache.favorites.toString())
+        updateFavorite(userCache)
+    }
+
+    suspend fun updateFavorite(user: User){
+        try {
+            Firebase.firestore.collection("users").document(user.id!!).set(user).await()
+        } catch (_: Exception) {
+            Log.e("Error","Hello")
+        }
+    }
 
     suspend fun deleteUser(user: User) {
         try {
