@@ -19,7 +19,7 @@ class DetailMenuState {
     var loading by mutableStateOf(false)
     var type by mutableStateOf("")
     var drink by mutableStateOf(Drink())
-
+    var quantity by mutableStateOf(0)
 //    Need these?
     var errorMessage by mutableStateOf("")
     var newDrink by mutableStateOf(Drink())
@@ -37,6 +37,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
                 it.id == id } ?: return
         }
         uiState.drink = drink
+        uiState.quantity = 1
         uiState.drinkName = drink.name.toString()
 //        for (ingredient in drink.ingredients!!) {
 //            uiState._customization.removeIf { it.inventory?.id == ingredient.inventory?.id }
@@ -68,10 +69,8 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun addToCart(id: String?){
-        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}/*, quantity=uiState.quantity*/)
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}, quantity=uiState.quantity)
         OrdersRepository.addDrinkToOrder(drink)
-//        val drink = DrinksRepository.getDrinks().find { it.id == id } ?: return
-//        CartRepository.addDrink(drink)
 
     }
 
@@ -132,12 +131,14 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun incrementQuantity(){
-        uiState.drink.quantity = uiState.drink.quantity?.plus(1)
-        Log.e("Error:" , uiState.drink.quantity.toString())
+        uiState.quantity++
+        Log.e("Error:" , uiState.quantity.toString())
     }
 
     fun decrementQuantity(){
-        uiState.drink.quantity = uiState.drink.quantity?.minus(1)
-        Log.e("Error:" , uiState.drink.quantity.toString())
+        if(uiState.quantity>1){
+            uiState.quantity--
+        }
+        Log.e("Error:" , uiState.quantity.toString())
     }
 }
