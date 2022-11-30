@@ -155,9 +155,7 @@ object UserRepository {
         updateFavorite(userCache)
     }
     suspend fun addFavorite(drink: Drink){
-        if(userCache.favorites == null) {
-            userCache.favorites = mutableListOf(drink)
-        }
+
         userCache.favorites?.add(drink)
         Log.e("Error", userCache.favorites.toString())
         updateFavorite(userCache)
@@ -169,6 +167,7 @@ object UserRepository {
         } catch (_: Exception) {
             Log.e("Error","Hello")
         }
+        Log.e("Backend","Firebase added fav")
     }
 
     suspend fun deleteUser(user: User) {

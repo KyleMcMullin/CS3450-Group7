@@ -72,10 +72,17 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     suspend fun addFavorite(){
         var bool = true
-        for (fav in UserRepository.getCurrentUser().favorites!!) {
-            if(uiState.drink==fav) bool = false
+        if(UserRepository.getCurrentUser().favorites == null) {
+            Log.e("Null","Hello")
+            UserRepository.getCurrentUser().favorites = mutableListOf()
+            UserRepository.addFavorite(uiState.drink)
+        }else{
+            for (fav in UserRepository.getCurrentUser().favorites!!) {
+                if(uiState.drink==fav) bool = false
+            }
+            if (bool) UserRepository.addFavorite(uiState.drink)
         }
-        if (bool) UserRepository.addFavorite(uiState.drink)
+
 
     }
     fun hasIngredient(type: String): Boolean{
