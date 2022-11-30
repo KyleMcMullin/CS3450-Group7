@@ -10,10 +10,7 @@ import com.cs3450.dansfrappesraps.ui.models.Cart
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.models.Inventory
-import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
-import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
-import com.cs3450.dansfrappesraps.ui.repositories.OrdersRepository
-import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
+import com.cs3450.dansfrappesraps.ui.repositories.*
 
 class CartScreenState{
     var priceSum by mutableStateOf(0.00)
@@ -120,14 +117,24 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
     suspend fun removeIngredientFromInventory(ingredient: Ingredient){
         val inInventory = ingredient.inventory!!
+        val ingredients = IngredientsRepository.getIngredients()
+        var ingredientUsed = Ingredient()
+        for(i in ingredients){
+            if(i.inventory!!.id == ingredient.inventory!!.id){
+                ingredientUsed =i
+            }
+        }
+        println(ingredientUsed.inventory!!.name)
+        println(ingredientUsed.inventory!!.quantity)
         InventoryRepository.editInventory(
-            id = inInventory.id!!,
-            name = inInventory.name!!,
-            quantity = (inInventory.quantity!! - ingredient.count!!),
-            PPU = inInventory.PPU!!,
-            type = inInventory.type?: "",
-            isCountable = inInventory.isCountable!!
+            id = ingredientUsed.inventory!!.id!!,
+            name = ingredientUsed.inventory!!.name!!,
+            quantity = (ingredientUsed.inventory!!.quantity!! - ingredient.count!!),
+            PPU = ingredientUsed.inventory!!.PPU!!,
+            type = ingredientUsed.inventory!!.type?: "",
+            isCountable = ingredientUsed.inventory!!.isCountable!!
         )
+        println("Removed!")
     }
 
     suspend fun submitOrder() {
@@ -138,8 +145,8 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         checkInventory()
         if (balanceCheck()) {
             if(uiState.inventoryCheck) {
-                println(uiState.ingredients.size)
                 for(ingredient in uiState.ingredients){
+                    IngredientsRepository.refresh()
                     removeIngredientFromInventory(ingredient)
                 }
                 submitOrder()
