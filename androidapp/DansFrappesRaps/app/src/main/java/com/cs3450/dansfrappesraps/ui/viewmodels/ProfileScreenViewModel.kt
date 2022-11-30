@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.lifecycle.AndroidViewModel
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
@@ -20,7 +21,7 @@ class ProfileScreenState {
     var errorMessage by mutableStateOf("")
     var isExpanded by mutableStateOf(false)
     var addBalance by mutableStateOf("")
-    var _favorites = mutableStateListOf<Drink>()
+    var _favorites = mutableListOf<Drink>()
     val favorites: List<Drink> get() = _favorites
 }
 
@@ -34,7 +35,7 @@ class ProfileScreenViewModel(application: Application): AndroidViewModel(applica
         uiState.isEmployee = user.employee ?: false
         uiState.isManager = user.manager ?: false
         uiState.balance = user.balance.toString()
-//        uiState._favorites = user.favorites
+        uiState._favorites = user.favorites!!
     }
 
     suspend fun updateBalance() {

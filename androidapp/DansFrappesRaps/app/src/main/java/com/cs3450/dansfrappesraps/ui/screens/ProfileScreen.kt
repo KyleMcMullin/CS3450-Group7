@@ -5,6 +5,9 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -20,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.cs3450.dansfrappesraps.ui.components.DrinkItem
+import com.cs3450.dansfrappesraps.ui.components.FavoriteDrinkItem
 import com.cs3450.dansfrappesraps.ui.components.LabelledTextInput
 import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.ProfileScreenViewModel
@@ -158,11 +162,17 @@ fun ProfileScreen(navHostController: NavHostController) {
 
                 }
             }
-        state.favorites.forEach{
-            DrinkItem(
-            drink = it,
-            onSelected = { navHostController.navigate("detailMenu?id=${it.id}&index=${null}") },
+        Text(
+            text = "Favorite Drinks",
+            style = MaterialTheme.typography.headlineMedium,
+            modifier = Modifier
+                .padding(8.dp)
         )
+        LazyVerticalGrid(columns = GridCells.Fixed(2),verticalArrangement = Arrangement.spacedBy(9.dp), horizontalArrangement = Arrangement.spacedBy(9.dp)) {
+            items(state.favorites) { drink ->
+                FavoriteDrinkItem(drink = drink)
+                Spacer(modifier = Modifier.height(4.dp))
+            }
         }
 
     }
