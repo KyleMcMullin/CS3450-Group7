@@ -45,7 +45,6 @@ fun DrinkQuantity(
 ) {
 //    ) {
     var displayNum by remember { mutableStateOf(quantity) }
-    Card(elevation = CardDefaults.cardElevation(4.dp)) {
         QuantityItem(displayNum , {
             onPlusPressed()
             displayNum ++
@@ -54,8 +53,6 @@ fun DrinkQuantity(
             if(displayNum>1) displayNum --
         }
     }
-}
-//}
 
 
 
