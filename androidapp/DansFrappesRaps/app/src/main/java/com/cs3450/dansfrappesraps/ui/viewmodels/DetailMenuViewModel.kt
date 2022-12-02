@@ -70,17 +70,28 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     }
 
+    fun isFavorite(): Boolean{
+//        if(UserRepository.getCurrentUser().favorites == null) return false
+        Log.e("Fav", UserRepository.getCurrentUser().favorites.toString())
+        for(fav in UserRepository.getCurrentUser().favorites!!){
+            if(uiState.drink.name == fav.name){
+                return true
+            }
+        }
+        return false
+    }
+
+    suspend fun removeFavorite(){
+        UserRepository.removeFavorite(uiState.drink)
+    }
+
     suspend fun addFavorite(){
-        var bool = true
         if(UserRepository.getCurrentUser().favorites == null) {
             Log.e("Null","Hello")
             UserRepository.getCurrentUser().favorites = mutableListOf()
             UserRepository.addFavorite(uiState.drink)
         }else{
-            for (fav in UserRepository.getCurrentUser().favorites!!) {
-                if(uiState.drink==fav) bool = false
-            }
-            if (bool) UserRepository.addFavorite(uiState.drink)
+            if (!isFavorite()) UserRepository.addFavorite(uiState.drink)
         }
 
 

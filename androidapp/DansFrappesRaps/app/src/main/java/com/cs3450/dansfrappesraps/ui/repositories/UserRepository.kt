@@ -129,6 +129,7 @@ object UserRepository {
                     }
                 }
                 .await()
+            updateFavorite(userCache)
         } catch (e: FirebaseAuthException) {
             throw SignInException(e.message)
         }
@@ -165,9 +166,8 @@ object UserRepository {
         try {
             Firebase.firestore.collection("users").document(user.id!!).set(user).await()
         } catch (_: Exception) {
-            Log.e("Error","Hello")
+
         }
-        Log.e("Backend","Firebase added fav")
     }
 
     suspend fun deleteUser(user: User) {

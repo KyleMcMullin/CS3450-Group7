@@ -88,7 +88,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                 horizontalArrangement = Arrangement.End,
                 verticalAlignment = Alignment.CenterVertically
                 ) {
-                    var checked by remember { mutableStateOf(false) }
+                    var checked by remember { mutableStateOf(viewModel.isFavorite()) }
                     IconToggleButton(checked = checked, onCheckedChange = {
                         checked = !checked
                         if(checked) {
@@ -99,6 +99,11 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                 )
                             }
 
+                        }else{
+                            scope.launch {
+                                viewModel.removeFavorite()
+                                snackbarHostState.showSnackbar("Drink removed from favorites")
+                            }
                         }
                     }){
                         if (checked) Icon(Icons.Outlined.Favorite, contentDescription = "Favorite drink")
