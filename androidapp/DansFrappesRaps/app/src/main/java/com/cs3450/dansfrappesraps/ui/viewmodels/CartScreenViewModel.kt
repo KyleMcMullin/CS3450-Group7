@@ -10,10 +10,7 @@ import com.cs3450.dansfrappesraps.ui.models.Cart
 import com.cs3450.dansfrappesraps.ui.models.Drink
 import com.cs3450.dansfrappesraps.ui.models.Ingredient
 import com.cs3450.dansfrappesraps.ui.models.Inventory
-import com.cs3450.dansfrappesraps.ui.repositories.CartRepository
-import com.cs3450.dansfrappesraps.ui.repositories.InventoryRepository
-import com.cs3450.dansfrappesraps.ui.repositories.OrdersRepository
-import com.cs3450.dansfrappesraps.ui.repositories.UserRepository
+import com.cs3450.dansfrappesraps.ui.repositories.*
 
 class CartScreenState{
     var priceSum by mutableStateOf(0.00)
@@ -62,25 +59,25 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         getCart()
         getDrinks()
         calculateBalance()
-//        uiState.clearIngredients()
     }
     fun getDrinks(): List<Drink> {
         var drinks = OrdersRepository.getUnplacedOrder().drinks
         if (drinks != null) {
             for (drink: Drink in drinks) {
-                if (!uiState.frappuccinos.contains(drink)) {
-                    uiState.addDrink(drink)
-                    uiState.drinkCount ++
-                }
+                uiState.addDrink(drink)
+                uiState.drinkCount += drink.quantity!!
             }
             for(drink in drinks){
-                getIngredients(drink)
+                for(i in 1..drink.quantity!!) {
+                    getIngredients(drink)
+                }
             }
         }
         return uiState.frappuccinos
     }
 
-    fun getCart(){
+    suspend fun getCart(){
+        OrdersRepository.getOrder()
         uiState.cart = OrdersRepository.getUnplacedOrder()
     }
     fun getIngredients(drink: Drink): List<Ingredient> {
@@ -111,8 +108,33 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
         return uiState.priceSum
     }
 
-    suspend fun checkInventory() {
-
+    fun checkInventory(){
+        for(ingredient in uiState.ingredients){
+            if(ingredient.count!! > ingredient.inventory!!.quantity!!){
+                uiState.inventoryCheck = false
+            }
+        }
+    }
+    suspend fun removeIngredientFromInventory(ingredient: Ingredient){
+        val inInventory = ingredient.inventory!!
+        val ingredients = IngredientsRepository.getIngredients()
+        var ingredientUsed = Ingredient()
+        for(i in ingredients){
+            if(i.inventory!!.id == ingredient.inventory!!.id){
+                ingredientUsed =i
+            }
+        }
+        println(ingredientUsed.inventory!!.name)
+        println(ingredientUsed.inventory!!.quantity)
+        InventoryRepository.editInventory(
+            id = ingredientUsed.inventory!!.id!!,
+            name = ingredientUsed.inventory!!.name!!,
+            quantity = (ingredientUsed.inventory!!.quantity!! - ingredient.count!!),
+            PPU = ingredientUsed.inventory!!.PPU!!,
+            type = ingredientUsed.inventory!!.type?: "",
+            isCountable = ingredientUsed.inventory!!.isCountable!!
+        )
+        println("Removed!")
     }
 
     suspend fun submitOrder() {
@@ -122,11 +144,20 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     suspend fun checkout() {
         checkInventory()
         if (balanceCheck()) {
-            submitOrder()
-            UserRepository.subtractUserBalance(uiState.priceSum)
-//            deletingCart()
-            uiState.checkoutSuccess = true
-            uiState.cartDeletion = true
+            if(uiState.inventoryCheck) {
+                for(ingredient in uiState.ingredients){
+                    IngredientsRepository.refresh()
+                    removeIngredientFromInventory(ingredient)
+                }
+                submitOrder()
+                UserRepository.subtractUserBalance(uiState.priceSum)
+                deletingCart()
+                uiState.checkoutSuccess = true
+                uiState.cartDeletion = true
+            }
+            else{
+                uiState.errorMessage = "There is not enough ingredients in inventory for your drink"
+            }
         } else {
             uiState.errorMessage = "There is not enough money in your account, please add money and try again."
         }

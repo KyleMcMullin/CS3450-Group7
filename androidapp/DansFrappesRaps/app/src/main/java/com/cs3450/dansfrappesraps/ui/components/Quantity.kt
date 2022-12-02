@@ -39,21 +39,22 @@ fun ManagerIngredientQuantity(
 
 @Composable
 fun DrinkQuantity(
-    drink: Drink,
+    quantity: Int,
     onPlusPressed: () -> Unit = {},
     onMinusPressed: () -> Unit = {}
 ) {
 //    ) {
-    var displayNum by remember { mutableStateOf(drink.quantity ?: 0) }
-//    Card(elevation = CardDefaults.cardElevation(4.dp)) {
+    var displayNum by remember { mutableStateOf(quantity) }
+    Card(elevation = CardDefaults.cardElevation(4.dp)) {
         QuantityItem(displayNum , {
             onPlusPressed()
-            displayNum = drink.quantity ?: 0
+            displayNum ++
         }) {
             onMinusPressed()
-            displayNum = drink.quantity ?: 0
+            if(displayNum>1) displayNum --
         }
     }
+}
 //}
 
 

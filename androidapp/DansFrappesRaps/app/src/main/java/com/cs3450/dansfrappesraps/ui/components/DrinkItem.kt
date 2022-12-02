@@ -337,15 +337,6 @@ fun CartDrinkItem(drink: Drink, onSelected: () -> Unit,
                             )
                             Spacer(modifier = Modifier.width(10.dp))
                         }
-                        Divider(modifier = Modifier.padding(4.dp))
-
-                        GlideImage(
-                            model = Uri.parse(drink.image ?: ""),
-                            contentDescription = "Drink Image",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        )
 
                         Divider(modifier = Modifier.padding(4.dp))
 
@@ -373,6 +364,7 @@ fun CartDrinkItem(drink: Drink, onSelected: () -> Unit,
                         }
                     }
                 }
+                Text(text = "   Quantity: ${drink.quantity}")
             }
         }
     }

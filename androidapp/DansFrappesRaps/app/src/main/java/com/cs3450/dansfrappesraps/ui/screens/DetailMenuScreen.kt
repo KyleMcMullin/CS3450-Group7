@@ -80,7 +80,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     DrinkQuantity(
-                        drink = state.drink,
+                        quantity = state.quantity,
                         onPlusPressed = { viewModel.incrementQuantity() },
                         onMinusPressed = { viewModel.decrementQuantity() })
                 }
