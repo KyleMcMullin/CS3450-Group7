@@ -28,10 +28,7 @@ class DetailMenuState {
 
 class DetailMenuViewModel (application: Application): AndroidViewModel(application){
     var uiState = DetailMenuState()
-    private var radioOptions: Map<String, String> = mapOf("No Sizes Available" to "No Sizes Available")
-
     suspend fun setUpInitialState(id: String, index: String) {
-        setRadioOptions()
         var drink = if (id == "null") {
             if (index == "null") return
             OrdersRepository.getUnplacedOrder().drinks?.get(index.toInt()) ?: return
@@ -73,7 +70,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun isFavorite(): Boolean{
-        if(UserRepository.getCurrentUser().favorites == null) return false
+//        if(UserRepository.getCurrentUser().favorites == null) return false
         Log.e("Fav", UserRepository.getCurrentUser().favorites.toString())
         for(fav in UserRepository.getCurrentUser().favorites!!){
             if(uiState.drink.name == fav.name){
@@ -98,12 +95,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
 
     }
-
-    suspend fun setRadioOptions() {
-        val sizes = IngredientsRepository.getSizes()
-        radioOptions = sizes.associate { it.inventory?.name!! to it.inventory.id.toString()}
-    }
-
     fun hasIngredient(type: String): Boolean{
         if(getMatchType(type).size==0){
             return false
@@ -160,9 +151,5 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
             uiState.quantity--
         }
         Log.e("Error:" , uiState.quantity.toString())
-    }
-
-    fun getRadioMap(): Map<String, String> {
-        return radioOptions
     }
 }
