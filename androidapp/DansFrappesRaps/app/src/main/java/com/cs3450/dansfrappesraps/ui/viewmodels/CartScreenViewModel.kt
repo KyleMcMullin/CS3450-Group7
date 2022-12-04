@@ -101,8 +101,10 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     fun calculateBalance(): Double {
         uiState.loading = true
         var coffeePrice = 0.00
-        for (ingredient in uiState.ingredients) {
-            coffeePrice += ingredient.inventory!!.PPU!!
+        uiState.frappuccinos.forEach { frapp ->
+            frapp.ingredients?.forEach { ingredient ->
+                coffeePrice += ingredient.inventory?.PPU!!
+            }
         }
         uiState.priceSum = coffeePrice
         return uiState.priceSum
