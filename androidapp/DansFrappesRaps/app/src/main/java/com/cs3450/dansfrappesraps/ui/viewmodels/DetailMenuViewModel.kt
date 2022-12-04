@@ -60,11 +60,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     suspend fun getIngredients() {
         uiState.loading = true
-//        var ingredients : MutableList<Ingredient> = IngredientsRepository.getIngredients()
-//      Dont think we need this
-//        for(i in ingredients){
-//                runChecks()
-//        }
         uiState._customization.addAll(IngredientsRepository.getIngredients())
     }
 
@@ -74,6 +69,32 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
 
     }
 
+    fun isFavorite(): Boolean{
+//        if(UserRepository.getCurrentUser().favorites == null) return false
+        Log.e("Fav", UserRepository.getCurrentUser().favorites.toString())
+        for(fav in UserRepository.getCurrentUser().favorites!!){
+            if(uiState.drink.name == fav.name){
+                return true
+            }
+        }
+        return false
+    }
+
+    suspend fun removeFavorite(){
+        UserRepository.removeFavorite(uiState.drink)
+    }
+
+    suspend fun addFavorite(){
+        if(UserRepository.getCurrentUser().favorites == null) {
+            Log.e("Null","Hello")
+            UserRepository.getCurrentUser().favorites = mutableListOf()
+            UserRepository.addFavorite(uiState.drink)
+        }else{
+            if (!isFavorite()) UserRepository.addFavorite(uiState.drink)
+        }
+
+
+    }
     fun hasIngredient(type: String): Boolean{
         if(getMatchType(type).size==0){
             return false
@@ -99,16 +120,6 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
         }
         return typeCustom
     }
-//    private fun runChecks(): Boolean {
-//        uiState.nameError = false
-//        uiState.errorMessage = ""
-//        if (uiState.drinkName == "") {
-//            uiState.nameError = true
-//            uiState.errorMessage = "Name is invalid."
-//            return false
-//        }
-//        return true
-//    }
 
     fun incrementIngredient(ingredient: Ingredient) {
         var index = uiState._customization.indexOf(ingredient)

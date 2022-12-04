@@ -6,15 +6,18 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.cs3450.dansfrappesraps.ui.theme.Shapes
 
 @Composable
 fun QuantityItem(
     count: Int, onPlusPressed: () -> Unit = {},
     onMinusPressed: () -> Unit = {}){
-            Row {
-                Button(
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                OutlinedButton(
+//                    shape = Shapes.small,
                     onClick = {
                         onMinusPressed()
                     }
@@ -28,7 +31,8 @@ fun QuantityItem(
                             style = MaterialTheme.typography.headlineMedium,
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Button(
+                        OutlinedButton(
+//                            shape = Shapes.small,
                             onClick = {
                                 onPlusPressed()
                             }

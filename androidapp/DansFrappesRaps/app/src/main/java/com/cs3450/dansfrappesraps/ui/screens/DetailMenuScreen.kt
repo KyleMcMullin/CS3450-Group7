@@ -1,12 +1,18 @@
 package com.cs3450.dansfrappesraps.ui.screens
 
+import android.util.Log
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.ShoppingCart
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.Shop
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,6 +30,7 @@ import com.cs3450.dansfrappesraps.ui.navigation.Routes
 import com.cs3450.dansfrappesraps.ui.viewmodels.DetailMenuViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,6 +38,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
     var viewModel: DetailMenuViewModel = viewModel()
     var scope = rememberCoroutineScope()
     var state = viewModel.uiState
+    val snackbarHostState = remember { SnackbarHostState()}
 
     LaunchedEffect(true) {
         val loadingIngredients = async { viewModel.getIngredients() }
@@ -43,7 +51,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
         Spacer(modifier = Modifier.height(16.dp))
         Loader()
     } else {
-        Scaffold(floatingActionButton = {ExtendedFloatingActionButton(
+        Scaffold(snackbarHost = { SnackbarHost(hostState = snackbarHostState) }, floatingActionButton = {ExtendedFloatingActionButton(
             onClick = {
                 viewModel.addToCart(null)
                 navController.navigate(Routes.cart.route)
@@ -64,7 +72,49 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                     style = MaterialTheme.typography.headlineLarge,
                     textAlign = TextAlign.Center
                 )
-            DrinkQuantity(quantity = state.quantity, onPlusPressed = {viewModel.incrementQuantity()}, onMinusPressed = {viewModel.decrementQuantity()})
+
+            Box(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    DrinkQuantity(
+                        quantity = state.quantity,
+                        onPlusPressed = { viewModel.incrementQuantity() },
+                        onMinusPressed = { viewModel.decrementQuantity() })
+                }
+                Row(modifier = Modifier.fillMaxWidth().padding(end=10.dp),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
+                ) {
+                    var checked by remember { mutableStateOf(viewModel.isFavorite()) }
+                    IconToggleButton(checked = checked, onCheckedChange = {
+                        checked = !checked
+                        if(checked) {
+                            scope.launch {
+                                viewModel.addFavorite()
+                                snackbarHostState.showSnackbar(
+                                    "Drink added to favorites."
+                                )
+                            }
+
+                        }else{
+                            scope.launch {
+                                viewModel.removeFavorite()
+                                snackbarHostState.showSnackbar("Drink removed from favorites")
+                            }
+                        }
+                    }){
+                        if (checked) Icon(Icons.Outlined.Favorite, contentDescription = "Favorite drink")
+                        else {
+                            Icon(
+                                Icons.Outlined.FavoriteBorder,
+                                contentDescription = "Remove drink from favorites"
+                            )
+                        }}
+                    }
+                        }
 
             Text(
                 modifier = Modifier
