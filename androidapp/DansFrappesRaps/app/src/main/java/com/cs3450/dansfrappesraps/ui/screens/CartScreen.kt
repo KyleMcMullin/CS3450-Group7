@@ -103,7 +103,7 @@ fun CartScreen(navHostController: NavHostController) {
                                                 drink = drink,
                                                 onSelected = {
                                                     navHostController.navigate(
-                                                        "detailMenu?id=${null}&index=${
+                                                        "detailMenu1?id=${drink.id}&index=${
                                                             state.frappuccinos.indexOf(
                                                                 drink
                                                             )
