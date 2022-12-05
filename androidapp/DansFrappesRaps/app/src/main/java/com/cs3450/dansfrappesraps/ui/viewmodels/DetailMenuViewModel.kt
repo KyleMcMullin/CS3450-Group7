@@ -23,12 +23,15 @@ class DetailMenuState {
 //    Need these?
     var errorMessage by mutableStateOf("")
     var newDrink by mutableStateOf(Drink())
+    var selectedSize by mutableStateOf(Ingredient())
 }
 
 
 class DetailMenuViewModel (application: Application): AndroidViewModel(application){
     var uiState = DetailMenuState()
+    private var radioOptions: Map<String, Ingredient> = mapOf("No sizes available" to Ingredient())
     suspend fun setUpInitialState(id: String, index: String) {
+        setRadioOptions()
         var drink = if (id == "null") {
             if (index == "null") return
             OrdersRepository.getUnplacedOrder().drinks?.get(index.toInt()) ?: return
@@ -64,9 +67,22 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun addToCart(id: String?){
-        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}, quantity=uiState.quantity)
+        uiState.selectedSize.count = 1
+        uiState._customization.add(uiState.selectedSize)
+
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState._customization.filter { it.count!! > 0}, quantity=uiState.quantity)
         OrdersRepository.addDrinkToOrder(drink)
 
+    }
+
+    suspend fun setRadioOptions() {
+        val sizes = IngredientsRepository.getSizes()
+        radioOptions = sizes.associateBy { it.inventory?.name.toString() }
+        uiState.selectedSize = sizes[0]
+    }
+
+    fun getRadioMap(): Map<String, Ingredient> {
+        return radioOptions
     }
 
     fun isFavorite(): Boolean{
@@ -100,6 +116,10 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
             return false
         }
         return true
+    }
+
+    fun setSize(sizeText: String) {
+        uiState.selectedSize = radioOptions[sizeText]!!
     }
 
     fun isSelected(ingredient: Ingredient):Boolean{
