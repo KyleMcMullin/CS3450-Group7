@@ -64,7 +64,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun addToCart(id: String?){
-        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState._customization.filter { it.count!! > 0}, quantity=uiState.quantity)
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}, quantity=uiState.quantity)
         OrdersRepository.addDrinkToOrder(drink)
 
     }
