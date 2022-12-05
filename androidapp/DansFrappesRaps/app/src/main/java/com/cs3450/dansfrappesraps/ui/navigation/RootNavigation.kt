@@ -16,7 +16,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import androidx.navigation.navArgument
 import com.cs3450.dansfrappesraps.ui.screens.*
@@ -48,11 +50,19 @@ fun RootNavigation() {
         scaffoldState = scaffoldState,
         topBar = {
             TopAppBar(backgroundColor = androidx.compose.material3.MaterialTheme.colorScheme.primary) {
-                if (currentDestination?.route == Routes.signUp.route || currentDestination?.route == Routes.detailMenu.route) {
+                if (currentDestination?.route == Routes.signUp.route) {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
                     }
-                } else if (currentDestination?.route == Routes.cart.route) {
+                }else if(currentDestination?.route == Routes.detailMenu1.route){
+                    IconButton(onClick = { navController.navigate(Routes.cart.route) }) {
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                    }
+                }else if(currentDestination?.route == Routes.detailMenu.route) {
+                    IconButton(onClick = { navController.navigate(Routes.menu.route) }) {
+                        Icon(Icons.Outlined.ArrowBack, contentDescription = "Back")
+                    }
+                }else if (currentDestination?.route == Routes.cart.route) {
                     IconButton(onClick = {
                         navController.navigate(Routes.menu.route) {
                             popUpTo(Routes.menu.route) { inclusive = true }
@@ -258,5 +268,15 @@ fun RootNavigation() {
             composable(route = Routes.cart.route) { CartScreen(navHostController = navController) }
             composable(route = Routes.tracker.route) { TrackerScreen(navHostController = navController)}
             composable(route = Routes.trackerEmployee.route) { TrackerEmployeeScreen(navHostController = navController)}
+            composable(
+                route = Routes.detailMenu1.route,
+                arguments = listOf(navArgument("id") { defaultValue = "null" }, navArgument("index") { defaultValue = "null" })
+            ) { navBackStackEntry ->
+//                    var index = navBackStackEntry.arguments?.getString("index").toString()
+                DetailMenuScreen(
+                    navController,
+                    navBackStackEntry.arguments?.get("id").toString(),
+                    navBackStackEntry.arguments?.get("index").toString(),
+                )
+            }}
         }}
-}
