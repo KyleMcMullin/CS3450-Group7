@@ -70,7 +70,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun isFavorite(): Boolean{
-//        if(UserRepository.getCurrentUser().favorites == null) return false
+        if(UserRepository.getCurrentUser().favorites == null) return false
         Log.e("Fav", UserRepository.getCurrentUser().favorites.toString())
         for(fav in UserRepository.getCurrentUser().favorites!!){
             if(uiState.drink.name == fav.name){
