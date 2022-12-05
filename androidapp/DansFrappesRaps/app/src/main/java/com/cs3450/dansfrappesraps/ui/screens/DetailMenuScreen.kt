@@ -224,7 +224,6 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                     })
 
                                 if (openDialog.value) {
-                                    val tempCount = ingredient.count
                                     AlertDialog(onDismissRequest = { openDialog.value = false
                                         selected=false },
                                         title = { CustomerIngredientQuantity(
@@ -248,7 +247,6 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                                         }, confirmButton = {
                                             TextButton(
                                                 onClick = {
-                                                    ingredient.count = tempCount
                                                     openDialog.value = false
                                                 }
                                             ) {

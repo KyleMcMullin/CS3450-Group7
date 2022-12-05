@@ -64,7 +64,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
     }
 
     fun addToCart(id: String?){
-        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState.customization.filter { it.count!! > 0}, quantity=uiState.quantity)
+        val drink = Drink(id = null, name=uiState.drinkName, ingredients=uiState._customization.filter { it.count!! > 0}, quantity=uiState.quantity)
         OrdersRepository.addDrinkToOrder(drink)
 
     }
@@ -127,6 +127,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
             count = count?.plus(1)
         }
         uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient//ingredient.copy(count = ingredient.count?.plus(1))
+
         Log.e("Error:" , uiState._customization[index].count.toString())
     }
 
@@ -137,6 +138,7 @@ class DetailMenuViewModel (application: Application): AndroidViewModel(applicati
                 count = count?.minus(1)
             }
             uiState._customization[uiState._customization.indexOf(ingredient)] = ingredient
+
         }
         Log.e("Error:" , uiState._customization[index].count.toString())
     }
