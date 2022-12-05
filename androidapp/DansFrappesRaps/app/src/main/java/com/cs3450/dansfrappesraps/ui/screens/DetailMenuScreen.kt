@@ -129,7 +129,7 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                     .fillMaxWidth()
                     .padding(5.dp), thickness = 3.dp
             )
-            val radioOptions = listOf("Small", "Medium", "Large")
+            val radioOptions = viewModel.getRadioMap().keys.toList()
             val openDialog = remember { mutableStateOf(false) }
             var ingredient by remember{ mutableStateOf(Ingredient()) }
             val (selectedOption, onOptionSelected) = remember { mutableStateOf(radioOptions[0]) }
@@ -145,7 +145,10 @@ fun DetailMenuScreen(navController: NavController, id: String, index: String) {
                             .padding(start = 5.dp)
                             .selectable(
                                 selected = (text == selectedOption),
-                                onClick = { onOptionSelected(text) },
+                                onClick = {
+                                    onOptionSelected(text)
+                                    viewModel.setSize(text)
+                                          },
                                 role = Role.RadioButton
                             )
                     ) {
