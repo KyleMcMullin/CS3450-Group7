@@ -117,22 +117,22 @@ class CartScreenViewModel(application: Application): AndroidViewModel(applicatio
     }
     suspend fun removeIngredientFromInventory(ingredient: Ingredient){
         val inInventory = ingredient.inventory!!
-        val ingredients = IngredientsRepository.getIngredients()
-        var ingredientUsed = Ingredient()
+        val ingredients = InventoryRepository.getInventory()
+        var ingredientUsed = Inventory()
         for(i in ingredients){
-            if(i.inventory!!.id == ingredient.inventory!!.id){
-                ingredientUsed =i
+            if(i.id == ingredient.inventory.id){
+                ingredientUsed = i
             }
         }
-        println(ingredientUsed.inventory!!.name)
-        println(ingredientUsed.inventory!!.quantity)
+        println(ingredientUsed.name)
+        println(ingredientUsed.quantity)
         InventoryRepository.editInventory(
-            id = ingredientUsed.inventory!!.id!!,
-            name = ingredientUsed.inventory!!.name!!,
-            quantity = (ingredientUsed.inventory!!.quantity!! - ingredient.count!!),
-            PPU = ingredientUsed.inventory!!.PPU!!,
-            type = ingredientUsed.inventory!!.type?: "",
-            isCountable = ingredientUsed.inventory!!.isCountable!!
+            id = ingredientUsed.id!!,
+            name = ingredientUsed.name!!,
+            quantity = (ingredientUsed.quantity!! - ingredient.count!!),
+            PPU = ingredientUsed.PPU!!,
+            type = ingredientUsed.type?: "",
+            isCountable = ingredientUsed.isCountable!!
         )
         println("Removed!")
     }
